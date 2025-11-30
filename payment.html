@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>料金プラン - FishingMap</title>
+  <meta name="description" content="FishingMapの料金プラン紹介。プレミアムプランでは、詳細な海底地形図や高精度な気象予報など、釣果アップに役立つ機能が使い放題。">
+  <link href="css/style.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+    rel="stylesheet">
+  <script type="module" src="js/main.js"></script>
+</head>
+
+<body class="bg-gray-50 min-h-screen flex flex-col">
+
+  <site-header></site-header>
+
+  <main class="flex-grow py-16">
+    <div class="container mx-auto px-4">
+
+      <!-- Header -->
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <h1 class="text-4xl font-bold text-gray-900 mb-4">あなたに最適なプランを</h1>
+        <p class="text-xl text-gray-600">
+          詳細なマップ情報、リアルタイムの釣果、高度な気象データ。<br>
+          釣果アップに必要なすべてがここにあります。
+        </p>
+      </div>
+
+      <!-- Pricing Cards -->
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto mb-20">
+
+        <!-- Free Plan -->
+        <div class="bg-white rounded-2xl shadow-card border border-gray-100 p-8 flex flex-col">
+          <div class="mb-4">
+            <h3 class="text-lg font-bold text-gray-900">フリー</h3>
+            <p class="text-sm text-gray-500">まずは試してみたい方に</p>
+          </div>
+          <div class="mb-6">
+            <span class="text-4xl font-bold text-gray-900">¥0</span>
+            <span class="text-gray-500">/月</span>
+          </div>
+          <ul class="space-y-4 mb-8 flex-grow">
+            <li class="flex items-center gap-3 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              基本マップの閲覧
+            </li>
+            <li class="flex items-center gap-3 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              釣果情報の閲覧 (一部制限あり)
+            </li>
+            <li class="flex items-center gap-3 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              コミュニティへの参加
+            </li>
+          </ul>
+          <a href="signup.html" class="btn btn-secondary w-full">無料で始める</a>
+        </div>
+
+        <!-- Pro Plan (Monthly) -->
+        <div
+          class="bg-white rounded-2xl shadow-xl border-2 border-brand-500 p-8 flex flex-col relative transform scale-105 z-10">
+          <div
+            class="absolute top-0 right-0 bg-brand-500 text-white text-xs font-bold px-3 py-1 rounded-bl-lg rounded-tr-lg">
+            一番人気
+          </div>
+          <div class="mb-4">
+            <h3 class="text-lg font-bold text-brand-600">プレミアム (月額)</h3>
+            <p class="text-sm text-gray-500">本格的に釣りを楽しむ方に</p>
+          </div>
+          <div class="mb-6">
+            <span class="text-4xl font-bold text-gray-900">¥500</span>
+            <span class="text-gray-500">/月</span>
+          </div>
+          <ul class="space-y-4 mb-8 flex-grow">
+            <li class="flex items-center gap-3 text-sm text-gray-900 font-medium">
+              <svg class="w-5 h-5 text-brand-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              詳細な海底地形図
+            </li>
+            <li class="flex items-center gap-3 text-sm text-gray-900 font-medium">
+              <svg class="w-5 h-5 text-brand-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              1時間ごとの高精度気象予報
+            </li>
+            <li class="flex items-center gap-3 text-sm text-gray-900 font-medium">
+              <svg class="w-5 h-5 text-brand-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              ポイントの360°ビュー
+            </li>
+            <li class="flex items-center gap-3 text-sm text-gray-900 font-medium">
+              <svg class="w-5 h-5 text-brand-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              広告の非表示
+            </li>
+          </ul>
+          <button onclick="document.getElementById('payment-section').scrollIntoView({behavior: 'smooth'})"
+            class="btn btn-primary w-full shadow-lg shadow-brand-500/30">
+            今すぐ登録する
+          </button>
+        </div>
+
+        <!-- Pro Plan (Yearly) -->
+        <div class="bg-white rounded-2xl shadow-card border border-gray-100 p-8 flex flex-col">
+          <div class="mb-4">
+            <h3 class="text-lg font-bold text-gray-900">プレミアム (年額)</h3>
+            <p class="text-sm text-gray-500">長期でお得に利用したい方に</p>
+          </div>
+          <div class="mb-6">
+            <span class="text-4xl font-bold text-gray-900">¥5,000</span>
+            <span class="text-gray-500">/年</span>
+            <p class="text-xs text-green-600 font-bold mt-1">2ヶ月分お得！</p>
+          </div>
+          <ul class="space-y-4 mb-8 flex-grow">
+            <li class="flex items-center gap-3 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              プレミアムプランの全機能
+            </li>
+            <li class="flex items-center gap-3 text-sm text-gray-600">
+              <svg class="w-5 h-5 text-green-500 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+              </svg>
+              年払い限定ステッカー
+            </li>
+          </ul>
+          <button onclick="document.getElementById('payment-section').scrollIntoView({behavior: 'smooth'})"
+            class="btn btn-secondary w-full">
+            年払いで登録
+          </button>
+        </div>
+
+      </div>
+
+      <!-- Payment Form Section -->
+      <div id="payment-section" class="max-w-2xl mx-auto bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+        <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+          <svg class="w-6 h-6 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+              d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+          </svg>
+          お支払い情報の入力
+        </h2>
+
+        <form class="space-y-6">
+          <div class="space-y-4">
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">カード名義人</label>
+              <input type="text" class="input-field" placeholder="TARO YAMADA">
+            </div>
+
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-1">カード番号</label>
+              <div class="relative">
+                <input type="text" class="input-field pl-10" placeholder="0000 0000 0000 0000">
+                <svg class="w-5 h-5 text-gray-400 absolute left-3 top-3.5" fill="none" viewBox="0 0 24 24"
+                  stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+                </svg>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4">
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">有効期限</label>
+                <input type="text" class="input-field" placeholder="MM / YY">
+              </div>
+              <div>
+                <label class="block text-sm font-medium text-gray-700 mb-1">CVC</label>
+                <input type="text" class="input-field" placeholder="123">
+              </div>
+            </div>
+          </div>
+
+          <div class="bg-gray-50 p-4 rounded-lg flex items-center gap-3 text-sm text-gray-600">
+            <svg class="w-5 h-5 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+            SSL暗号化通信により、情報は安全に送信されます。
+          </div>
+
+          <button type="submit" class="w-full btn btn-primary py-4 text-lg shadow-lg">
+            ¥500 を支払って登録する
+          </button>
+        </form>
+      </div>
+
+    </div>
+  </main>
+
+  <site-footer></site-footer>
+
+</body>
+
+</html>
