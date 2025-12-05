@@ -1,174 +1,194 @@
 <!DOCTYPE html>
 <html lang="ja" class="scroll-smooth">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>エリア選択 (長崎県) - FishingMap</title>
-  <meta name="description" content="長崎県の釣りポイントエリア一覧。平戸、五島列島、対馬など、実績の高い磯釣りポイントをエリア別に紹介します。">
+  <title>エリア一覧 - 磯リンク</title>
+  <meta name="description" content="九州全域（福岡、佐賀、長崎、大分、宮崎、熊本、鹿児島）の磯釣りポイントエリア一覧。">
   <link href="css/style.css" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
-    rel="stylesheet">
   <script type="module" src="js/main.js"></script>
 </head>
-
 <body class="bg-gray-50 flex flex-col min-h-screen">
 
   <site-header></site-header>
 
-  <main class="flex-grow container mx-auto px-4 py-8">
-
-    <!-- Breadcrumbs -->
-    <nav class="flex text-sm text-gray-500 mb-8" aria-label="Breadcrumb">
-      <ol class="inline-flex items-center space-x-1 md:space-x-3">
-        <li class="inline-flex items-center">
-          <a href="index.html" class="inline-flex items-center hover:text-brand-600 transition-colors">
-            <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
-              <path
-                d="M10.707 2.293a1 1 0 00-1.414 0l-7 7a1 1 0 001.414 1.414L4 10.414V17a1 1 0 001 1h2a1 1 0 001-1v-2a1 1 0 011-1h2a1 1 0 011 1v2a1 1 0 001 1h2a1 1 0 001-1v-6.586l.293.293a1 1 0 001.414-1.414l-7-7z">
-              </path>
-            </svg>
-            ホーム
-          </a>
-        </li>
-        <li>
-          <div class="flex items-center">
-            <svg class="w-6 h-6 text-gray-400" fill="currentColor" viewBox="0 0 20 20"
-              xmlns="http://www.w3.org/2000/svg">
-              <path fill-rule="evenodd"
-                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                clip-rule="evenodd"></path>
-            </svg>
-            <span class="ml-1 text-gray-700 font-medium md:ml-2">長崎県</span>
-          </div>
-        </li>
-      </ol>
-    </nav>
-
-    <!-- Header -->
-    <div class="mb-12 text-center">
-      <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">長崎エリア</h1>
-      <p class="text-gray-600 max-w-2xl mx-auto">
-        五島列島をはじめとする日本屈指のフィールドが点在。<br>
-        初心者から上級者まで楽しめる多彩なポイントが魅力です。
-      </p>
-    </div>
-
-    <!-- Sub Areas Grid -->
-    <section>
-      <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-        <span class="w-1 h-8 bg-brand-600 rounded-full"></span>
-        詳細エリアを選択
-      </h2>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-
-        <!-- Card 1 -->
-        <a href="overview-map.html" class="card group block h-full">
-          <div class="relative h-48 overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1000&auto=format&fit=crop"
-              loading="lazy" alt="Sasebo"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-            <div
-              class="absolute top-4 right-4 bg-white/90 backdrop-blur px-3 py-1 rounded-full text-xs font-bold text-brand-600 shadow-sm">
-              人気
-            </div>
-          </div>
-          <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand-600 transition-colors">佐世保エリア</h3>
-            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
-              九十九島の複雑な地形が生み出す豊かな生態系。チヌ、クロの魚影が濃いエリア。
-            </p>
-            <div class="flex items-center text-brand-600 text-sm font-medium">
-              マップを見る
-              <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </div>
-          </div>
-        </a>
-
-        <!-- Card 2 -->
-        <a href="overview-map.html" class="card group block h-full">
-          <div class="relative h-48 overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1000&auto=format&fit=crop"
-              loading="lazy" alt="Hirado"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-            <div
-              class="absolute top-4 right-4 bg-brand-500 text-white px-3 py-1 rounded-full text-xs font-bold shadow-sm">
-              おすすめ
-            </div>
-          </div>
-          <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand-600 transition-colors">五島エリア</h3>
-            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
-              聖地・五島。大型のヒラマサ、尾長グレを狙うならここ。夢のフィールド。
-            </p>
-            <div class="flex items-center text-brand-600 text-sm font-medium">
-              マップを見る
-              <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </div>
-          </div>
-        </a>
-
-        <!-- Card 3 -->
-        <a href="overview-map.html" class="card group block h-full">
-          <div class="relative h-48 overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1499336315816-097655dcfbda?q=80&w=1000&auto=format&fit=crop"
-              loading="lazy" alt="Goto"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-          </div>
-          <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand-600 transition-colors">平戸エリア</h3>
-            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
-              歴史とロマンの島。潮通しの良い岬周りは青物の回遊ルート。
-            </p>
-            <div class="flex items-center text-brand-600 text-sm font-medium">
-              マップを見る
-              <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </div>
-          </div>
-        </a>
-
-        <!-- Card 4 -->
-        <a href="overview-map.html" class="card group block h-full">
-          <div class="relative h-48 overflow-hidden">
-            <img src="https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1000&auto=format&fit=crop"
-              alt="Nagasaki South"
-              class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
-          </div>
-          <div class="p-6">
-            <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand-600 transition-colors">長崎南部エリア</h3>
-            <p class="text-gray-600 text-sm mb-4 line-clamp-2">
-              野母崎、軍艦島周辺。アクセスも良く、手軽に本格的な磯釣りが楽しめる。
-            </p>
-            <div class="flex items-center text-brand-600 text-sm font-medium">
-              マップを見る
-              <svg class="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
-              </svg>
-            </div>
-          </div>
-        </a>
-
+  <main class="flex-grow py-12">
+    <div class="container mx-auto px-4">
+      
+      <div class="text-center mb-16">
+        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">エリアから探す</h1>
+        <p class="text-gray-600 max-w-2xl mx-auto">
+          九州全土の主要な磯釣りフィールドを網羅。<br>
+          エリアを選択して、現地の360度ビューや渡船情報をチェックしましょう。
+        </p>
       </div>
-    </section>
 
+      <section class="mb-16">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center border-l-4 border-brand-500 pl-4">
+          福岡・佐賀エリア
+          <span class="ml-4 text-sm font-normal text-gray-500">玄界灘・呼子の激流</span>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <a href="point-detail.html" class="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+            <div class="h-48 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1576610616656-d3aa5d1f4534?q=80&w=600&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+              <div class="absolute top-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
+                360°ビューあり
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="font-bold text-lg mb-2 group-hover:text-brand-600 transition-colors">宗像・沖ノ島</h3>
+              <p class="text-gray-600 text-sm mb-4">世界遺産の海。超大型ヒラマサ・尾長グレの聖地。</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">ヒラマサ</span>
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">イサキ</span>
+              </div>
+            </div>
+          </a>
+          <a href="point-detail.html" class="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+            <div class="h-48 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=600&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            </div>
+            <div class="p-6">
+              <h3 class="font-bold text-lg mb-2 group-hover:text-brand-600 transition-colors">呼子・加唐島</h3>
+              <p class="text-gray-600 text-sm mb-4">潮通し抜群。カゴ釣りでの真鯛・青物、フカセのクロ。</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">マダイ</span>
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">クロ</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="mb-16">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center border-l-4 border-brand-500 pl-4">
+          長崎エリア
+          <span class="ml-4 text-sm font-normal text-gray-500">磯釣りの聖地・五島列島</span>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <a href="point-detail.html" class="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+            <div class="h-48 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1599940824399-b87987ce0799?q=80&w=600&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+              <div class="absolute top-2 right-2 bg-brand-600 text-white text-xs px-2 py-1 rounded shadow-lg">
+                人気No.1
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="font-bold text-lg mb-2 group-hover:text-brand-600 transition-colors">五島列島・上五島</h3>
+              <p class="text-gray-600 text-sm mb-4">説明不要のメジャーフィールド。白瀬灯台など名礁多数。</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">尾長グレ</span>
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">イシダイ</span>
+              </div>
+            </div>
+          </a>
+          <a href="point-detail.html" class="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+            <div class="h-48 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=600&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            </div>
+            <div class="p-6">
+              <h3 class="font-bold text-lg mb-2 group-hover:text-brand-600 transition-colors">平戸・宮ノ浦</h3>
+              <p class="text-gray-600 text-sm mb-4">北西風に強いポイントもあり、冬場のクロ釣りに最適。</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">クロ</span>
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">ルアー</span>
+              </div>
+            </div>
+          </a>
+          <a href="point-detail.html" class="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+            <div class="h-48 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1499336315816-097655dcfbda?q=80&w=600&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+              <div class="absolute top-2 right-2 bg-red-600 text-white text-xs px-2 py-1 rounded shadow-lg">
+                上級者向
+              </div>
+            </div>
+            <div class="p-6">
+              <h3 class="font-bold text-lg mb-2 group-hover:text-brand-600 transition-colors">男女群島</h3>
+              <p class="text-gray-600 text-sm mb-4">絶海の孤島。60cmオーバーの尾長、巨大カンパチを求めて。</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">夢の大物</span>
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">遠征</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section class="mb-16">
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center border-l-4 border-brand-500 pl-4">
+          大分・宮崎エリア
+          <span class="ml-4 text-sm font-normal text-gray-500">豊後水道・日向灘</span>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <a href="point-detail.html" class="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+            <div class="h-48 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1547623641-d2c56c03e2a7?q=80&w=600&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            </div>
+            <div class="p-6">
+              <h3 class="font-bold text-lg mb-2 group-hover:text-brand-600 transition-colors">米水津・鶴見</h3>
+              <p class="text-gray-600 text-sm mb-4">トーナメントの舞台にもなる数釣りの名所。</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">クロ</span>
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">競技</span>
+              </div>
+            </div>
+          </a>
+          <a href="point-detail.html" class="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+            <div class="h-48 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1545562083-a600704fa46e?q=80&w=600&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            </div>
+            <div class="p-6">
+              <h3 class="font-bold text-lg mb-2 group-hover:text-brand-600 transition-colors">宮崎・北浦</h3>
+              <p class="text-gray-600 text-sm mb-4">魚影の濃さは九州随一。リアス式海岸が織りなす絶景。</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">メジナ</span>
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">イシダイ</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+      <section>
+        <h2 class="text-2xl font-bold text-gray-800 mb-6 flex items-center border-l-4 border-brand-500 pl-4">
+          鹿児島・熊本エリア
+          <span class="ml-4 text-sm font-normal text-gray-500">南国の海・巨大魚</span>
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <a href="point-detail.html" class="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+            <div class="h-48 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1590059392265-d9df2ba776dc?q=80&w=600&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            </div>
+            <div class="p-6">
+              <h3 class="font-bold text-lg mb-2 group-hover:text-brand-600 transition-colors">佐多岬・甑島</h3>
+              <p class="text-gray-600 text-sm mb-4">黒潮が直撃する本土最南端。モンスタークラスの宝庫。</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">スジアラ</span>
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">GT</span>
+              </div>
+            </div>
+          </a>
+          <a href="point-detail.html" class="group bg-white rounded-xl shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden border border-gray-100">
+            <div class="h-48 overflow-hidden relative">
+              <img src="https://images.unsplash.com/photo-1583212292454-1fe6229603b7?q=80&w=600&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+            </div>
+            <div class="p-6">
+              <h3 class="font-bold text-lg mb-2 group-hover:text-brand-600 transition-colors">天草西海岸</h3>
+              <p class="text-gray-600 text-sm mb-4">足場の良い地磯から本格的な沖磯まで多彩なフィールド。</p>
+              <div class="flex flex-wrap gap-2">
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">チヌ</span>
+                <span class="text-xs bg-gray-100 text-gray-600 px-2 py-1 rounded">クロ</span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </section>
+
+    </div>
   </main>
 
   <site-footer></site-footer>
 
 </body>
-
 </html>

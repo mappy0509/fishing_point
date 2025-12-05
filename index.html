@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>FishingMap - 日本全国の釣りポイント検索</title>
-  <meta name="description" content="日本全国の磯釣りポイントを網羅した究極の釣りマップアプリケーション。釣果情報やポイントの詳細情報をチェックしよう。">
+  <title>磯リンク - 九州全域の磯釣りポイント・360度ビュー</title>
+  <meta name="description" content="九州全域の磯釣りポイントを網羅。運営者が現地で撮影した360度画像で、釣り座の様子をリアルに確認。渡船情報も充実した究極の磯釣りサポートアプリ。">
   <link href="css/style.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -16,90 +16,75 @@
   <site-header></site-header>
 
   <main class="flex-grow">
-    <!-- Hero Section -->
     <section class="relative h-[600px] flex items-center justify-center overflow-hidden">
-      <!-- Background Image with Overlay -->
       <div class="absolute inset-0 z-0">
         <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070&auto=format&fit=crop" alt="Fishing Background" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-gray-900/40 to-gray-900/80"></div>
       </div>
 
-      <!-- Content -->
       <div class="relative z-10 container mx-auto px-4 text-center text-white animate-fade-in">
         <h1 class="text-4xl md:text-6xl font-bold mb-6 tracking-tight leading-tight">
-          未知なる<span class="text-brand-400">大物</span>を求めて。<br>
-          最高のポイントを見つけよう。
+          まだ見ぬ<span class="text-brand-400">名礁</span>へ、<br>
+          迷わず辿り着く。
         </h1>
         <p class="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto">
-          日本全国の磯釣りポイントを網羅。詳細な地形、潮の流れ、過去の釣果情報まで。<br>
-          あなたの次の釣行をサポートします。
+          九州全土の磯釣りポイントを360度ビューで完全網羅。<br>
+          足場の確認から、頼れる渡船船長の紹介まで。<br>
+          「磯リンク」があなたの遠征を強力にバックアップします。
         </p>
         
-        <!-- Search Box -->
-        <div class="bg-white/10 backdrop-blur-md p-2 rounded-2xl max-w-3xl mx-auto border border-white/20 shadow-2xl">
-          <form action="overview-map.html" class="flex flex-col md:flex-row gap-2">
-            <div class="flex-grow relative">
-              <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                <svg class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-              </div>
-              <input type="text" name="q" class="block w-full pl-10 pr-3 py-4 border-none rounded-xl bg-white/90 text-gray-900 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-brand-500" placeholder="地名、魚種、ポイント名で検索...">
-            </div>
-            <button type="submit" class="btn btn-primary py-4 px-8 text-lg shadow-lg">
-              検索する
-            </button>
-          </form>
+        <div class="flex justify-center gap-4">
+          <a href="area.html" class="btn btn-primary py-4 px-8 text-lg shadow-lg">
+            エリアから探す
+          </a>
+          <a href="signup.html" class="btn bg-white/10 text-white border border-white/30 py-4 px-8 text-lg shadow-lg hover:bg-white/20 backdrop-blur-sm">
+            会員登録する
+          </a>
         </div>
       </div>
     </section>
 
-    <!-- Area Section -->
     <section class="py-20 bg-white">
       <div class="container mx-auto px-4">
         <div class="text-center mb-16">
-          <h2 class="text-3xl font-bold text-gray-900 mb-4">エリアから探す</h2>
-          <p class="text-gray-600">人気の釣りエリアからポイントを検索できます</p>
+          <h2 class="text-3xl font-bold text-gray-900 mb-4">九州全域エリア対応</h2>
+          <p class="text-gray-600">玄界灘から男女群島まで、九州の主要なフィールドを網羅しています</p>
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          <!-- Area Card 1 -->
           <a href="area.html" class="group relative h-64 rounded-2xl overflow-hidden shadow-card hover:shadow-2xl transition-all duration-300">
             <img src="https://images.unsplash.com/photo-1576610616656-d3aa5d1f4534?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Fukuoka">
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
             <div class="absolute bottom-0 left-0 p-6">
-              <h3 class="text-2xl font-bold text-white mb-1">福岡エリア</h3>
-              <p class="text-gray-300 text-sm">玄界灘の豊かな漁場</p>
+              <h3 class="text-2xl font-bold text-white mb-1">福岡・佐賀エリア</h3>
+              <p class="text-gray-300 text-sm">玄界灘・呼子の激流</p>
             </div>
           </a>
 
-          <!-- Area Card 2 -->
           <a href="area.html" class="group relative h-64 rounded-2xl overflow-hidden shadow-card hover:shadow-2xl transition-all duration-300">
             <img src="https://images.unsplash.com/photo-1599940824399-b87987ce0799?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Nagasaki">
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
             <div class="absolute bottom-0 left-0 p-6">
-              <h3 class="text-2xl font-bold text-white mb-1">長崎エリア</h3>
-              <p class="text-gray-300 text-sm">五島列島・平戸</p>
+              <h3 class="text-2xl font-bold text-white mb-1">長崎・五島エリア</h3>
+              <p class="text-gray-300 text-sm">聖地・男女群島への玄関口</p>
             </div>
           </a>
 
-          <!-- Area Card 3 -->
           <a href="area.html" class="group relative h-64 rounded-2xl overflow-hidden shadow-card hover:shadow-2xl transition-all duration-300">
             <img src="https://images.unsplash.com/photo-1545562083-a600704fa46e?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Kagoshima">
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
             <div class="absolute bottom-0 left-0 p-6">
-              <h3 class="text-2xl font-bold text-white mb-1">鹿児島エリア</h3>
-              <p class="text-gray-300 text-sm">佐多岬・錦江湾</p>
+              <h3 class="text-2xl font-bold text-white mb-1">宮崎・鹿児島エリア</h3>
+              <p class="text-gray-300 text-sm">黒潮の恩恵を受ける大物場</p>
             </div>
           </a>
 
-          <!-- Area Card 4 -->
           <a href="area.html" class="group relative h-64 rounded-2xl overflow-hidden shadow-card hover:shadow-2xl transition-all duration-300">
             <img src="https://images.unsplash.com/photo-1547623641-d2c56c03e2a7?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Oita">
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
             <div class="absolute bottom-0 left-0 p-6">
-              <h3 class="text-2xl font-bold text-white mb-1">大分エリア</h3>
-              <p class="text-gray-300 text-sm">豊後水道の激流</p>
+              <h3 class="text-2xl font-bold text-white mb-1">大分・熊本エリア</h3>
+              <p class="text-gray-300 text-sm">豊後水道・天草のチヌ・グレ</p>
             </div>
           </a>
         </div>
@@ -112,36 +97,36 @@
       </div>
     </section>
 
-    <!-- Features Section -->
     <section class="py-20 bg-gray-50">
       <div class="container mx-auto px-4">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
           <div class="text-center p-6">
             <div class="w-16 h-16 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 20l-5.447-2.724A1 1 0 013 16.382V5.618a1 1 0 011.447-.894L9 7m0 13l6-3m-6 3V7m6 10l4.553 2.276A1 1 0 0121 18.382V7.618a1 1 0 01-.447-.894L15 7m0 13V7" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
             </div>
-            <h3 class="text-xl font-bold mb-3">詳細なポイントマップ</h3>
-            <p class="text-gray-600">航空写真と地形図を組み合わせた詳細なマップで、隠れた名ポイントも見逃しません。</p>
+            <h3 class="text-xl font-bold mb-3">現地撮影360度ビュー</h3>
+            <p class="text-gray-600">Googleマップでは見れない磯の形状を、運営者が足で稼いだ360度映像で事前確認。足場の良し悪しも一目瞭然。</p>
           </div>
           <div class="text-center p-6">
             <div class="w-16 h-16 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </div>
-            <h3 class="text-xl font-bold mb-3">リアルタイム気象情報</h3>
-            <p class="text-gray-600">風向き、波の高さ、潮汐情報など、釣行に必要な気象情報をリアルタイムで確認できます。</p>
+            <h3 class="text-xl font-bold mb-3">正確なピンポイント位置情報</h3>
+            <p class="text-gray-600">地図上のタップでGoogleマップアプリと連携。駐車スペースや入釣ルートのナビゲーションもスムーズに。</p>
           </div>
           <div class="text-center p-6">
             <div class="w-16 h-16 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h3 class="text-xl font-bold mb-3">アングラーコミュニティ</h3>
-            <p class="text-gray-600">最新の釣果情報をシェアしたり、ポイントごとの攻略法を交換し合うことができます。</p>
+            <h3 class="text-xl font-bold mb-3">安心の船長紹介</h3>
+            <p class="text-gray-600">渡船利用が初めてでも安心。「このポイントはこの船長」と顔写真とコメント付きで紹介。人柄を知ってから予約できます。</p>
           </div>
         </div>
       </div>

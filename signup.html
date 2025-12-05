@@ -1,155 +1,103 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>会員登録 - FishingMap</title>
-  <meta name="description" content="FishingMapの新規会員登録ページ。無料で登録して、全国の釣りポイント情報や釣果共有機能を利用しましょう。">
+  <title>新規会員登録 - 磯リンク</title>
   <link href="css/style.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap"
-    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <script type="module" src="js/main.js"></script>
 </head>
+<body class="bg-gray-50 min-h-screen flex items-center justify-center p-4">
 
-<body class="bg-gray-50 min-h-screen flex">
-
-  <!-- Left Side: Image -->
-  <div class="hidden lg:block lg:w-1/2 relative overflow-hidden">
-    <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=1000&auto=format&fit=crop"
-      class="absolute inset-0 w-full h-full object-cover" alt="Fishing">
-    <div class="absolute inset-0 bg-brand-900/40 backdrop-blur-[2px] flex flex-col justify-center px-12 text-white">
-      <h2 class="text-4xl font-bold mb-6">
-        新しい釣り場との<br>出会いがここに。
-      </h2>
-      <ul class="space-y-4 text-lg text-gray-100">
-        <li class="flex items-center gap-3">
-          <svg class="w-6 h-6 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg>
-          全国3,000以上のポイント情報
-        </li>
-        <li class="flex items-center gap-3">
-          <svg class="w-6 h-6 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg>
-          リアルタイムの釣果共有
-        </li>
-        <li class="flex items-center gap-3">
-          <svg class="w-6 h-6 text-brand-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
-          </svg>
-          詳細な気象・潮汐データ
-        </li>
-      </ul>
+  <div class="bg-white rounded-2xl shadow-xl overflow-hidden w-full max-w-4xl flex flex-col md:flex-row-reverse max-h-[90vh]">
+    
+    <div class="hidden md:block w-1/2 bg-gray-900 relative">
+      <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1000&auto=format&fit=crop" 
+           alt="Ocean Sunset" class="absolute inset-0 w-full h-full object-cover opacity-60">
+      <div class="relative z-10 p-12 h-full flex flex-col justify-end text-white">
+        <h2 class="text-3xl font-bold mb-4">
+          冒険は、<br>ここから始まる。
+        </h2>
+        <p class="text-gray-200">
+          詳細なポイント情報、現地の360度ビュー、信頼できる船長との出会い。<br>
+          すべてのアングラーに、最高の一匹を。
+        </p>
+      </div>
     </div>
-  </div>
 
-  <!-- Right Side: Form -->
-  <div class="w-full lg:w-1/2 flex flex-col">
-    <div class="flex-grow flex items-center justify-center p-8">
-      <div class="w-full max-w-lg space-y-8">
+    <div class="w-full md:w-1/2 p-8 md:p-12 overflow-y-auto">
+      <div class="text-center mb-8">
+        <a href="index.html" class="inline-flex items-center gap-2 group mb-4">
+          <div class="w-10 h-10 bg-brand-600 rounded-lg flex items-center justify-center text-white shadow-lg shadow-brand-500/30 group-hover:scale-110 transition-transform">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+            </svg>
+          </div>
+        </a>
+        <h1 class="text-2xl font-bold text-gray-900">アカウント作成</h1>
+        <p class="text-gray-500 mt-2 text-sm">無料で磯リンクの機能を利用開始できます</p>
+      </div>
 
-        <div class="text-center">
-          <a href="index.html" class="inline-flex items-center gap-2 mb-8 group">
-            <div
-              class="w-10 h-10 bg-brand-600 rounded-xl flex items-center justify-center text-white shadow-lg shadow-brand-500/30">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24"
-                stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
-            </div>
-            <span class="text-2xl font-bold text-gray-900">FishingMap</span>
-          </a>
-          <h2 class="text-2xl font-bold text-gray-900">アカウントを作成</h2>
-          <p class="mt-2 text-sm text-gray-600">30秒で簡単に登録できます</p>
+      <form action="login.html" class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label for="last-name" class="block text-sm font-medium text-gray-700 mb-1">姓</label>
+            <input type="text" id="last-name" name="last-name" required
+                   class="block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-shadow"
+                   placeholder="山田">
+          </div>
+          <div>
+            <label for="first-name" class="block text-sm font-medium text-gray-700 mb-1">名</label>
+            <input type="text" id="first-name" name="first-name" required
+                   class="block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-shadow"
+                   placeholder="太郎">
+          </div>
         </div>
 
-        <form class="mt-8 space-y-6" action="index.html">
-          <div class="space-y-4">
-            <div>
-              <label for="email" class="block text-sm font-medium text-gray-700">メールアドレス</label>
-              <div class="mt-1">
-                <input id="email" name="email" type="email" autocomplete="email" required class="input-field"
-                  placeholder="name@example.com">
-              </div>
-            </div>
+        <div>
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">メールアドレス</label>
+          <input type="email" id="email" name="email" required
+                 class="block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-shadow"
+                 placeholder="name@example.com">
+        </div>
 
-            <div>
-              <label for="password" class="block text-sm font-medium text-gray-700">パスワード</label>
-              <div class="mt-1">
-                <input id="password" name="password" type="password" required class="input-field" placeholder="6文字以上">
-              </div>
-            </div>
+        <div>
+          <label for="password" class="block text-sm font-medium text-gray-700 mb-1">パスワード</label>
+          <input type="password" id="password" name="password" required
+                 class="block w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none transition-shadow"
+                 placeholder="8文字以上で入力">
+        </div>
 
-            <div class="relative py-4">
-              <div class="absolute inset-0 flex items-center">
-                <div class="w-full border-t border-gray-200"></div>
-              </div>
-              <div class="relative flex justify-center text-sm">
-                <span class="px-2 bg-gray-50 text-gray-500">プロフィール情報</span>
-              </div>
-            </div>
-
-            <div>
-              <label for="nickname" class="block text-sm font-medium text-gray-700">ニックネーム</label>
-              <div class="mt-1">
-                <input id="nickname" name="nickname" type="text" required class="input-field" placeholder="釣り好き太郎">
-              </div>
-            </div>
-
-            <div class="grid grid-cols-2 gap-4">
-              <div>
-                <label for="gender" class="block text-sm font-medium text-gray-700">性別</label>
-                <select id="gender" name="gender" class="input-field mt-1">
-                  <option value="">選択...</option>
-                  <option value="male">男性</option>
-                  <option value="female">女性</option>
-                  <option value="other">その他</option>
-                </select>
-              </div>
-              <div>
-                <label for="age" class="block text-sm font-medium text-gray-700">年代</label>
-                <select id="age" name="age" class="input-field mt-1">
-                  <option value="">選択...</option>
-                  <option value="10s">10代</option>
-                  <option value="20s">20代</option>
-                  <option value="30s">30代</option>
-                  <option value="40s">40代</option>
-                  <option value="50s">50代</option>
-                  <option value="60plus">60代以上</option>
-                </select>
-              </div>
-            </div>
+        <div class="flex items-start mt-4">
+          <div class="flex items-center h-5">
+            <input id="terms" name="terms" type="checkbox" required
+                   class="h-4 w-4 text-brand-600 focus:ring-brand-500 border-gray-300 rounded cursor-pointer">
           </div>
-
-          <div class="flex items-center">
-            <input id="terms" name="terms" type="checkbox"
-              class="h-4 w-4 text-brand-600 focus:ring-brand-500 border-gray-300 rounded">
-            <label for="terms" class="ml-2 block text-sm text-gray-900">
-              <a href="#" class="text-brand-600 hover:text-brand-500">利用規約</a> と <a href="#"
-                class="text-brand-600 hover:text-brand-500">プライバシーポリシー</a> に同意します
+          <div class="ml-2 text-sm">
+            <label for="terms" class="font-medium text-gray-700">
+              <a href="#" class="text-brand-600 hover:underline">利用規約</a> と <a href="#" class="text-brand-600 hover:underline">プライバシーポリシー</a> に同意します
             </label>
           </div>
+        </div>
 
-          <div>
-            <button type="submit" class="w-full btn btn-primary py-3 text-lg shadow-lg">
-              登録して始める
-            </button>
-          </div>
-        </form>
+        <button type="submit" class="w-full btn btn-primary py-3 text-base shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all mt-6">
+          登録して始める
+        </button>
+      </form>
 
-        <p class="mt-2 text-center text-sm text-gray-600">
-          すでにアカウントをお持ちですか？
-          <a href="login.html" class="font-medium text-brand-600 hover:text-brand-500">ログイン</a>
+      <div class="mt-8 text-center">
+        <p class="text-sm text-gray-600">
+          すでにアカウントをお持ちですか？ 
+          <a href="login.html" class="font-bold text-brand-600 hover:text-brand-500 hover:underline">
+            ログイン
+          </a>
         </p>
       </div>
     </div>
   </div>
 
 </body>
-
 </html>

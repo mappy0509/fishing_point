@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>生月・大バエ - FishingMap</title>
-  <meta name="description" content="長崎県佐世保市生月町にある「大バエ」の釣りポイント詳細情報。対象魚、シーズン、水深、潮通しなどのデータや、最新の釣果情報を掲載。">
+  <title>生月・大バエ - 磯リンク</title>
+  <meta name="description" content="長崎県佐世保市生月町にある「大バエ」の釣りポイント詳細情報。360度ビューで足場を確認。案内する船長情報や最新の釣果も掲載。">
   <link href="css/style.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,45 +21,44 @@
 
   <main class="flex-grow">
 
-    <!-- Hero Section -->
-    <div class="relative h-[400px] lg:h-[500px]">
-      <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070&auto=format&fit=crop"
-        alt="Point Hero" class="w-full h-full object-cover">
-      <div class="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent"></div>
+    <div class="relative h-[500px] lg:h-[600px] bg-gray-900 group">
+      <div class="absolute inset-0 overflow-hidden cursor-move">
+        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070&auto=format&fit=crop"
+          alt="360 View Placeholder" class="w-full h-full object-cover opacity-80 group-hover:scale-105 transition-transform duration-1000">
+        
+        <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+          <div class="bg-black/50 backdrop-blur-sm rounded-full p-4 text-white animate-pulse">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </div>
+          <span class="absolute mt-24 text-white font-bold drop-shadow-md">ドラッグして360°確認</span>
+        </div>
+      </div>
 
-      <div class="absolute bottom-0 left-0 w-full p-6 lg:p-12 text-white">
+      <div class="absolute bottom-0 left-0 w-full p-6 lg:p-12 bg-gradient-to-t from-gray-900 via-gray-900/60 to-transparent pointer-events-none">
         <div class="container mx-auto">
           <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
             <div>
               <div class="flex items-center gap-2 mb-2 text-brand-300 font-medium">
                 <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                 </svg>
                 長崎県佐世保市生月町
               </div>
-              <h1 class="text-4xl lg:text-5xl font-bold mb-2">生月・大バエ</h1>
-              <div class="flex gap-2">
+              <h1 class="text-4xl lg:text-5xl font-bold text-white mb-2">生月・大バエ</h1>
+              <div class="flex gap-2 pointer-events-auto">
                 <span class="bg-brand-600 text-white text-xs px-2 py-1 rounded font-medium">青物</span>
-                <span class="bg-brand-600 text-white text-xs px-2 py-1 rounded font-medium">上級者向</span>
+                <span class="bg-gray-700 text-white text-xs px-2 py-1 rounded font-medium">上級者向</span>
               </div>
             </div>
-            <div class="flex gap-3">
+            <div class="flex gap-3 pointer-events-auto">
               <button class="btn btn-secondary bg-white/10 text-white border-white/20 hover:bg-white/20 backdrop-blur">
                 <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                 </svg>
                 お気に入り
-              </button>
-              <button class="btn btn-primary">
-                <svg class="w-5 h-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                    d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                </svg>
-                ナビを開始
               </button>
             </div>
           </div>
@@ -70,95 +69,125 @@
     <div class="container mx-auto px-4 py-8">
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
 
-        <!-- Main Content -->
         <div class="lg:col-span-2 space-y-8">
 
-          <!-- Tabs -->
           <div class="border-b border-gray-200">
-            <nav class="-mb-px flex space-x-8" aria-label="Tabs">
-              <a href="#"
-                class="border-brand-500 text-brand-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                概要
-              </a>
-              <a href="#"
-                class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                マップ・地形
-              </a>
-              <a href="#"
-                class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                気象情報
-              </a>
-              <a href="#"
-                class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">
-                釣果・口コミ
-              </a>
+            <nav class="-mb-px flex space-x-8 overflow-x-auto" aria-label="Tabs">
+              <a href="#" class="border-brand-500 text-brand-600 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">概要・船長</a>
+              <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">位置情報</a>
+              <a href="#" class="border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300 whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm">釣果・口コミ</a>
             </nav>
           </div>
 
-          <!-- Description -->
           <section class="bg-white rounded-xl p-6 shadow-sm">
             <h2 class="text-xl font-bold text-gray-900 mb-4">ポイント解説</h2>
             <p class="text-gray-600 leading-relaxed mb-4">
               生月島の北端に位置する超A級ポイント。九州でも屈指の潮通しを誇り、ヒラマサ、ブリ、カンパチなどの大型青物の回遊が絶えない。
-              特に秋のシーズンは10kgオーバーも夢ではない。
-            </p>
-            <p class="text-gray-600 leading-relaxed">
-              足場は比較的良いが、波をかぶりやすいためスパイクブーツ、ライフジャケットは必須。風の強い日は特に注意が必要。
-              北東の風には弱く、波が高くなりやすいので予報を要確認。
+              360度ビューで確認できる通り、足場は比較的フラットだが、北東風には弱いため注意が必要。
             </p>
           </section>
 
-          <!-- Gallery -->
-          <section>
-            <h2 class="text-xl font-bold text-gray-900 mb-4">フォトギャラリー</h2>
-            <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-              <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=400&auto=format&fit=crop"
-                loading="lazy" class="rounded-lg h-40 w-full object-cover hover:opacity-90 transition cursor-pointer">
-              <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=400&auto=format&fit=crop"
-                loading="lazy" class="rounded-lg h-40 w-full object-cover hover:opacity-90 transition cursor-pointer">
-              <img src="https://images.unsplash.com/photo-1499336315816-097655dcfbda?q=80&w=400&auto=format&fit=crop"
-                loading="lazy" class="rounded-lg h-40 w-full object-cover hover:opacity-90 transition cursor-pointer">
+          <section class="bg-blue-50 rounded-xl p-6 border border-blue-100">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="bg-brand-600 p-2 rounded-lg text-white">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+              </div>
+              <h2 class="text-xl font-bold text-gray-900">このポイントの案内船長</h2>
             </div>
-          </section>
-
-          <!-- Reviews -->
-          <section>
-            <div class="flex items-center justify-between mb-4">
-              <h2 class="text-xl font-bold text-gray-900">最新の釣果</h2>
-              <button class="text-brand-600 text-sm font-medium hover:underline">すべて見る</button>
-            </div>
-            <div class="space-y-4">
-              <!-- Review Item -->
-              <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                <div class="flex justify-between items-start mb-2">
-                  <div class="flex items-center gap-2">
-                    <div
-                      class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-xs font-bold text-gray-600">
-                      U</div>
-                    <span class="font-medium text-gray-900">佐世保のジギンガー</span>
-                  </div>
-                  <span class="text-xs text-gray-500">1日前</span>
-                </div>
-                <p class="text-gray-800 font-medium mb-1">メーターオーバー出ました！</p>
-                <p class="text-gray-600 text-sm">
-                  朝マズメ、トップでバコーンと出ました。潮が動き出したタイミングでした。
+            
+            <div class="flex flex-col md:flex-row gap-6 items-start">
+              <div class="flex-shrink-0 text-center">
+                <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="田中船長" class="w-24 h-24 rounded-full border-4 border-white shadow-md mx-auto mb-2 object-cover">
+                <p class="font-bold text-gray-900">田中 健一 船長</p>
+                <p class="text-xs text-gray-500">（第五土肥丸）</p>
+              </div>
+              <div class="flex-grow bg-white p-4 rounded-lg shadow-sm relative">
+                <div class="absolute top-4 -left-2 w-4 h-4 bg-white transform rotate-45 hidden md:block"></div>
+                <p class="text-gray-600 text-sm leading-relaxed italic mb-3">
+                  「大バエは潮の流れが速いので、仕掛けは重めに準備してくださいね。初めての方でも、足場の良い場所をご案内しますので安心してください。
+                  今の時期はヒラマサが良いサイズ出てますよ！安全第一で楽しみましょう。」
                 </p>
+                <a href="tel:09000000000" class="inline-flex items-center text-brand-600 font-bold text-sm hover:underline">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  船長に電話で予約・相談する
+                </a>
+              </div>
+            </div>
+          </section>
+
+          <section>
+            <h2 class="text-xl font-bold text-gray-900 mb-4">位置情報</h2>
+            <div class="bg-gray-200 rounded-xl overflow-hidden shadow-card h-64 relative group">
+              <img src="https://maps.googleapis.com/maps/api/staticmap?center=33.366667,129.433333&zoom=14&size=800x400&maptype=satellite&key=YOUR_API_KEY_PLACEHOLDER" 
+                   class="w-full h-full object-cover" alt="ポイント地図">
+              
+              <div class="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors flex items-center justify-center">
+                <a href="https://www.google.com/maps/search/?api=1&query=33.366667,129.433333" target="_blank"
+                   class="btn btn-primary shadow-xl scale-100 hover:scale-105 transition-transform flex items-center gap-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+                  </svg>
+                  Googleマップアプリでここへ行く
+                </a>
+              </div>
+            </div>
+            <p class="text-xs text-gray-500 mt-2 text-right">※ 地図をタップするとGoogleマップアプリが起動し、ピンポイントでナビゲーションできます。</p>
+          </section>
+
+          <section>
+            <div class="flex items-center justify-between mb-6">
+              <h2 class="text-xl font-bold text-gray-900">みんなの釣果・口コミ</h2>
+              <button class="btn btn-sm border border-gray-300 text-gray-700 hover:bg-gray-50">
+                <svg class="w-4 h-4 mr-1 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                投稿する
+              </button>
+            </div>
+
+            <div class="space-y-6">
+              <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+                <div class="flex justify-between items-start mb-3">
+                  <div class="flex items-center gap-2">
+                    <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center overflow-hidden">
+                      <img src="https://randomuser.me/api/portraits/men/45.jpg" alt="User" class="w-full h-full object-cover">
+                    </div>
+                    <div>
+                      <span class="block font-bold text-gray-900 text-sm">佐世保のジギンガー</span>
+                      <div class="flex text-yellow-400 text-xs">★★★★★</div>
+                    </div>
+                  </div>
+                  <span class="text-xs text-gray-500">2025/11/15</span>
+                </div>
+                <p class="text-gray-700 text-sm mb-3">
+                  田中船長に案内してもらいました。朝マズメ、トップでメーターオーバーのヒラマサが出ました！
+                  足場も良くて投げやすかったです。
+                </p>
+                <div class="flex gap-2 overflow-x-auto pb-2">
+                  <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=200&h=200&fit=crop" class="h-20 w-20 rounded-lg object-cover cursor-pointer hover:opacity-90">
+                </div>
               </div>
 
-              <!-- Review Item -->
               <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                <div class="flex justify-between items-start mb-2">
+                <div class="flex justify-between items-start mb-3">
                   <div class="flex items-center gap-2">
-                    <div
-                      class="w-8 h-8 bg-gray-200 rounded-full flex items-center justify-center text-xs font-bold text-gray-600">
-                      F</div>
-                    <span class="font-medium text-gray-900">フカセ師</span>
+                    <div class="w-10 h-10 bg-gray-200 rounded-full flex items-center justify-center text-sm font-bold text-gray-600">
+                      K
+                    </div>
+                    <div>
+                      <span class="block font-bold text-gray-900 text-sm">九州フカセ師</span>
+                      <div class="flex text-yellow-400 text-xs">★★★★☆</div>
+                    </div>
                   </div>
-                  <span class="text-xs text-gray-500">3日前</span>
+                  <span class="text-xs text-gray-500">2025/11/10</span>
                 </div>
-                <p class="text-gray-800 font-medium mb-1">クロ40cm級が連発</p>
-                <p class="text-gray-600 text-sm">
-                  エサ取りも多かったですが、分離できれば良型が食ってきます。
+                <p class="text-gray-700 text-sm">
+                  クロ40cm級が連発。エサ取りも多かったですが、分離できれば良型が食ってきます。
+                  船長のアドバイス通り、タナは深めでした。
                 </p>
               </div>
             </div>
@@ -166,10 +195,8 @@
 
         </div>
 
-        <!-- Sidebar -->
         <aside class="space-y-6">
 
-          <!-- Quick Facts -->
           <div class="bg-white p-6 rounded-xl shadow-card border border-gray-100">
             <h3 class="text-lg font-bold text-gray-900 mb-4">ポイントデータ</h3>
             <div class="space-y-4">
@@ -191,20 +218,10 @@
                   <p class="font-medium text-gray-900">15m〜30m</p>
                 </div>
               </div>
-              <div>
-                <span class="text-xs text-gray-500 uppercase tracking-wider">難易度</span>
-                <div class="flex items-center gap-1 mt-1">
-                  <div class="h-2 w-full bg-gray-200 rounded-full overflow-hidden">
-                    <div class="h-full bg-red-500 w-4/5"></div>
-                  </div>
-                  <span class="text-xs font-bold text-red-500">上級</span>
-                </div>
-              </div>
             </div>
           </div>
 
-          <!-- Weather Widget (Mock) -->
-          <div class="bg-gradient-to-br from-blue-500 to-blue-600 p-6 rounded-xl shadow-lg text-white">
+          <div class="bg-gradient-to-br from-blue-500 to-brand-600 p-6 rounded-xl shadow-lg text-white">
             <h3 class="font-bold mb-4 flex items-center gap-2">
               <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -231,7 +248,6 @@
             </div>
           </div>
 
-          <!-- Ad / CTA -->
           <div class="bg-gray-900 rounded-xl p-6 text-center text-white">
             <h3 class="font-bold text-lg mb-2">プレミアム会員限定</h3>
             <p class="text-gray-400 text-sm mb-4">
@@ -252,5 +268,4 @@
   <site-footer></site-footer>
 
 </body>
-
 </html>
