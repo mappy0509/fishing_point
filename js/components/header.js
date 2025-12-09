@@ -1,5 +1,12 @@
+import { monitorAuthState, logoutUser } from '../auth-service.js';
+
 class SiteHeader extends HTMLElement {
   connectedCallback() {
+    this.render();
+    this.setupAuthListener();
+  }
+
+  render() {
     this.innerHTML = `
       <header class="fixed w-full top-0 z-50 transition-all duration-300 bg-white/80 backdrop-blur-md border-b border-gray-100" id="main-header">
         <div class="container mx-auto px-4 h-16 flex items-center justify-between">
@@ -21,7 +28,7 @@ class SiteHeader extends HTMLElement {
             <a href="#" class="text-gray-600 hover:text-brand-600 font-medium transition-colors">釣果情報</a>
           </nav>
 
-          <div class="hidden md:flex items-center gap-4">
+          <div class="hidden md:flex items-center gap-4" id="auth-buttons-desktop">
             <a href="login.html" class="text-brand-600 font-medium hover:text-brand-700 transition-colors">ログイン</a>
             <a href="signup.html" class="btn btn-primary text-sm px-5 py-2">
               無料登録
@@ -36,13 +43,15 @@ class SiteHeader extends HTMLElement {
         </div>
 
         <div class="md:hidden hidden bg-white border-t border-gray-100 absolute w-full" id="mobile-menu">
-          <div class="container mx-auto px-4 py-4 flex flex-col gap-4">
+          <div class="container mx-auto px-4 py-4 flex flex-col gap-4" id="mobile-menu-items">
             <a href="index.html" class="block py-2 text-gray-600 font-medium">ホーム</a>
             <a href="area.html" class="block py-2 text-gray-600 font-medium">エリアから探す</a>
             <a href="#" class="block py-2 text-gray-600 font-medium">船長紹介</a>
             <hr class="border-gray-100">
-            <a href="login.html" class="block py-2 text-brand-600 font-medium">ログイン</a>
-            <a href="signup.html" class="btn btn-primary w-full text-center">無料登録</a>
+            <div id="auth-buttons-mobile" class="flex flex-col gap-2">
+              <a href="login.html" class="block py-2 text-brand-600 font-medium">ログイン</a>
+              <a href="signup.html" class="btn btn-primary w-full text-center">無料登録</a>
+            </div>
           </div>
         </div>
       </header>
@@ -51,9 +60,59 @@ class SiteHeader extends HTMLElement {
     // Mobile Menu Logic
     const btn = this.querySelector('#mobile-menu-btn');
     const menu = this.querySelector('#mobile-menu');
-    btn.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
-      menu.classList.toggle('animate-fade-in');
+    if (btn && menu) {
+      btn.addEventListener('click', () => {
+        menu.classList.toggle('hidden');
+        menu.classList.toggle('animate-fade-in');
+      });
+    }
+  }
+
+  setupAuthListener() {
+    monitorAuthState((user) => {
+      const desktopAuth = this.querySelector('#auth-buttons-desktop');
+      const mobileAuth = this.querySelector('#auth-buttons-mobile');
+
+      if (user) {
+        // ログイン状態
+        const userName = user.displayName || 'ユーザー';
+        
+        const loggedInHtmlDesktop = `
+          <span class="text-sm text-gray-700 mr-2">ようこそ、${userName}さん</span>
+          <button id="logout-btn-desktop" class="text-gray-500 hover:text-brand-600 font-medium transition-colors text-sm">ログアウト</button>
+          <a href="admin.html" class="btn btn-primary text-sm px-4 py-2">管理者画面</a>
+        `;
+        
+        const loggedInHtmlMobile = `
+          <p class="py-2 text-gray-700 font-bold">ようこそ、${userName}さん</p>
+          <a href="admin.html" class="btn btn-primary w-full text-center">管理者画面へ</a>
+          <button id="logout-btn-mobile" class="block py-2 text-red-500 font-medium w-full text-left">ログアウト</button>
+        `;
+
+        if (desktopAuth) {
+            desktopAuth.innerHTML = loggedInHtmlDesktop;
+            this.querySelector('#logout-btn-desktop')?.addEventListener('click', logoutUser);
+        }
+        if (mobileAuth) {
+            mobileAuth.innerHTML = loggedInHtmlMobile;
+            this.querySelector('#logout-btn-mobile')?.addEventListener('click', logoutUser);
+        }
+
+      } else {
+        // 未ログイン状態（初期状態に戻す）
+        const loggedOutHtmlDesktop = `
+          <a href="login.html" class="text-brand-600 font-medium hover:text-brand-700 transition-colors">ログイン</a>
+          <a href="signup.html" class="btn btn-primary text-sm px-5 py-2">無料登録</a>
+        `;
+        
+        const loggedOutHtmlMobile = `
+          <a href="login.html" class="block py-2 text-brand-600 font-medium">ログイン</a>
+          <a href="signup.html" class="btn btn-primary w-full text-center">無料登録</a>
+        `;
+
+        if (desktopAuth) desktopAuth.innerHTML = loggedOutHtmlDesktop;
+        if (mobileAuth) mobileAuth.innerHTML = loggedOutHtmlMobile;
+      }
     });
   }
 }
