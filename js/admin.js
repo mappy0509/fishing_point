@@ -22,35 +22,59 @@ monitorAuthState(async (user) => {
   }
 });
 
-// Mock Map Logic
-const mockMap = document.getElementById('mock-map');
-const pin = document.getElementById('map-pin');
-const latInput = document.getElementById('point-lat');
-const lngInput = document.getElementById('point-lng');
+// --- Google Map Logic ---
+let map;
+let marker;
 
-if (mockMap) {
-  mockMap.addEventListener('click', (e) => {
-    const rect = mockMap.getBoundingClientRect();
-    const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
+// グローバル関数として定義 (Google Maps APIのcallbackから呼ばれるため)
+window.initAdminMap = () => {
+  const mapElement = document.getElementById('admin-map');
+  if (!mapElement) return;
 
-    pin.style.left = x + 'px';
-    pin.style.top = y + 'px';
-    pin.classList.remove('hidden');
-
-    const baseLat = 33.0;
-    const baseLng = 129.0;
-    const randomLat = baseLat + (y / rect.height);
-    const randomLng = baseLng + (x / rect.width);
-
-    latInput.value = randomLat.toFixed(6);
-    lngInput.value = randomLng.toFixed(6);
-    
-    hideError();
+  // 初期表示位置 (九州中心付近)
+  const defaultLocation = { lat: 33.0, lng: 130.5 };
+  
+  map = new google.maps.Map(mapElement, {
+    center: defaultLocation,
+    zoom: 7,
+    streetViewControl: false,
+    mapTypeControl: false
   });
+
+  // クリックイベントでマーカーを設置
+  map.addListener("click", (e) => {
+    placeMarkerAndPanTo(e.latLng);
+  });
+};
+
+function placeMarkerAndPanTo(latLng) {
+  if (marker) {
+    marker.setPosition(latLng);
+  } else {
+    marker = new google.maps.Marker({
+      position: latLng,
+      map: map,
+      animation: google.maps.Animation.DROP
+    });
+  }
+  
+  // マップ中心を移動するかは任意（連続登録しやすいよう今回は移動しない、必要なら map.panTo(latLng)）
+  // map.panTo(latLng);
+
+  // フォームに値をセット
+  const latInput = document.getElementById('point-lat');
+  const lngInput = document.getElementById('point-lng');
+  
+  if (latInput && lngInput) {
+    latInput.value = latLng.lat().toFixed(6);
+    lngInput.value = latLng.lng().toFixed(6);
+  }
+  
+  // エラー表示があれば消す
+  hideError();
 }
 
-// フォーム送信処理
+// --- フォーム送信処理 ---
 const addPointForm = document.getElementById('admin-add-point-form');
 const errorContainer = document.getElementById('admin-error-message');
 const errorDetail = errorContainer ? errorContainer.querySelector('.error-detail') : null;
@@ -70,14 +94,19 @@ if (addPointForm) {
 
     // --- バリデーションチェック ---
     
+    // 1. 座標チェック
     if (!latValue || !lngValue) {
       showError('位置情報が設定されていません。地図上をクリックしてピンを設置してください。');
-      mockMap.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      mockMap.classList.add('ring-2', 'ring-red-500');
-      setTimeout(() => mockMap.classList.remove('ring-2', 'ring-red-500'), 2000);
+      const mapEl = document.getElementById('admin-map');
+      if (mapEl) {
+        mapEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        mapEl.classList.add('ring-4', 'ring-red-500');
+        setTimeout(() => mapEl.classList.remove('ring-4', 'ring-red-500'), 2000);
+      }
       return;
     }
 
+    // 2. 必須ファイルチェック (360度画像)
     if (!vrFileInput.files || vrFileInput.files.length === 0) {
       showError('360度パノラマ画像は必須です。ファイルを選択してください。');
       vrFileInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -88,7 +117,6 @@ if (addPointForm) {
 
     const originalBtnHTML = submitBtn.innerHTML;
     submitBtn.disabled = true;
-    // メッセージを「圧縮・保存中」に変更
     submitBtn.innerHTML = `
       <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white inline-block" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
         <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
@@ -112,12 +140,15 @@ if (addPointForm) {
       const photoFiles = document.getElementById('point-photos').files;
       const captainPhotoFile = document.getElementById('captain-photo').files[0];
 
+      // DBサービスを呼び出し
       await addFishingPoint(pointData, vrFile, photoFiles, captainPhotoFile);
 
       alert('ポイント情報を正常に登録しました！');
       
+      // フォームリセット
       addPointForm.reset();
-      pin.classList.add('hidden');
+      if (marker) marker.setMap(null); // ピンを削除
+      marker = null;
       window.scrollTo({ top: 0, behavior: 'smooth' });
 
     } catch (error) {
