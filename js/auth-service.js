@@ -3,40 +3,36 @@ import { auth, db } from './firebase-config.js';
 import { 
   createUserWithEmailAndPassword, 
   signInWithEmailAndPassword, 
-  signOut, 
-  onAuthStateChanged,
-  updateProfile
+  signOut,
+  updateProfile,
+  sendPasswordResetEmail // 追加
 } from "firebase/auth";
-import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, serverTimestamp } from "firebase/firestore";
 
 /**
- * 新規ユーザー登録処理
- * Authenticationへの登録に加え、Firestoreのusersコレクションにデータを保存します。
- * デフォルトの権限(role)は 'member' (一般ユーザー) とします。
+ * ユーザー登録処理 (Auth + Firestore)
  */
 export async function registerUser(email, password, lastName, firstName) {
   try {
-    // 1. Authenticationでユーザー作成
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
-    
-    // 2. 表示名の設定
+
     await updateProfile(user, {
       displayName: `${lastName} ${firstName}`
     });
 
-    // 3. Firestoreにユーザー情報を保存（ここで役割を管理）
     await setDoc(doc(db, "users", user.uid), {
-      firstName: firstName,
-      lastName: lastName,
       email: email,
-      role: 'member', // デフォルトは一般会員。管理者はFirebaseコンソールで 'admin' に変更する運用。
+      lastName: lastName,
+      firstName: firstName,
+      role: 'user',
       createdAt: serverTimestamp(),
+      updatedAt: serverTimestamp()
     });
-    
+
     return user;
   } catch (error) {
-    console.error("Registration Error:", error);
+    console.error("Registration error in auth-service:", error);
     throw error;
   }
 }
@@ -49,7 +45,7 @@ export async function loginUser(email, password) {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     return userCredential.user;
   } catch (error) {
-    console.error("Login Error:", error);
+    console.error("Login error:", error);
     throw error;
   }
 }
@@ -60,38 +56,20 @@ export async function loginUser(email, password) {
 export async function logoutUser() {
   try {
     await signOut(auth);
-    window.location.href = 'index.html';
   } catch (error) {
-    console.error("Logout Error:", error);
+    console.error("Logout error:", error);
     throw error;
   }
 }
 
 /**
- * 認証状態の監視
+ * パスワード再設定メール送信 (追加)
  */
-export function monitorAuthState(callback) {
-  return onAuthStateChanged(auth, (user) => {
-    callback(user);
-  });
-}
-
-/**
- * ユーザーの役割（role）を取得する関数
- * 管理画面へのアクセス制限などに使用します。
- */
-export async function getUserRole(uid) {
+export async function resetUserPassword(email) {
   try {
-    const docRef = doc(db, "users", uid);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      return docSnap.data().role; // 'admin' or 'member'
-    } else {
-      return null;
-    }
+    await sendPasswordResetEmail(auth, email);
   } catch (error) {
-    console.error("Error getting user role:", error);
-    return null;
+    console.error("Password reset error:", error);
+    throw error;
   }
 }

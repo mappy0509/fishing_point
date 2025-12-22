@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="ja" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>みんなの釣果情報 - 磯リンク</title>
+  <link href="css/style.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/reviews.js"></script>
+</head>
+<body class="bg-gray-50 flex flex-col min-h-screen">
+
+  <site-header></site-header>
+
+  <main class="flex-grow pb-20">
+    <section class="bg-brand-900 text-white py-16 relative overflow-hidden">
+      <div class="absolute inset-0 bg-gray-900/40 z-0"></div>
+      <div class="container mx-auto px-4 relative z-10 text-center">
+        <h1 class="text-3xl md:text-4xl font-bold mb-4">みんなの釣果情報</h1>
+        <p class="text-gray-300">最新の釣果やポイントの状況をチェックしよう</p>
+      </div>
+    </section>
+
+    <div class="container mx-auto px-4 -mt-10 relative z-20">
+      
+      <div class="flex justify-end mb-6">
+        </div>
+
+      <div id="reviews-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div class="col-span-full text-center py-20 bg-white rounded-xl shadow-sm">
+          <svg class="animate-spin h-8 w-8 text-brand-500 mx-auto mb-4" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          <p class="text-gray-500">最新の釣果を読み込み中...</p>
+        </div>
+      </div>
+
+      <div class="mt-12 text-center hidden">
+        <button class="btn bg-white border border-gray-300 text-gray-700 px-6 py-2 rounded-lg shadow-sm hover:bg-gray-50">
+          もっと見る
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <site-footer></site-footer>
+
+</body>
+</html>

@@ -1,18 +1,12 @@
 // js/db-service.js
 import { db, storage } from './firebase-config.js';
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, doc, setDoc, deleteDoc, getDoc, getDocs, query, orderBy, limit, where } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
-/**
- * 画像を圧縮するヘルパー関数 (Canvas使用)
- * @param {File} file 元の画像ファイル
- * @param {number} maxWidth 最大幅 (px)
- * @param {number} quality JPEG圧縮率 (0.0 - 1.0)
- * @returns {Promise<Blob>} 圧縮されたBlobデータ
- */
+// --- 画像圧縮・アップロード関連 ---
+
 const compressImage = (file, maxWidth, quality = 0.7) => {
   return new Promise((resolve, reject) => {
-    // 画像以外はそのまま返す
     if (!file || !file.type.startsWith('image/')) {
       resolve(file);
       return;
@@ -27,7 +21,6 @@ const compressImage = (file, maxWidth, quality = 0.7) => {
     reader.onerror = (e) => reject(e);
 
     img.onload = () => {
-      // サイズ計算 (アスペクト比維持)
       let width = img.width;
       let height = img.height;
 
@@ -36,22 +29,18 @@ const compressImage = (file, maxWidth, quality = 0.7) => {
         width = maxWidth;
       }
 
-      // Canvasに描画してリサイズ
       const canvas = document.createElement('canvas');
       canvas.width = width;
       canvas.height = height;
       const ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, width, height);
 
-      // Blobとして書き出し (JPEG化して容量削減)
       canvas.toBlob((blob) => {
         if (!blob) {
-          // 失敗時は元ファイルを返す
           console.warn('Image compression failed, using original file.');
           resolve(file);
           return;
         }
-        // 圧縮後のサイズ等のログ出力（デバッグ用）
         console.log(`Compressed: ${file.name} (${(file.size/1024).toFixed(0)}KB -> ${(blob.size/1024).toFixed(0)}KB)`);
         resolve(blob);
       }, 'image/jpeg', quality);
@@ -59,47 +48,22 @@ const compressImage = (file, maxWidth, quality = 0.7) => {
   });
 };
 
-/**
- * 画像ファイル(またはBlob)をStorageにアップロードしてURLを取得する
- * @param {File|Blob} file アップロードするファイル
- * @param {string} path 保存先のパス
- * @returns {Promise<string>} ダウンロードURL
- */
 async function uploadImage(file, path) {
   if (!file) return null;
-  
-  // ファイル名が存在しない場合（Blobなど）は現在時刻で生成
   const fileName = file.name || `image_${Date.now()}.jpg`;
   const storageRef = ref(storage, `${path}/${Date.now()}_${fileName}`);
-  
   const snapshot = await uploadBytes(storageRef, file);
   return await getDownloadURL(snapshot.ref);
 }
 
-/**
- * 新しい釣りポイントを登録する
- * @param {Object} pointData フォームから入力されたデータ
- * @param {File} vrFile 360度画像のファイルオブジェクト
- * @param {FileList} photoFiles サムネイル画像のFileList
- * @param {File} captainPhotoFile 船長の顔写真ファイル
- */
+// --- ポイント管理関連 ---
+
 export async function addFishingPoint(pointData, vrFile, photoFiles, captainPhotoFile) {
   try {
     console.log("Starting compression and upload process...");
 
-    // 1. 画像の圧縮処理 (用途に合わせて設定)
-    
-    // VR画像: 4K画質相当(4096px)は維持し、高画質設定(0.85)で保存
-    const vrCompressedPromise = vrFile 
-      ? compressImage(vrFile, 4096, 0.85) 
-      : Promise.resolve(null);
-
-    // 船長画像: スマホ表示メインなので幅800pxあれば十分
-    const captainCompressedPromise = captainPhotoFile 
-      ? compressImage(captainPhotoFile, 800, 0.7) 
-      : Promise.resolve(null);
-
-    // サムネイル群: Full HD程度(1920px)に抑える
+    const vrCompressedPromise = vrFile ? compressImage(vrFile, 4096, 0.85) : Promise.resolve(null);
+    const captainCompressedPromise = captainPhotoFile ? compressImage(captainPhotoFile, 800, 0.7) : Promise.resolve(null);
     const photoCompressedPromises = [];
     if (photoFiles && photoFiles.length > 0) {
       for (let i = 0; i < photoFiles.length; i++) {
@@ -107,27 +71,22 @@ export async function addFishingPoint(pointData, vrFile, photoFiles, captainPhot
       }
     }
 
-    // 圧縮の完了を待機
     const [vrBlob, captainBlob, ...photoBlobs] = await Promise.all([
       vrCompressedPromise,
       captainCompressedPromise,
       ...photoCompressedPromises
     ]);
 
-    // 2. Storageへのアップロード処理 (並行実行)
     const vrUploadPromise = uploadImage(vrBlob, 'vr_images');
     const captainUploadPromise = uploadImage(captainBlob, 'captain_images');
-    
     const photoUploadPromises = photoBlobs.map(blob => uploadImage(blob, 'point_photos'));
 
-    // 全てのアップロード完了を待機
     const [vrUrl, captainPhotoUrl, ...photoUrls] = await Promise.all([
       vrUploadPromise,
       captainUploadPromise,
       ...photoUploadPromises
     ]);
 
-    // 3. 保存するデータの整形
     const docData = {
       name: pointData.name,
       area: pointData.area,
@@ -149,13 +108,107 @@ export async function addFishingPoint(pointData, vrFile, photoFiles, captainPhot
       updatedAt: serverTimestamp()
     };
 
-    // 4. Firestoreへデータ保存
     const docRef = await addDoc(collection(db, "fishing-points"), docData);
-    console.log("Document written with ID: ", docRef.id);
     return docRef.id;
 
   } catch (e) {
     console.error("Error adding document: ", e);
     throw e;
+  }
+}
+
+export async function getFishingPoint(pointId) {
+  if (!pointId) return null;
+  try {
+    const docRef = doc(db, "fishing-points", pointId);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return { id: docSnap.id, ...docSnap.data() };
+    }
+    return null;
+  } catch (error) {
+    console.error("Error fetching point:", error);
+    return null;
+  }
+}
+
+// --- お気に入り機能関連 ---
+
+export async function toggleFavorite(userId, pointId) {
+  if (!userId || !pointId) return false;
+  const favRef = doc(db, "users", userId, "favorites", pointId);
+  const docSnap = await getDoc(favRef);
+
+  if (docSnap.exists()) {
+    await deleteDoc(favRef);
+    return false;
+  } else {
+    await setDoc(favRef, {
+      addedAt: serverTimestamp(),
+      pointId: pointId
+    });
+    return true;
+  }
+}
+
+export async function checkFavoriteStatus(userId, pointId) {
+  if (!userId || !pointId) return false;
+  const favRef = doc(db, "users", userId, "favorites", pointId);
+  const docSnap = await getDoc(favRef);
+  return docSnap.exists();
+}
+
+export async function getUserFavorites(userId) {
+  if (!userId) return [];
+  const q = collection(db, "users", userId, "favorites");
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map(doc => doc.id);
+}
+
+// --- 口コミ・釣果機能関連 ---
+
+export async function addReview(pointId, reviewData) {
+  if (!pointId) throw new Error("Point ID is required");
+  const reviewsRef = collection(db, "fishing-points", pointId, "reviews");
+  await addDoc(reviewsRef, {
+    ...reviewData,
+    createdAt: serverTimestamp()
+  });
+}
+
+export async function getReviews(pointId) {
+  if (!pointId) return [];
+  const reviewsRef = collection(db, "fishing-points", pointId, "reviews");
+  const q = query(reviewsRef, orderBy("createdAt", "desc"), limit(50));
+  const querySnapshot = await getDocs(q);
+  return querySnapshot.docs.map(doc => ({
+    id: doc.id,
+    ...doc.data()
+  }));
+}
+
+// --- 船長・検索関連 ---
+
+/**
+ * 船長名でポイントを検索して取得する
+ * @param {string} captainName 
+ * @returns {Promise<Array>}
+ */
+export async function getPointsByCaptainName(captainName) {
+  if (!captainName) return [];
+  
+  try {
+    const pointsRef = collection(db, "fishing-points");
+    // captain.name フィールドが一致するものを検索
+    const q = query(pointsRef, where("captain.name", "==", captainName));
+    
+    const querySnapshot = await getDocs(q);
+    return querySnapshot.docs.map(doc => ({
+      id: doc.id,
+      ...doc.data()
+    }));
+  } catch (error) {
+    console.error("Error fetching points by captain:", error);
+    return [];
   }
 }
