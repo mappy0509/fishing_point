@@ -9,6 +9,14 @@ class SiteHeader extends HTMLElement {
   }
 
   connectedCallback() {
+    // 【修正】カスタム要素自体をブロック要素・Sticky配置にし、高さを確保する
+    // これにより、後続のコンテンツ（ヒーロー画像など）がヘッダーの下に潜り込むのを防ぎます
+    this.style.display = 'block';
+    this.style.position = 'sticky';
+    this.style.top = '0';
+    this.style.zIndex = '50';
+    this.style.width = '100%';
+
     onAuthStateChanged(auth, (user) => {
       this.user = user;
       this.render();
@@ -17,7 +25,7 @@ class SiteHeader extends HTMLElement {
   }
 
   render() {
-    // デスクトップ用ナビゲーション (モバイルでは非表示)
+    // デスクトップ用ナビゲーション
     const desktopNav = `
       <nav class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-600">
         <a href="area.html" class="hover:text-brand-600 transition-colors">エリアから探す</a>
@@ -31,8 +39,8 @@ class SiteHeader extends HTMLElement {
       ? `
         <div class="hidden md:flex items-center gap-4">
           <a href="mypage.html" class="flex items-center gap-2 text-gray-700 hover:text-brand-600 font-medium">
-            <div class="w-8 h-8 rounded-full bg-gray-200 overflow-hidden">
-               <svg class="w-full h-full text-gray-400" fill="currentColor" viewBox="0 0 24 24"><path d="M24 20.993V24H0v-2.996A14.977 14.977 0 0112.004 15c4.904 0 9.26 2.354 11.996 5.993zM16.002 8.999a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+            <div class="w-8 h-8 rounded-full bg-gray-200 overflow-hidden border border-gray-100">
+               <img src="${this.user.photoURL || 'https://via.placeholder.com/150'}" class="w-full h-full object-cover" onerror="this.src='data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGZpbGw9IiNjY2MiIHZpZXdCb3g9IjAgMCAyNCAyNCI+PHBhdGggZD0iTTI0IDIwLjk5M1YyNEgwdi0yLjk5NkExNC45NzcgMTQuOTc3IDAgMDExMi4wMDQgMTVjNC45MDQgMCA5LjI2IDIuMzU0IDExLjk5NiA1Ljk5M3pNMTYuMDAyIDguOTk5YTQgNCAwIDExLTggMCA0IDQgMCAwMTggMHoiIC8+PC9zdmc+'">
             </div>
             <span>マイページ</span>
           </a>
@@ -47,87 +55,37 @@ class SiteHeader extends HTMLElement {
         </div>
       `;
 
-    // モバイル用メニューの中身 (主要ナビはボトムへ移動したため、サブメニュー的役割)
-    const mobileMenuContent = `
-      <div class="py-2">
-        <p class="px-4 py-2 text-xs font-bold text-gray-400 uppercase tracking-wider">メニュー</p>
-        <a href="captain.html" class="block px-4 py-3 text-gray-700 hover:bg-gray-50 border-b border-gray-100">船長紹介</a>
-        <a href="payment.html" class="block px-4 py-3 text-gray-700 hover:bg-gray-50 border-b border-gray-100">プレミアム会員</a>
-        <a href="terms.html" class="block px-4 py-3 text-sm text-gray-600 hover:bg-gray-50">利用規約</a>
-        <a href="privacy.html" class="block px-4 py-3 text-sm text-gray-600 hover:bg-gray-50">プライバシーポリシー</a>
-        <a href="admin.html" class="block px-4 py-3 text-sm text-gray-600 hover:bg-gray-50">管理者ページ</a>
-        
-        ${this.user ? `
-          <button id="mobile-logout-btn" class="w-full text-left block px-4 py-3 text-sm text-red-500 hover:bg-red-50 mt-2 border-t border-gray-100">ログアウト</button>
-        ` : `
-          <div class="p-4 grid grid-cols-2 gap-3 mt-2 border-t border-gray-100">
-            <a href="login.html" class="btn bg-white border border-gray-300 text-gray-700 text-center py-2 text-sm">ログイン</a>
-            <a href="signup.html" class="btn btn-primary text-center py-2 text-sm">会員登録</a>
-          </div>
-        `}
-      </div>
-    `;
-
+    // 【修正ポイント】
+    // 1. justify-between: ロゴ(左)とナビ(右)を両端に配置
+    // 2. モバイルロゴ: absolute配置で完全中央揃え
+    // 3. デスクトップ: ロゴをstaticに戻し、ナビと認証ボタンを右側グループ(div)にまとめる
     this.innerHTML = `
-      <header class="sticky top-0 left-0 w-full z-40 bg-white/95 backdrop-blur-md border-b border-gray-200/80 shadow-sm transition-all duration-300" id="main-header">
-        <div class="container mx-auto px-4 h-14 md:h-16 flex items-center justify-between">
+      <header class="bg-white border-b border-gray-200 shadow-sm pt-[env(safe-area-inset-top)] w-full h-14 md:h-16 flex items-center">
+        <div class="container mx-auto px-4 relative flex items-center justify-between h-full">
           
-          <a href="index.html" class="flex items-center gap-2 group">
-            <div class="w-8 h-8 bg-gradient-to-br from-brand-500 to-brand-700 rounded-lg flex items-center justify-center text-white shadow-lg shadow-brand-500/30">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
-              </svg>
+          <a href="index.html" class="absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2 md:static md:transform-none md:flex md:items-center md:gap-2 group z-10">
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 bg-gradient-to-br from-brand-500 to-brand-700 rounded-lg flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" />
+                </svg>
+              </div>
+              <span class="text-lg md:text-xl font-bold text-gray-900 tracking-tight">磯リンク</span>
             </div>
-            <span class="text-lg md:text-xl font-bold text-gray-900 tracking-tight">磯リンク</span>
           </a>
 
-          ${desktopNav}
-          ${desktopAuth}
-
-          <button id="mobile-menu-btn" type="button" class="md:hidden p-2 -mr-2 text-gray-500 hover:text-gray-900 focus:outline-none">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
-            </svg>
-          </button>
-        </div>
-
-        <div id="mobile-menu" class="fixed inset-0 z-50 transform translate-x-full transition-transform duration-300 md:hidden">
-          <div class="absolute inset-0 bg-black/20 backdrop-blur-sm" id="mobile-menu-backdrop"></div>
-          <div class="absolute top-0 right-0 w-64 h-full bg-white shadow-2xl overflow-y-auto">
-            <div class="flex items-center justify-between p-4 border-b border-gray-100">
-              <span class="font-bold text-gray-900">メニュー</span>
-              <button id="mobile-menu-close" class="p-1 text-gray-400 hover:text-gray-600">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
-            ${mobileMenuContent}
+          <div class="hidden md:flex items-center gap-8 ml-auto">
+            ${desktopNav}
+            ${desktopAuth}
           </div>
-        </div>
+
+          </div>
       </header>
     `;
   }
 
   setupEventListeners() {
-    const mobileMenuBtn = this.querySelector('#mobile-menu-btn');
-    const mobileMenuClose = this.querySelector('#mobile-menu-close');
-    const mobileMenuBackdrop = this.querySelector('#mobile-menu-backdrop');
-    const mobileMenu = this.querySelector('#mobile-menu');
     const logoutBtn = this.querySelector('#header-logout-btn');
-    const mobileLogoutBtn = this.querySelector('#mobile-logout-btn');
-
-    const toggleMenu = () => {
-      if (mobileMenu.classList.contains('translate-x-full')) {
-        mobileMenu.classList.remove('translate-x-full');
-      } else {
-        mobileMenu.classList.add('translate-x-full');
-      }
-    };
-
-    if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleMenu);
-    if (mobileMenuClose) mobileMenuClose.addEventListener('click', toggleMenu);
-    if (mobileMenuBackdrop) mobileMenuBackdrop.addEventListener('click', toggleMenu);
 
     const handleLogout = async (e) => {
       e.preventDefault();
@@ -138,7 +96,6 @@ class SiteHeader extends HTMLElement {
     };
 
     if (logoutBtn) logoutBtn.addEventListener('click', handleLogout);
-    if (mobileLogoutBtn) mobileLogoutBtn.addEventListener('click', handleLogout);
   }
 }
 
