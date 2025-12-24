@@ -2,39 +2,164 @@
 <html lang="ja" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>エリア一覧 - 磯リンク</title>
-  <meta name="description" content="九州全域（福岡、佐賀、長崎、大分、宮崎、熊本、鹿児島）の磯釣りポイントエリア一覧。">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>エリアから探す - 磯リンク</title>
   <link href="css/style.css" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
   <script type="module" src="js/main.js"></script>
   <script type="module" src="js/area.js"></script>
+  <script type="module" src="js/components/bottom-nav.js"></script>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-50 flex flex-col min-h-screen pb-0">
 
   <site-header></site-header>
 
-  <main class="flex-grow py-12">
-    <div class="container mx-auto px-4">
+  <main class="flex-grow pb-24 md:pb-12">
+    <div class="bg-white border-b border-gray-100 sticky top-14 md:top-16 z-30 shadow-sm">
+      <div class="container mx-auto px-4 py-3 md:py-6">
+        <h1 class="text-xl md:text-2xl font-bold text-gray-900 flex items-center gap-2">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+          </svg>
+          エリアから探す
+        </h1>
+      </div>
+    </div>
+
+    <div class="container mx-auto px-4 py-6">
       
-      <div class="text-center mb-16">
-        <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">エリアから探す</h1>
-        <p class="text-gray-600 max-w-2xl mx-auto">
-          九州全土の主要な磯釣りフィールドを網羅。<br>
-          エリアを選択して、現地の360度ビューや渡船情報をチェックしましょう。
-        </p>
-      </div>
-
-      <div id="area-list-container">
-        <div class="text-center py-12">
-          <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-600 mx-auto"></div>
-          <p class="mt-4 text-gray-500">ポイント情報を読み込み中...</p>
+      <a href="overview-map.html" class="block mb-8 bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden group">
+        <div class="absolute inset-0 opacity-30 bg-[url('https://images.unsplash.com/photo-1569336415962-a4bd9f69cd83?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center group-hover:scale-105 transition-transform duration-700"></div>
+        <div class="relative z-10 flex items-center justify-between">
+          <div>
+            <h3 class="font-bold text-lg mb-1">地図から探す</h3>
+            <p class="text-sm text-gray-300">位置関係を把握しながらポイント検索</p>
+          </div>
+          <div class="bg-white/20 p-2 rounded-full backdrop-blur-sm">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </div>
         </div>
-      </div>
+      </a>
 
+      <div class="space-y-8">
+        
+        <section>
+          <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3 px-1">福岡・佐賀エリア</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <a href="search.html?area=fukuoka-munakata" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-brand-300 transition-colors active:bg-gray-50">
+              <div class="w-16 h-16 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+                <img src="https://images.unsplash.com/photo-1621847468516-1ed5d0df56fe?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Munakata">
+              </div>
+              <div class="ml-4 flex-grow">
+                <h3 class="font-bold text-gray-900">宗像・沖ノ島</h3>
+                <p class="text-xs text-gray-500 mt-0.5">世界遺産の海で大型ヒラマサ</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+
+            <a href="search.html?area=fukuoka-itoshima" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-brand-300 transition-colors active:bg-gray-50">
+              <div class="w-16 h-16 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+                <img src="https://images.unsplash.com/photo-1605218457335-5a50e93a6121?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Itoshima">
+              </div>
+              <div class="ml-4 flex-grow">
+                <h3 class="font-bold text-gray-900">糸島</h3>
+                <p class="text-xs text-gray-500 mt-0.5">アクセスの良い地磯・波止</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+
+            <a href="search.html?area=saga-yobuko" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-brand-300 transition-colors active:bg-gray-50">
+              <div class="w-16 h-16 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+                <img src="https://images.unsplash.com/photo-1576610616656-d3aa5d1f4534?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Yobuko">
+              </div>
+              <div class="ml-4 flex-grow">
+                <h3 class="font-bold text-gray-900">呼子・加唐島</h3>
+                <p class="text-xs text-gray-500 mt-0.5">潮通し抜群のイカ・青物</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3 px-1">長崎エリア</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <a href="search.html?area=nagasaki-goto" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-brand-300 transition-colors active:bg-gray-50">
+              <div class="w-16 h-16 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+                <img src="https://images.unsplash.com/photo-1599940824399-b87987ce0799?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Goto">
+              </div>
+              <div class="ml-4 flex-grow">
+                <h3 class="font-bold text-gray-900">五島列島</h3>
+                <p class="text-xs text-gray-500 mt-0.5">グレ釣り師の聖地</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+
+            <a href="search.html?area=nagasaki-danjo" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-brand-300 transition-colors active:bg-gray-50">
+              <div class="w-16 h-16 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+                <img src="https://images.unsplash.com/photo-1559827291-72ee739d0d9a?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Danjo">
+              </div>
+              <div class="ml-4 flex-grow">
+                <h3 class="font-bold text-gray-900">男女群島</h3>
+                <p class="text-xs text-gray-500 mt-0.5">夢の60オーバー尾長</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </section>
+
+        <section>
+          <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3 px-1">大分・宮崎エリア</h2>
+          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
+            <a href="search.html?area=oita-tsurumi" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-brand-300 transition-colors active:bg-gray-50">
+              <div class="w-16 h-16 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+                <img src="https://images.unsplash.com/photo-1547623641-d2c56c03e2a7?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Tsurumi">
+              </div>
+              <div class="ml-4 flex-grow">
+                <h3 class="font-bold text-gray-900">鶴見・米水津</h3>
+                <p class="text-xs text-gray-500 mt-0.5">トーナメントの聖地</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+            
+             <a href="search.html?area=miyazaki-kitaura" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-brand-300 transition-colors active:bg-gray-50">
+              <div class="w-16 h-16 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
+                <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Kitaura">
+              </div>
+              <div class="ml-4 flex-grow">
+                <h3 class="font-bold text-gray-900">北浦・島野浦</h3>
+                <p class="text-xs text-gray-500 mt-0.5">魚影の濃いリアス式海岸</p>
+              </div>
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+              </svg>
+            </a>
+          </div>
+        </section>
+
+      </div>
     </div>
   </main>
 
   <site-footer></site-footer>
+  <bottom-nav></bottom-nav>
 
 </body>
 </html>

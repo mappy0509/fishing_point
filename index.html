@@ -2,131 +2,152 @@
 <html lang="ja" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>磯リンク - 九州全域の磯釣りポイント・360度ビュー</title>
   <meta name="description" content="九州全域の磯釣りポイントを網羅。運営者が現地で撮影した360度画像で、釣り座の様子をリアルに確認。渡船情報も充実した究極の磯釣りサポートアプリ。">
   <link href="css/style.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
+  
   <script type="module" src="js/main.js"></script>
+  <script type="module" src="js/components/bottom-nav.js"></script>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-50 flex flex-col min-h-screen pb-0 md:pb-0">
 
   <site-header></site-header>
 
   <main class="flex-grow">
-    <section class="relative h-[600px] flex items-center justify-center overflow-hidden">
+    <section class="relative h-[85vh] md:h-[600px] flex items-center justify-center overflow-hidden">
       <div class="absolute inset-0 z-0">
         <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?q=80&w=2070&auto=format&fit=crop" alt="Fishing Background" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-gray-900/40 to-gray-900/80"></div>
       </div>
 
       <div class="relative z-10 container mx-auto px-4 text-center text-white animate-fade-in">
-        <h1 class="text-4xl md:text-6xl font-bold mb-6 tracking-tight leading-tight">
+        <span class="inline-block py-1 px-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs md:text-sm font-medium mb-4 text-brand-200">
+          九州最大級の磯釣りポイントアプリ
+        </span>
+        <h1 class="text-3xl md:text-6xl font-bold mb-4 md:mb-6 tracking-tight leading-tight">
           まだ見ぬ<span class="text-brand-400">名礁</span>へ、<br>
           迷わず辿り着く。
         </h1>
-        <p class="text-lg md:text-xl text-gray-200 mb-10 max-w-2xl mx-auto">
-          九州全土の磯釣りポイントを360度ビューで完全網羅。<br>
-          足場の確認から、頼れる渡船船長の紹介まで。<br>
-          「磯リンク」があなたの遠征を強力にバックアップします。
+        <p class="text-sm md:text-xl text-gray-200 mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed">
+          九州全土のポイントを360度ビューで完全網羅。<br class="hidden md:inline">
+          足場の確認から、頼れる渡船船長の紹介まで。
         </p>
         
-        <div class="flex justify-center gap-4">
-          <a href="area.html" class="btn btn-primary py-4 px-8 text-lg shadow-lg">
-            エリアから探す
+        <div class="flex flex-col md:flex-row justify-center gap-3 md:gap-4 px-4">
+          <a href="area.html" class="btn btn-primary py-3 md:py-4 px-8 text-base md:text-lg shadow-lg w-full md:w-auto flex items-center justify-center gap-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+            ポイントを探す
           </a>
-          <a href="signup.html" class="btn bg-white/10 text-white border border-white/30 py-4 px-8 text-lg shadow-lg hover:bg-white/20 backdrop-blur-sm">
-            会員登録する
+          <a href="signup.html" class="btn bg-white/10 text-white border border-white/30 py-3 md:py-4 px-8 text-base md:text-lg shadow-lg hover:bg-white/20 backdrop-blur-sm w-full md:w-auto">
+            無料で始める
           </a>
         </div>
       </div>
     </section>
 
-    <section class="py-20 bg-white">
+    <section class="py-12 md:py-20 bg-white rounded-t-3xl -mt-6 relative z-20 shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
       <div class="container mx-auto px-4">
-        <div class="text-center mb-16">
-          <h2 class="text-3xl font-bold text-gray-900 mb-4">九州全域エリア対応</h2>
-          <p class="text-gray-600">玄界灘から男女群島まで、九州の主要なフィールドを網羅しています</p>
+        <div class="flex items-center justify-between mb-6 md:mb-10">
+          <div>
+            <h2 class="text-xl md:text-3xl font-bold text-gray-900">人気エリアから探す</h2>
+            <p class="text-xs md:text-base text-gray-500 mt-1">九州の主要フィールドを網羅</p>
+          </div>
+          <a href="area.html" class="text-brand-600 text-sm font-bold flex items-center hover:underline">
+            すべて見る
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 ml-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+            </svg>
+          </a>
         </div>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-          <a href="area.html" class="group relative h-64 rounded-2xl overflow-hidden shadow-card hover:shadow-2xl transition-all duration-300">
+        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8">
+          <a href="area.html" class="group relative h-32 md:h-64 rounded-xl md:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
             <img src="https://images.unsplash.com/photo-1576610616656-d3aa5d1f4534?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Fukuoka">
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-            <div class="absolute bottom-0 left-0 p-6">
-              <h3 class="text-2xl font-bold text-white mb-1">福岡・佐賀エリア</h3>
-              <p class="text-gray-300 text-sm">玄界灘・呼子の激流</p>
+            <div class="absolute bottom-0 left-0 p-3 md:p-6">
+              <h3 class="text-sm md:text-2xl font-bold text-white mb-0.5">福岡・佐賀</h3>
+              <p class="text-[10px] md:text-sm text-gray-300 line-clamp-1">玄界灘・呼子の激流</p>
             </div>
           </a>
 
-          <a href="area.html" class="group relative h-64 rounded-2xl overflow-hidden shadow-card hover:shadow-2xl transition-all duration-300">
+          <a href="area.html" class="group relative h-32 md:h-64 rounded-xl md:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
             <img src="https://images.unsplash.com/photo-1599940824399-b87987ce0799?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Nagasaki">
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-            <div class="absolute bottom-0 left-0 p-6">
-              <h3 class="text-2xl font-bold text-white mb-1">長崎・五島エリア</h3>
-              <p class="text-gray-300 text-sm">聖地・男女群島への玄関口</p>
+            <div class="absolute bottom-0 left-0 p-3 md:p-6">
+              <h3 class="text-sm md:text-2xl font-bold text-white mb-0.5">長崎・五島</h3>
+              <p class="text-[10px] md:text-sm text-gray-300 line-clamp-1">聖地・男女群島へ</p>
             </div>
           </a>
 
-          <a href="area.html" class="group relative h-64 rounded-2xl overflow-hidden shadow-card hover:shadow-2xl transition-all duration-300">
+          <a href="area.html" class="group relative h-32 md:h-64 rounded-xl md:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
             <img src="https://images.unsplash.com/photo-1545562083-a600704fa46e?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Kagoshima">
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-            <div class="absolute bottom-0 left-0 p-6">
-              <h3 class="text-2xl font-bold text-white mb-1">宮崎・鹿児島エリア</h3>
-              <p class="text-gray-300 text-sm">黒潮の恩恵を受ける大物場</p>
+            <div class="absolute bottom-0 left-0 p-3 md:p-6">
+              <h3 class="text-sm md:text-2xl font-bold text-white mb-0.5">宮崎・鹿児島</h3>
+              <p class="text-[10px] md:text-sm text-gray-300 line-clamp-1">黒潮の大物場</p>
             </div>
           </a>
 
-          <a href="area.html" class="group relative h-64 rounded-2xl overflow-hidden shadow-card hover:shadow-2xl transition-all duration-300">
+          <a href="area.html" class="group relative h-32 md:h-64 rounded-xl md:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
             <img src="https://images.unsplash.com/photo-1547623641-d2c56c03e2a7?q=80&w=1000&auto=format&fit=crop" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Oita">
             <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-            <div class="absolute bottom-0 left-0 p-6">
-              <h3 class="text-2xl font-bold text-white mb-1">大分・熊本エリア</h3>
-              <p class="text-gray-300 text-sm">豊後水道・天草のチヌ・グレ</p>
+            <div class="absolute bottom-0 left-0 p-3 md:p-6">
+              <h3 class="text-sm md:text-2xl font-bold text-white mb-0.5">大分・熊本</h3>
+              <p class="text-[10px] md:text-sm text-gray-300 line-clamp-1">豊後水道のチヌ・グレ</p>
             </div>
-          </a>
-        </div>
-
-        <div class="mt-12 text-center">
-          <a href="area.html" class="btn btn-secondary px-8 py-3">
-            すべてのエリアを見る
           </a>
         </div>
       </div>
     </section>
 
-    <section class="py-20 bg-gray-50">
+    <section class="py-12 md:py-20 bg-gray-50">
       <div class="container mx-auto px-4">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12">
-          <div class="text-center p-6">
-            <div class="w-16 h-16 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <div class="text-center mb-10">
+          <h2 class="text-xl md:text-3xl font-bold text-gray-900">磯リンクで出来ること</h2>
+        </div>
+        
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex md:block items-center gap-4 text-left md:text-center">
+            <div class="w-12 h-12 md:w-16 md:h-16 bg-brand-100 text-brand-600 rounded-xl flex items-center justify-center flex-shrink-0 md:mx-auto md:mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
               </svg>
             </div>
-            <h3 class="text-xl font-bold mb-3">現地撮影360度ビュー</h3>
-            <p class="text-gray-600">Googleマップでは見れない磯の形状を、運営者が足で稼いだ360度映像で事前確認。足場の良し悪しも一目瞭然。</p>
+            <div>
+              <h3 class="text-base md:text-xl font-bold mb-1 md:mb-3">現地撮影360度ビュー</h3>
+              <p class="text-sm text-gray-600 leading-relaxed">釣り座の形状や足場を360度映像で確認。事前シミュレーションに。</p>
+            </div>
           </div>
-          <div class="text-center p-6">
-            <div class="w-16 h-16 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex md:block items-center gap-4 text-left md:text-center">
+            <div class="w-12 h-12 md:w-16 md:h-16 bg-brand-100 text-brand-600 rounded-xl flex items-center justify-center flex-shrink-0 md:mx-auto md:mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
               </svg>
             </div>
-            <h3 class="text-xl font-bold mb-3">正確なピンポイント位置情報</h3>
-            <p class="text-gray-600">地図上のタップでGoogleマップアプリと連携。駐車スペースや入釣ルートのナビゲーションもスムーズに。</p>
+            <div>
+              <h3 class="text-base md:text-xl font-bold mb-1 md:mb-3">正確な位置情報</h3>
+              <p class="text-sm text-gray-600 leading-relaxed">Googleマップ連携で駐車スペースやルート案内もスムーズに。</p>
+            </div>
           </div>
-          <div class="text-center p-6">
-            <div class="w-16 h-16 bg-brand-100 text-brand-600 rounded-2xl flex items-center justify-center mx-auto mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+
+          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex md:block items-center gap-4 text-left md:text-center">
+            <div class="w-12 h-12 md:w-16 md:h-16 bg-brand-100 text-brand-600 rounded-xl flex items-center justify-center flex-shrink-0 md:mx-auto md:mb-6">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
               </svg>
             </div>
-            <h3 class="text-xl font-bold mb-3">安心の船長紹介</h3>
-            <p class="text-gray-600">渡船利用が初めてでも安心。「このポイントはこの船長」と顔写真とコメント付きで紹介。人柄を知ってから予約できます。</p>
+            <div>
+              <h3 class="text-base md:text-xl font-bold mb-1 md:mb-3">安心の船長紹介</h3>
+              <p class="text-sm text-gray-600 leading-relaxed">顔写真とコメント付きで船長を紹介。初心者でも安心して予約可能。</p>
+            </div>
           </div>
         </div>
       </div>
@@ -135,6 +156,7 @@
   </main>
 
   <site-footer></site-footer>
+  <bottom-nav></bottom-nav>
 
 </body>
 </html>

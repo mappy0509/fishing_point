@@ -2,7 +2,7 @@
 <html lang="ja" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>マイページ - 磯リンク</title>
   <link href="css/style.css" rel="stylesheet">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -10,136 +10,99 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
   <script type="module" src="js/main.js"></script>
   <script type="module" src="js/mypage.js"></script>
+  <script type="module" src="js/components/bottom-nav.js"></script>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-50 flex flex-col min-h-screen pb-0">
 
   <site-header></site-header>
 
-  <main class="flex-grow container mx-auto px-4 py-10">
-    
-    <div class="mb-8 border-b border-gray-200 pb-4">
-      <h1 class="text-3xl font-bold text-gray-900">マイページ</h1>
-    </div>
-
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-      
-      <div class="lg:col-span-1">
-        <div class="bg-white rounded-xl shadow-card p-6 sticky top-24">
-          <div class="text-center mb-6">
-            <div class="relative w-32 h-32 mx-auto mb-4 group">
-              <img id="profile-icon" src="https://placehold.co/150?text=No+Image" alt="Profile Icon" 
-                   class="w-full h-full border-4 border-brand-100 shadow-sm"
-                   style="object-fit: cover; aspect-ratio: 1/1; border-radius: 50%; width: 100%; height: 100%;">
-              
-              <button id="edit-icon-btn" class="absolute bottom-0 right-0 bg-white p-2 rounded-full shadow-md text-gray-600 hover:text-brand-600 transition-colors border border-gray-200" title="アイコンを変更">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
-                </svg>
-              </button>
-            </div>
-            <h2 id="profile-name" class="text-xl font-bold text-gray-900 mb-1">読み込み中...</h2>
-            <p id="profile-email" class="text-sm text-gray-500 mb-4">loading...</p>
-            
-            <div id="admin-btn-area"></div>
-            
-            <button id="edit-profile-btn" class="w-full btn bg-white border border-gray-300 text-gray-700 hover:bg-gray-50 py-2 rounded-lg text-sm font-medium transition-colors">
-              プロフィール編集
-            </button>
+  <main class="flex-grow pb-24 md:pb-12">
+    <div class="bg-white pb-8 pt-6 rounded-b-3xl shadow-sm mb-6">
+      <div class="container mx-auto px-4 text-center">
+        <div class="relative inline-block mb-4">
+          <div class="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-brand-50 shadow-md overflow-hidden mx-auto aspect-square bg-gray-200">
+             <img id="mypage-user-icon" src="https://via.placeholder.com/150" alt="Profile" class="w-full h-full object-cover">
           </div>
-
-          <div class="border-t border-gray-100 pt-4">
-            <h3 class="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">アカウント設定</h3>
-            <ul class="space-y-2">
-              <li>
-                <button id="reset-password-btn" class="flex items-center text-gray-600 hover:text-brand-600 text-sm py-1 w-full text-left">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 1121 9z" />
-                  </svg>
-                  パスワード変更
-                </button>
-              </li>
-              <li>
-                <button id="logout-btn" class="flex items-center text-red-500 hover:text-red-700 text-sm py-1 w-full text-left">
-                  <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
-                  </svg>
-                  ログアウト
-                </button>
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="lg:col-span-2">
-        <div class="flex border-b border-gray-200 mb-6 overflow-x-auto">
-          <button class="px-6 py-3 border-b-2 border-brand-500 text-brand-600 font-medium whitespace-nowrap">
-            お気に入りポイント
+          <button id="edit-icon-btn" class="absolute bottom-0 right-0 bg-brand-600 text-white p-2 rounded-full shadow-lg hover:bg-brand-700 transition">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
           </button>
         </div>
-        <div id="favorites-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div class="col-span-full text-center py-12 bg-white rounded-xl shadow-sm border border-dashed border-gray-300">
-            <p class="text-gray-500 mb-2">まだお気に入りのポイントがありません。</p>
-            <a href="area.html" class="text-brand-600 hover:text-brand-700 font-medium underline">エリアから探す</a>
+        
+        <h1 id="mypage-user-name" class="text-xl md:text-2xl font-bold text-gray-900 mb-1">読み込み中...</h1>
+        <p id="mypage-user-email" class="text-sm text-gray-500">...</p>
+
+        <div class="flex justify-center gap-8 mt-6">
+          <div class="text-center">
+            <span class="block text-xl font-bold text-brand-600">0</span>
+            <span class="text-xs text-gray-400">投稿</span>
+          </div>
+          <div class="text-center">
+            <span class="block text-xl font-bold text-brand-600" id="fav-count">0</span>
+            <span class="text-xs text-gray-400">お気に入り</span>
           </div>
         </div>
       </div>
+    </div>
+
+    <div class="container mx-auto px-4 max-w-2xl">
+      
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden mb-6">
+        <a href="#" id="change-password-btn" class="flex items-center justify-between p-4 hover:bg-gray-50 transition border-b border-gray-100 last:border-none">
+          <div class="flex items-center gap-3">
+            <div class="bg-blue-50 p-2 rounded-lg text-brand-600">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+              </svg>
+            </div>
+            <span class="text-sm font-medium text-gray-700">パスワード変更</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+
+        <a href="payment.html" class="flex items-center justify-between p-4 hover:bg-gray-50 transition border-b border-gray-100 last:border-none">
+          <div class="flex items-center gap-3">
+            <div class="bg-purple-50 p-2 rounded-lg text-purple-600">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
+              </svg>
+            </div>
+            <span class="text-sm font-medium text-gray-700">プレミアムプラン管理</span>
+          </div>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
+
+      <h2 class="font-bold text-gray-900 mb-4 px-2 flex items-center gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-red-500" viewBox="0 0 20 20" fill="currentColor">
+          <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+        </svg>
+        お気に入りポイント
+      </h2>
+      
+      <div id="favorites-list" class="space-y-3 min-h-[200px]">
+        <div class="animate-pulse flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100">
+          <div class="w-16 h-16 rounded-lg bg-gray-200 flex-shrink-0"></div>
+          <div class="ml-4 flex-grow space-y-2">
+            <div class="h-4 bg-gray-200 rounded w-3/4"></div>
+            <div class="h-3 bg-gray-200 rounded w-1/2"></div>
+          </div>
+        </div>
+      </div>
+
     </div>
   </main>
 
-  <div id="edit-modal" class="fixed inset-0 z-50 hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
-    <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity backdrop-blur-sm" id="modal-overlay"></div>
-    <div class="fixed inset-0 z-10 w-screen overflow-y-auto">
-      <div class="flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0">
-        <div class="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-lg">
-          <div class="bg-white px-4 pb-4 pt-5 sm:p-6 sm:pb-4">
-            <div class="sm:flex sm:items-start">
-              <div class="w-full">
-                <h3 class="text-xl font-semibold leading-6 text-gray-900 mb-6" id="modal-title">プロフィール編集</h3>
-                <form id="edit-profile-form" class="space-y-4">
-                  <div class="flex flex-col items-center mb-6">
-                    <div class="relative w-24 h-24 mb-3">
-                      <img id="modal-preview-icon" src="https://placehold.co/150?text=No+Image" 
-                           class="w-full h-full border-2 border-gray-200"
-                           style="object-fit: cover; aspect-ratio: 1/1; border-radius: 50%; width: 100%; height: 100%;">
-                           
-                      <label for="icon-upload" class="absolute bottom-0 right-0 bg-brand-500 text-white p-1.5 rounded-full cursor-pointer hover:bg-brand-600 shadow-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
-                        </svg>
-                      </label>
-                      <input type="file" id="icon-upload" accept="image/*" class="hidden">
-                    </div>
-                    <p class="text-xs text-gray-500">クリックして画像を変更</p>
-                  </div>
-                  <div class="grid grid-cols-2 gap-4">
-                    <div>
-                      <label for="edit-last-name" class="block text-sm font-medium text-gray-700">姓</label>
-                      <input type="text" id="edit-last-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border">
-                    </div>
-                    <div>
-                      <label for="edit-first-name" class="block text-sm font-medium text-gray-700">名</label>
-                      <input type="text" id="edit-first-name" required class="mt-1 block w-full rounded-md border-gray-300 shadow-sm px-3 py-2 border">
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
-          <div class="bg-gray-50 px-4 py-3 sm:flex sm:flex-row-reverse sm:px-6">
-            <button type="button" id="save-profile-btn" class="inline-flex w-full justify-center rounded-md bg-brand-600 px-3 py-2 text-sm font-semibold text-white shadow-sm hover:bg-brand-500 sm:ml-3 sm:w-auto">
-              保存する
-            </button>
-            <button type="button" id="cancel-edit-btn" class="mt-3 inline-flex w-full justify-center rounded-md bg-white px-3 py-2 text-sm font-semibold text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 hover:bg-gray-50 sm:mt-0 sm:w-auto">
-              キャンセル
-            </button>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
   <site-footer></site-footer>
+  <bottom-nav></bottom-nav>
+
+  <input type="file" id="icon-upload-input" class="hidden" accept="image/*">
+
 </body>
 </html>

@@ -2,151 +2,150 @@
 <html lang="ja" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ポイント詳細 - 磯リンク</title>
   <link href="css/style.css" rel="stylesheet">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+JP:wght@400;500;700&display=swap" rel="stylesheet">
   <script type="module" src="js/main.js"></script>
   <script type="module" src="js/point-detail.js"></script>
+  <script type="module" src="js/components/bottom-nav.js"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css"/>
+  <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js"></script>
 </head>
-<body class="bg-gray-50 flex flex-col min-h-screen">
+<body class="bg-gray-50 flex flex-col min-h-screen pb-0">
 
-  <site-header></site-header>
+  <header class="fixed top-0 left-0 w-full z-50 transition-all duration-300" id="detail-header">
+    <div class="absolute inset-0 bg-gradient-to-b from-black/60 to-transparent pointer-events-none h-24"></div>
+    <div class="container mx-auto px-4 h-16 flex items-center justify-between relative">
+      <button onclick="history.back()" class="p-2 rounded-full bg-black/20 text-white backdrop-blur-md hover:bg-black/40 transition">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+      <div class="flex gap-2">
+         <button id="favorite-btn" class="p-2 rounded-full bg-black/20 text-white backdrop-blur-md hover:bg-black/40 transition">
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="fav-icon-outline">
+             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+           </svg>
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-red-500 hidden" viewBox="0 0 20 20" fill="currentColor" id="fav-icon-filled">
+             <path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" />
+           </svg>
+         </button>
+         <button class="p-2 rounded-full bg-black/20 text-white backdrop-blur-md hover:bg-black/40 transition">
+           <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z" />
+           </svg>
+         </button>
+      </div>
+    </div>
+  </header>
 
-  <main class="flex-grow pb-20">
-    <div id="hero-section-bg" class="relative h-[400px] md:h-[500px] bg-gray-900 overflow-hidden group">
-      <img src="https://via.placeholder.com/1920x1080?text=VR+Loading..." alt="VR View" class="w-full h-full object-cover opacity-60 transition-transform duration-1000 group-hover:scale-105">
-      <div class="absolute inset-0 flex items-center justify-center">
-        <div class="text-center text-white px-4 animate-fade-in">
-          <span id="point-area-label" class="inline-block px-3 py-1 bg-brand-600 rounded-full text-sm font-bold mb-4 shadow-lg">エリア読み込み中</span>
-          <h1 id="point-title" class="text-4xl md:text-6xl font-bold tracking-tight shadow-text flex items-center justify-center gap-4">
-            読み込み中...
-            </h1>
-          <p class="mt-4 text-lg text-gray-200">360度ビューで足場を確認しよう</p>
+  <main class="flex-grow pb-24 md:pb-12">
+    
+    <div class="relative h-[40vh] md:h-[500px] bg-gray-900 group">
+      <div id="panorama" class="w-full h-full"></div>
+      <div id="panorama-placeholder" class="absolute inset-0 flex items-center justify-center bg-gray-800 text-gray-500">
+        <div class="text-center">
+          <svg class="animate-spin h-8 w-8 text-brand-500 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+          </svg>
+          読み込み中...
         </div>
       </div>
       
-      <button class="absolute bottom-8 right-8 bg-white text-gray-900 px-6 py-3 rounded-full font-bold shadow-xl hover:bg-gray-100 transition-colors flex items-center gap-2">
-        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-        </svg>
-        360度ビューを開く
-      </button>
+      <div class="absolute bottom-4 right-4 pointer-events-none">
+        <span class="bg-black/60 text-white text-xs px-2 py-1 rounded backdrop-blur-sm flex items-center gap-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+          </svg>
+          360° View
+        </span>
+      </div>
     </div>
 
-    <div class="container mx-auto px-4 -mt-20 relative z-10">
-      <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div class="lg:col-span-2 space-y-8">
-          
-          <div class="bg-white rounded-2xl shadow-card p-8">
-            <h2 class="text-2xl font-bold text-gray-900 mb-6 flex items-center">
-              <span class="w-2 h-8 bg-brand-500 rounded-full mr-3"></span>
-              ポイント詳細
-            </h2>
-            <div class="prose max-w-none text-gray-600 leading-relaxed">
-              <p>ここにポイントの詳細な説明が入ります。潮通しや水深、狙える魚種などの情報が表示されます。</p>
-            </div>
-            
-            <div class="mt-8 pt-8 border-t border-gray-100 grid grid-cols-2 gap-4">
-              <a id="google-map-link" href="#" target="_blank" class="flex items-center justify-center gap-2 bg-blue-50 text-blue-600 py-4 rounded-xl font-bold hover:bg-blue-100 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
-                </svg>
-                Googleマップで開く
-              </a>
-              <button onclick="alert('現在準備中です')" class="flex items-center justify-center gap-2 bg-gray-50 text-gray-600 py-4 rounded-xl font-bold hover:bg-gray-100 transition-colors">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd" d="M3 17a1 1 0 011-1h12a1 1 0 110 2H4a1 1 0 01-1-1zm3.293-7.707a1 1 0 011.414 0L9 10.586V3a1 1 0 112 0v7.586l1.293-1.293a1 1 0 111.414 1.414l-3 3a1 1 0 01-1.414 0l-3-3a1 1 0 010-1.414z" clip-rule="evenodd" />
-                </svg>
-                オフライン保存
-              </button>
-            </div>
+    <div class="relative -mt-6 bg-gray-50 rounded-t-3xl z-10 px-4 pt-8 pb-8 min-h-[50vh] shadow-[0_-4px_20px_rgba(0,0,0,0.1)]">
+      
+      <div class="mb-6">
+        <div class="flex items-start justify-between">
+          <div>
+            <span id="point-area-badge" class="inline-block bg-brand-100 text-brand-700 text-xs font-bold px-2 py-1 rounded mb-2">エリア読み込み中</span>
+            <h1 id="point-name" class="text-2xl md:text-3xl font-bold text-gray-900 leading-tight">...</h1>
           </div>
-
-          <div class="bg-white rounded-2xl shadow-card p-8">
-            <div class="flex items-center justify-between mb-8">
-              <h2 class="text-2xl font-bold text-gray-900 flex items-center">
-                <span class="w-2 h-8 bg-brand-500 rounded-full mr-3"></span>
-                みんなの釣果・口コミ
-              </h2>
-              <span id="review-count-badge" class="bg-gray-100 text-gray-600 px-3 py-1 rounded-full text-sm font-medium">0件</span>
-            </div>
-
-            <div id="review-form-container" class="mb-10 bg-gray-50 p-6 rounded-xl hidden">
-              <h3 class="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-500" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z" />
-                </svg>
-                釣果を投稿する
-              </h3>
-              <form id="review-form" class="space-y-4">
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">評価</label>
-                  <div class="flex gap-2">
-                    <select id="review-rating" class="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 py-2 px-3 border">
-                      <option value="5">★★★★★ (最高)</option>
-                      <option value="4">★★★★☆ (良い)</option>
-                      <option value="3" selected>★★★☆☆ (普通)</option>
-                      <option value="2">★★☆☆☆ (微妙)</option>
-                      <option value="1">★☆☆☆☆ (悪い)</option>
-                    </select>
-                  </div>
-                </div>
-                <div>
-                  <label class="block text-sm font-medium text-gray-700 mb-1">コメント・釣果情報</label>
-                  <textarea id="review-comment" rows="3" required class="block w-full rounded-md border-gray-300 shadow-sm focus:border-brand-500 focus:ring-brand-500 p-3 border" placeholder="例：北西の風が強く釣りづらかったですが、40cmのクロが釣れました。"></textarea>
-                </div>
-                <button type="submit" class="btn btn-primary w-full py-2 shadow-md">投稿する</button>
-              </form>
-            </div>
-
-            <div id="review-login-message" class="mb-10 p-6 bg-blue-50 rounded-xl text-center hidden">
-              <p class="text-blue-800 font-medium mb-2">釣果を投稿するにはログインが必要です</p>
-              <a href="login.html" class="inline-block mt-2 text-sm bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors">
-                ログイン・登録はこちら
-              </a>
-            </div>
-
-            <div id="reviews-list" class="space-y-6">
-              <div class="text-center py-8 text-gray-400">
-                <p>まだ投稿はありません。<br>最初の投稿者になりましょう！</p>
-              </div>
+          <div class="text-center bg-white p-2 rounded-lg shadow-sm border border-gray-100 ml-2">
+            <div class="text-xs text-gray-500 font-bold">評価</div>
+            <div class="text-lg font-bold text-brand-600 flex items-center justify-center gap-0.5">
+              <span>★</span><span id="point-rating">--</span>
             </div>
           </div>
         </div>
-
-        <div class="lg:col-span-1 space-y-8">
-          <div class="bg-white rounded-2xl shadow-card p-6 sticky top-24">
-            <h3 class="text-lg font-bold text-gray-900 mb-4 border-b pb-2">渡し船・船長紹介</h3>
-            
-            <div class="text-center mb-6">
-              <div class="w-32 h-32 mx-auto mb-4 relative">
-                <img id="captain-image" src="https://via.placeholder.com/150?text=Captain" alt="Captain" class="w-full h-full object-cover rounded-full border-4 border-brand-100 shadow-md">
-                <div class="absolute bottom-0 right-0 bg-green-500 w-6 h-6 rounded-full border-2 border-white" title="出船確認OK"></div>
-              </div>
-              <h4 id="captain-name" class="text-xl font-bold text-gray-900">船長読み込み中</h4>
-              <p class="text-sm text-brand-600 font-bold mb-2">◯◯渡船 代表</p>
-            </div>
-
-            <div class="bg-gray-50 rounded-xl p-4 mb-6 relative">
-              <svg class="absolute top-2 left-2 w-6 h-6 text-gray-300" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21L14.017 18C14.017 16.8954 13.1216 16 12.017 16H9.01699V12.9999H12.017V9.99988H9.01699V7.99988H13.017V4.99988H6.01699V20.9999H14.017ZM8.01699 18H5.01699V15H8.01699V18Z" /></svg>
-              <p id="captain-comment" class="text-gray-600 text-sm italic leading-relaxed pt-2 pl-2">
-                「コメント読み込み中...」
-              </p>
-            </div>
-
-            <button class="w-full btn btn-secondary py-3 text-lg shadow-sm hover:shadow-md transition-all">
-              📞 船長に電話予約
-            </button>
-          </div>
-        </div>
+        <p id="point-description" class="text-gray-600 text-sm mt-4 leading-relaxed line-clamp-3">
+          ポイントの説明文をここに表示します...
+        </p>
       </div>
+
+      <div class="grid grid-cols-2 gap-3 mb-8">
+        <a id="btn-map" href="#" target="_blank" class="flex items-center justify-center gap-2 bg-white border border-gray-200 text-gray-700 py-3 rounded-xl font-bold text-sm shadow-sm hover:bg-gray-50 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-brand-500" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd" d="M5.05 4.05a7 7 0 119.9 9.9L10 18.9l-4.95-4.95a7 7 0 010-9.9zM10 11a2 2 0 100-4 2 2 0 000 4z" clip-rule="evenodd" />
+          </svg>
+          Googleマップ
+        </a>
+        <a id="btn-call" href="#" class="flex items-center justify-center gap-2 bg-white border border-gray-200 text-gray-700 py-3 rounded-xl font-bold text-sm shadow-sm hover:bg-gray-50 transition">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-green-500" viewBox="0 0 20 20" fill="currentColor">
+            <path d="M2 3a1 1 0 011-1h2.153a1 1 0 01.986.836l.74 4.435a1 1 0 01-.54 1.06l-1.548.773a11.037 11.037 0 006.105 6.105l.774-1.548a1 1 0 011.059-.54l4.435.74a1 1 0 01.836.986V17a1 1 0 01-1 1h-2C7.82 18 2 12.18 2 5V3z" />
+          </svg>
+          船長へ電話
+        </a>
+      </div>
+
+      <section class="mb-8">
+        <h3 class="font-bold text-gray-900 mb-4 flex items-center">
+          <span class="w-1 h-5 bg-brand-500 rounded mr-2"></span>
+          案内する船長
+        </h3>
+        <div class="bg-white rounded-xl p-4 shadow-card flex items-center gap-4">
+          <img id="captain-img" src="https://via.placeholder.com/60" class="w-14 h-14 rounded-full object-cover border border-gray-100" alt="Captain">
+          <div>
+            <p id="captain-name" class="font-bold text-gray-900">読み込み中...</p>
+            <p id="captain-comment" class="text-xs text-gray-500 line-clamp-1">...</p>
+          </div>
+          <a href="captain.html" class="ml-auto text-xs font-bold text-brand-600 border border-brand-200 px-3 py-1.5 rounded-full hover:bg-brand-50">詳細</a>
+        </div>
+      </section>
+
+      <section class="mb-8">
+        <h3 class="font-bold text-gray-900 mb-4 flex items-center">
+          <span class="w-1 h-5 bg-brand-500 rounded mr-2"></span>
+          フォトギャラリー
+        </h3>
+        <div id="photo-gallery" class="flex overflow-x-auto gap-3 pb-2 -mx-4 px-4 scrollbar-hide">
+          <div class="w-32 h-32 bg-gray-200 rounded-lg flex-shrink-0 animate-pulse"></div>
+          <div class="w-32 h-32 bg-gray-200 rounded-lg flex-shrink-0 animate-pulse"></div>
+          <div class="w-32 h-32 bg-gray-200 rounded-lg flex-shrink-0 animate-pulse"></div>
+        </div>
+      </section>
+
+      <section>
+        <div class="flex items-center justify-between mb-4">
+          <h3 class="font-bold text-gray-900 flex items-center">
+            <span class="w-1 h-5 bg-brand-500 rounded mr-2"></span>
+            みんなの釣果
+          </h3>
+          <button id="post-review-btn" class="text-xs font-bold text-brand-600 hover:text-brand-800">
+            投稿する
+          </button>
+        </div>
+        <div id="reviews-list" class="space-y-4">
+          <p class="text-sm text-gray-400 text-center py-4">まだ投稿はありません。</p>
+        </div>
+      </section>
+
     </div>
   </main>
 
   <site-footer></site-footer>
+  <bottom-nav></bottom-nav>
 
 </body>
 </html>
