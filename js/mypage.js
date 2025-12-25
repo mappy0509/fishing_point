@@ -1,3 +1,4 @@
+// js/mypage.js
 import { auth, db, storage } from './firebase-config.js';
 import { onAuthStateChanged, signOut, updateProfile, sendPasswordResetEmail } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
@@ -28,7 +29,8 @@ const modalPreviewIcon = document.getElementById('modal-preview-icon');
 
 let currentUserData = null;
 let selectedImageFile = null;
-const DEFAULT_ICON_URL = "https://placehold.co/150?text=No+Image";
+// デフォルト画像をローカルに変更
+const DEFAULT_ICON_URL = "/img/default-user.jpg";
 
 document.addEventListener('DOMContentLoaded', () => {
   initMypage();
@@ -80,7 +82,7 @@ async function fetchAndDisplayUserData(user) {
     }
   } catch (error) {
     console.error("Error fetching user data:", error);
-    profileNameEl.textContent = "読み込みエラー";
+    if(profileNameEl) profileNameEl.textContent = "読み込みエラー";
   }
 }
 

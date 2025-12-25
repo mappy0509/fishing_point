@@ -16,143 +16,178 @@
 
   <site-header></site-header>
 
-  <main class="flex-grow pb-24 md:pb-12">
-    <div class="bg-white border-b border-gray-100 sticky top-14 md:top-16 z-30 shadow-sm">
-      <div class="container mx-auto px-4 py-3 md:py-6">
-        <h1 class="text-xl md:text-2xl font-bold text-gray-900 flex items-center gap-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-brand-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-          </svg>
-          エリアから探す
-        </h1>
+  <main class="flex-grow pb-20 md:pb-12">
+    <div class="bg-brand-600 py-8 md:py-12">
+      <div class="container mx-auto px-4 text-center">
+        <h1 class="text-2xl md:text-3xl font-bold text-white mb-2">エリアから探す</h1>
+        <p class="text-brand-100 text-sm md:text-base">九州全域の主要な磯釣りポイントを網羅</p>
       </div>
     </div>
 
-    <div class="container mx-auto px-4 py-6">
-      
-      <a href="overview-map.html" class="block mb-8 bg-gradient-to-r from-gray-900 to-gray-800 rounded-2xl p-6 text-white shadow-lg relative overflow-hidden group">
-        <div class="absolute inset-0 opacity-30 bg-[url('https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?q=80&w=1000&auto=format&fit=crop')] bg-cover bg-center group-hover:scale-105 transition-transform duration-700"></div>
-        <div class="relative z-10 flex items-center justify-between">
-          <div>
-            <h3 class="font-bold text-lg mb-1">地図から探す</h3>
-            <p class="text-sm text-gray-300">位置関係を把握しながらポイント検索</p>
-          </div>
-          <div class="bg-white/20 p-2 rounded-full backdrop-blur-sm">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-            </svg>
-          </div>
-        </div>
-      </a>
+    <div class="container mx-auto px-4 -mt-6">
+      <!-- エリア検索フィルター -->
+      <div class="bg-white rounded-xl shadow-sm p-4 mb-6 overflow-x-auto whitespace-nowrap scrollbar-hide flex gap-2">
+        <button data-filter="all" class="area-filter-btn active px-4 py-2 rounded-lg bg-gray-100 text-gray-600 font-bold text-sm hover:bg-brand-50 hover:text-brand-600 transition-colors">
+          すべて
+        </button>
+        <button data-filter="fukuoka" class="area-filter-btn px-4 py-2 rounded-lg bg-gray-100 text-gray-600 font-bold text-sm hover:bg-brand-50 hover:text-brand-600 transition-colors">
+          福岡
+        </button>
+        <button data-filter="saga" class="area-filter-btn px-4 py-2 rounded-lg bg-gray-100 text-gray-600 font-bold text-sm hover:bg-brand-50 hover:text-brand-600 transition-colors">
+          佐賀
+        </button>
+        <button data-filter="nagasaki" class="area-filter-btn px-4 py-2 rounded-lg bg-gray-100 text-gray-600 font-bold text-sm hover:bg-brand-50 hover:text-brand-600 transition-colors">
+          長崎
+        </button>
+        <button data-filter="oita" class="area-filter-btn px-4 py-2 rounded-lg bg-gray-100 text-gray-600 font-bold text-sm hover:bg-brand-50 hover:text-brand-600 transition-colors">
+          大分
+        </button>
+        <button data-filter="kumamoto" class="area-filter-btn px-4 py-2 rounded-lg bg-gray-100 text-gray-600 font-bold text-sm hover:bg-brand-50 hover:text-brand-600 transition-colors">
+          熊本
+        </button>
+        <button data-filter="miyazaki" class="area-filter-btn px-4 py-2 rounded-lg bg-gray-100 text-gray-600 font-bold text-sm hover:bg-brand-50 hover:text-brand-600 transition-colors">
+          宮崎
+        </button>
+        <button data-filter="kagoshima" class="area-filter-btn px-4 py-2 rounded-lg bg-gray-100 text-gray-600 font-bold text-sm hover:bg-brand-50 hover:text-brand-600 transition-colors">
+          鹿児島
+        </button>
+      </div>
 
-      <div class="space-y-8">
+      <!-- エリアリスト -->
+      <div id="area-list" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         
-        <section>
-          <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3 px-1">福岡・佐賀エリア</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            <a href="search.html?area=fukuoka-munakata" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-brand-300 transition-colors active:bg-gray-50">
-              <div class="w-16 h-16 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
-                <img src="https://images.unsplash.com/photo-1597895257208-857418f5730b?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Munakata">
+        <!-- 福岡 -->
+        <a href="overview-map.html?area=fukuoka" class="area-card block group" data-area="fukuoka">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300">
+            <div class="relative h-48 overflow-hidden">
+              <!-- 画像パスをローカルの /img/ ディレクトリに変更 -->
+              <img src="/img/area-fukuoka.jpg" onerror="this.src='https://images.unsplash.com/photo-1597895257208-857418f5730b?q=80&w=600&auto=format&fit=crop'" alt="Fukuoka" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              <div class="absolute bottom-4 left-4 text-white">
+                <h3 class="text-xl font-bold">福岡エリア</h3>
+                <p class="text-sm opacity-90">玄界灘・響灘</p>
               </div>
-              <div class="ml-4 flex-grow">
-                <h3 class="font-bold text-gray-900">宗像・沖ノ島</h3>
-                <p class="text-xs text-gray-500 mt-0.5">世界遺産の海で大型ヒラマサ</p>
-              </div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-
-            <a href="search.html?area=fukuoka-itoshima" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-brand-300 transition-colors active:bg-gray-50">
-              <div class="w-16 h-16 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
-                <img src="https://images.unsplash.com/photo-1605218457335-5a50e93a6121?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Itoshima">
-              </div>
-              <div class="ml-4 flex-grow">
-                <h3 class="font-bold text-gray-900">糸島</h3>
-                <p class="text-xs text-gray-500 mt-0.5">アクセスの良い地磯・波止</p>
-              </div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-
-            <a href="search.html?area=saga-yobuko" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-brand-300 transition-colors active:bg-gray-50">
-              <div class="w-16 h-16 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
-                <img src="https://images.unsplash.com/photo-1576610616656-d3aa5d1f4534?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Yobuko">
-              </div>
-              <div class="ml-4 flex-grow">
-                <h3 class="font-bold text-gray-900">呼子・加唐島</h3>
-                <p class="text-xs text-gray-500 mt-0.5">潮通し抜群のイカ・青物</p>
-              </div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
+            </div>
+            <div class="p-4 flex justify-between items-center">
+              <span class="text-sm text-gray-600">登録ポイント数</span>
+              <span class="font-bold text-brand-600 text-lg">12<span class="text-xs text-gray-500 ml-1">箇所</span></span>
+            </div>
           </div>
-        </section>
+        </a>
 
-        <section>
-          <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3 px-1">長崎エリア</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            <a href="search.html?area=nagasaki-goto" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-brand-300 transition-colors active:bg-gray-50">
-              <div class="w-16 h-16 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
-                <img src="https://images.unsplash.com/photo-1599940824399-b87987ce0799?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Goto">
+        <!-- 佐賀 -->
+        <a href="overview-map.html?area=saga" class="area-card block group" data-area="saga">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300">
+            <div class="relative h-48 overflow-hidden">
+               <!-- 画像パスをローカルの /img/ ディレクトリに変更 -->
+              <img src="/img/area-saga.jpg" onerror="this.src='https://images.unsplash.com/photo-1614761048639-68f763489814?q=80&w=600&auto=format&fit=crop'" alt="Saga" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              <div class="absolute bottom-4 left-4 text-white">
+                <h3 class="text-xl font-bold">佐賀エリア</h3>
+                <p class="text-sm opacity-90">呼子・唐津</p>
               </div>
-              <div class="ml-4 flex-grow">
-                <h3 class="font-bold text-gray-900">五島列島</h3>
-                <p class="text-xs text-gray-500 mt-0.5">グレ釣り師の聖地</p>
-              </div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-
-            <a href="search.html?area=nagasaki-danjo" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-brand-300 transition-colors active:bg-gray-50">
-              <div class="w-16 h-16 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
-                <img src="https://images.unsplash.com/photo-1504432169224-ee9e085bb528?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Danjo">
-              </div>
-              <div class="ml-4 flex-grow">
-                <h3 class="font-bold text-gray-900">男女群島</h3>
-                <p class="text-xs text-gray-500 mt-0.5">夢の60オーバー尾長</p>
-              </div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
+            </div>
+            <div class="p-4 flex justify-between items-center">
+              <span class="text-sm text-gray-600">登録ポイント数</span>
+              <span class="font-bold text-brand-600 text-lg">8<span class="text-xs text-gray-500 ml-1">箇所</span></span>
+            </div>
           </div>
-        </section>
+        </a>
 
-        <section>
-          <h2 class="text-sm font-bold text-gray-500 uppercase tracking-wider mb-3 px-1">大分・宮崎エリア</h2>
-          <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3">
-            <a href="search.html?area=oita-tsurumi" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-brand-300 transition-colors active:bg-gray-50">
-              <div class="w-16 h-16 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
-                <img src="https://images.unsplash.com/photo-1622307684294-8d6403002502?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Tsurumi">
+        <!-- 長崎 -->
+        <a href="overview-map.html?area=nagasaki" class="area-card block group" data-area="nagasaki">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300">
+            <div class="relative h-48 overflow-hidden">
+               <!-- 画像パスをローカルの /img/ ディレクトリに変更 -->
+              <img src="/img/area-nagasaki.jpg" onerror="this.src='https://images.unsplash.com/photo-1504432169224-ee9e085bb528?q=80&w=600&auto=format&fit=crop'" alt="Nagasaki" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              <div class="absolute bottom-4 left-4 text-white">
+                <h3 class="text-xl font-bold">長崎エリア</h3>
+                <p class="text-sm opacity-90">平戸・五島列島・男女群島</p>
               </div>
-              <div class="ml-4 flex-grow">
-                <h3 class="font-bold text-gray-900">鶴見・米水津</h3>
-                <p class="text-xs text-gray-500 mt-0.5">トーナメントの聖地</p>
-              </div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
-            
-             <a href="search.html?area=miyazaki-kitaura" class="flex items-center p-3 bg-white rounded-xl shadow-sm border border-gray-100 hover:border-brand-300 transition-colors active:bg-gray-50">
-              <div class="w-16 h-16 rounded-lg bg-gray-200 overflow-hidden flex-shrink-0">
-                <img src="https://images.unsplash.com/photo-1605201098356-7b814801708a?q=80&w=200&auto=format&fit=crop" class="w-full h-full object-cover" alt="Kitaura">
-              </div>
-              <div class="ml-4 flex-grow">
-                <h3 class="font-bold text-gray-900">北浦・島野浦</h3>
-                <p class="text-xs text-gray-500 mt-0.5">魚影の濃いリアス式海岸</p>
-              </div>
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 text-gray-300" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-              </svg>
-            </a>
+            </div>
+            <div class="p-4 flex justify-between items-center">
+              <span class="text-sm text-gray-600">登録ポイント数</span>
+              <span class="font-bold text-brand-600 text-lg">24<span class="text-xs text-gray-500 ml-1">箇所</span></span>
+            </div>
           </div>
-        </section>
+        </a>
+
+        <!-- 大分 -->
+        <a href="overview-map.html?area=oita" class="area-card block group" data-area="oita">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300">
+            <div class="relative h-48 overflow-hidden">
+               <!-- 画像パスをローカルの /img/ ディレクトリに変更 -->
+              <img src="/img/area-oita.jpg" onerror="this.src='https://images.unsplash.com/photo-1622307684294-8d6403002502?q=80&w=600&auto=format&fit=crop'" alt="Oita" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              <div class="absolute bottom-4 left-4 text-white">
+                <h3 class="text-xl font-bold">大分エリア</h3>
+                <p class="text-sm opacity-90">鶴見・米水津</p>
+              </div>
+            </div>
+            <div class="p-4 flex justify-between items-center">
+              <span class="text-sm text-gray-600">登録ポイント数</span>
+              <span class="font-bold text-brand-600 text-lg">18<span class="text-xs text-gray-500 ml-1">箇所</span></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 熊本 -->
+        <a href="overview-map.html?area=kumamoto" class="area-card block group" data-area="kumamoto">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300">
+            <div class="relative h-48 overflow-hidden">
+               <!-- 画像パスをローカルの /img/ ディレクトリに変更 -->
+              <img src="/img/area-kumamoto.jpg" onerror="this.src='https://images.unsplash.com/photo-1540960579199-a937a092828e?q=80&w=600&auto=format&fit=crop'" alt="Kumamoto" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              <div class="absolute bottom-4 left-4 text-white">
+                <h3 class="text-xl font-bold">熊本エリア</h3>
+                <p class="text-sm opacity-90">天草・牛深</p>
+              </div>
+            </div>
+            <div class="p-4 flex justify-between items-center">
+              <span class="text-sm text-gray-600">登録ポイント数</span>
+              <span class="font-bold text-brand-600 text-lg">15<span class="text-xs text-gray-500 ml-1">箇所</span></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 宮崎 -->
+        <a href="overview-map.html?area=miyazaki" class="area-card block group" data-area="miyazaki">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300">
+            <div class="relative h-48 overflow-hidden">
+               <!-- 画像パスをローカルの /img/ ディレクトリに変更 -->
+              <img src="/img/area-miyazaki.jpg" onerror="this.src='https://images.unsplash.com/photo-1605201098356-7b814801708a?q=80&w=600&auto=format&fit=crop'" alt="Miyazaki" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              <div class="absolute bottom-4 left-4 text-white">
+                <h3 class="text-xl font-bold">宮崎エリア</h3>
+                <p class="text-sm opacity-90">日南・北浦</p>
+              </div>
+            </div>
+            <div class="p-4 flex justify-between items-center">
+              <span class="text-sm text-gray-600">登録ポイント数</span>
+              <span class="font-bold text-brand-600 text-lg">10<span class="text-xs text-gray-500 ml-1">箇所</span></span>
+            </div>
+          </div>
+        </a>
+
+        <!-- 鹿児島 -->
+        <a href="overview-map.html?area=kagoshima" class="area-card block group" data-area="kagoshima">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-all duration-300">
+            <div class="relative h-48 overflow-hidden">
+               <!-- 画像パスをローカルの /img/ ディレクトリに変更 -->
+              <img src="/img/area-kagoshima.jpg" onerror="this.src='https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=600&auto=format&fit=crop'" alt="Kagoshima" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
+              <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+              <div class="absolute bottom-4 left-4 text-white">
+                <h3 class="text-xl font-bold">鹿児島エリア</h3>
+                <p class="text-sm opacity-90">佐多岬・甑島</p>
+              </div>
+            </div>
+            <div class="p-4 flex justify-between items-center">
+              <span class="text-sm text-gray-600">登録ポイント数</span>
+              <span class="font-bold text-brand-600 text-lg">20<span class="text-xs text-gray-500 ml-1">箇所</span></span>
+            </div>
+          </div>
+        </a>
 
       </div>
     </div>

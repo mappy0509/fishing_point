@@ -21,7 +21,8 @@
       <div class="container mx-auto px-4 text-center">
         <div class="relative inline-block mb-4">
           <div class="w-24 h-24 md:w-32 md:h-32 rounded-full border-4 border-brand-50 shadow-md overflow-hidden mx-auto aspect-square bg-gray-200">
-             <img id="mypage-user-icon" src="https://via.placeholder.com/150" alt="Profile" class="w-full h-full object-cover">
+             <!-- 画像パスをローカルの /img/default-user.jpg に変更 -->
+             <img id="mypage-user-icon" src="/img/default-user.jpg" onerror="this.src='/img/default-user.jpg'" alt="Profile" class="w-full h-full object-cover">
           </div>
           <button id="edit-icon-btn" class="absolute bottom-0 right-0 bg-brand-600 text-white p-2 rounded-full shadow-lg hover:bg-brand-700 transition">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -147,6 +148,45 @@
 
     </div>
   </main>
+
+  <!-- モーダルはjsで制御 -->
+  <div id="edit-modal" class="fixed inset-0 z-50 hidden">
+    <div id="modal-overlay" class="absolute inset-0 bg-black/50 backdrop-blur-sm transition-opacity"></div>
+    <div class="absolute inset-x-0 bottom-0 md:top-1/2 md:left-1/2 md:bottom-auto md:-translate-x-1/2 md:-translate-y-1/2 w-full md:w-[480px] bg-white rounded-t-2xl md:rounded-2xl p-6 shadow-2xl transform transition-transform duration-300">
+      <h3 class="text-xl font-bold mb-6 text-center text-gray-900">プロフィール編集</h3>
+      
+      <div class="flex flex-col items-center mb-6">
+        <div class="relative w-24 h-24 mb-4">
+          <img id="modal-preview-icon" src="https://via.placeholder.com/150" class="w-full h-full rounded-full object-cover border-4 border-gray-100 shadow-sm">
+          <label for="icon-upload" class="absolute bottom-0 right-0 bg-brand-600 text-white p-2 rounded-full cursor-pointer shadow-md hover:bg-brand-700 transition-colors">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+          </label>
+          <input type="file" id="icon-upload" class="hidden" accept="image/*">
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <label class="block text-xs font-bold text-gray-500 mb-1">姓</label>
+            <input type="text" id="edit-last-name" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors" placeholder="山田">
+          </div>
+          <div>
+            <label class="block text-xs font-bold text-gray-500 mb-1">名</label>
+            <input type="text" id="edit-first-name" class="w-full bg-gray-50 border border-gray-200 rounded-lg px-4 py-3 focus:outline-none focus:border-brand-500 focus:ring-1 focus:ring-brand-500 transition-colors" placeholder="太郎">
+          </div>
+        </div>
+      </div>
+
+      <div class="flex gap-3 mt-8">
+        <button id="cancel-edit-btn" class="flex-1 py-3 px-4 rounded-xl border border-gray-200 text-gray-600 font-bold hover:bg-gray-50 transition-colors">キャンセル</button>
+        <button id="save-profile-btn" class="flex-1 py-3 px-4 rounded-xl bg-brand-600 text-white font-bold hover:bg-brand-700 shadow-md transition-all hover:-translate-y-0.5">保存する</button>
+      </div>
+    </div>
+  </div>
 
   <site-footer></site-footer>
   <bottom-nav></bottom-nav>
