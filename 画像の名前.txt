@@ -1,0 +1,19 @@
+トップページ用
+
+hero-bg.jpg : トップページの大きな背景画像
+
+2. エリア用
+
+area-fukuoka.jpg : 福岡エリアの画像
+
+area-saga.jpg : 佐賀エリアの画像
+
+area-nagasaki.jpg : 長崎エリアの画像
+
+area-oita.jpg : 大分エリアの画像
+
+area-kumamoto.jpg : 熊本エリアの画像
+
+area-miyazaki.jpg : 宮崎エリアの画像
+
+area-kagoshima.jpg : 鹿児島エリアの画像

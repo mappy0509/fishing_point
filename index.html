@@ -18,26 +18,13 @@
   <site-header></site-header>
 
   <main class="flex-grow">
-    <section class="relative h-[85vh] md:h-[600px] flex items-center justify-center overflow-hidden">
+    <section class="relative w-full aspect-video flex items-center justify-center overflow-hidden">
       <div class="absolute inset-0 z-0">
-        <!-- 画像パスをローカルの /img/ ディレクトリに変更 -->
         <img src="/img/hero-bg.jpg" onerror="this.src='https://images.unsplash.com/photo-1535591272289-fb21dd7d77c5?q=80&w=2070&auto=format&fit=crop'" alt="Rock Fishing Background" class="w-full h-full object-cover">
         <div class="absolute inset-0 bg-gradient-to-b from-gray-900/60 via-gray-900/40 to-gray-900/80"></div>
       </div>
 
       <div class="relative z-10 container mx-auto px-4 text-center text-white animate-fade-in">
-        <span class="inline-block py-1 px-3 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs md:text-sm font-medium mb-4 text-brand-200">
-          九州最大級の磯釣りポイントアプリ
-        </span>
-        <h1 class="text-3xl md:text-6xl font-bold mb-4 md:mb-6 tracking-tight leading-tight">
-          まだ見ぬ<span class="text-brand-400">名礁</span>へ、<br>
-          迷わず辿り着く。
-        </h1>
-        <p class="text-sm md:text-xl text-gray-200 mb-8 md:mb-10 max-w-2xl mx-auto leading-relaxed">
-          九州全土のポイントを360度ビューで完全網羅。<br class="hidden md:inline">
-          足場の確認から、頼れる渡船船長の紹介まで。
-        </p>
-        
         <div class="flex flex-col md:flex-row justify-center gap-3 md:gap-4 px-4">
           <a href="area.html" class="btn btn-primary py-3 md:py-4 px-8 text-base md:text-lg shadow-lg w-full md:w-auto flex items-center justify-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -56,7 +43,7 @@
       <div class="container mx-auto px-4">
         <div class="flex items-center justify-between mb-6 md:mb-10">
           <div>
-            <h2 class="text-xl md:text-3xl font-bold text-gray-900">人気エリアから探す</h2>
+            <h2 class="text-xl md:text-3xl font-bold text-gray-900">エリアから探す</h2>
             <p class="text-xs md:text-base text-gray-500 mt-1">九州の主要フィールドを網羅</p>
           </div>
           <a href="area.html" class="text-brand-600 text-sm font-bold flex items-center hover:underline">
@@ -67,100 +54,77 @@
           </a>
         </div>
 
-        <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-8">
-          <a href="area.html" class="group relative h-32 md:h-64 rounded-xl md:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
-            <!-- 画像パスをローカルの /img/ ディレクトリに変更 -->
-            <img src="/img/area-fukuoka.jpg" onerror="this.src='https://images.unsplash.com/photo-1597895257208-857418f5730b?q=80&w=1000&auto=format&fit=crop'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Fukuoka Saga Iso">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-            <div class="absolute bottom-0 left-0 p-3 md:p-6">
-              <h3 class="text-sm md:text-2xl font-bold text-white mb-0.5">福岡・佐賀</h3>
-              <p class="text-[10px] md:text-sm text-gray-300 line-clamp-1">玄界灘・呼子の激流</p>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-6">
+          
+          <a href="area.html" class="group relative h-32 md:h-56 rounded-xl md:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
+            <img src="/img/area-fukuoka.jpg" onerror="this.src='https://images.unsplash.com/photo-1597895257208-857418f5730b?q=80&w=600&auto=format&fit=crop'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Fukuoka">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 p-3 md:p-5">
+              <h3 class="text-sm md:text-xl font-bold text-white mb-0.5">福岡県</h3>
+              <p class="text-[10px] md:text-xs text-gray-300 line-clamp-1">玄界灘・響灘</p>
             </div>
           </a>
 
-          <a href="area.html" class="group relative h-32 md:h-64 rounded-xl md:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
-            <!-- 画像パスをローカルの /img/ ディレクトリに変更 -->
-            <img src="/img/area-nagasaki.jpg" onerror="this.src='https://images.unsplash.com/photo-1504432169224-ee9e085bb528?q=80&w=1000&auto=format&fit=crop'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Nagasaki Goto Iso">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-            <div class="absolute bottom-0 left-0 p-3 md:p-6">
-              <h3 class="text-sm md:text-2xl font-bold text-white mb-0.5">長崎・五島</h3>
-              <p class="text-[10px] md:text-sm text-gray-300 line-clamp-1">聖地・男女群島へ</p>
+          <a href="area.html" class="group relative h-32 md:h-56 rounded-xl md:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
+            <img src="/img/area-saga.jpg" onerror="this.src='https://images.unsplash.com/photo-1614761048639-68f763489814?q=80&w=600&auto=format&fit=crop'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Saga">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 p-3 md:p-5">
+              <h3 class="text-sm md:text-xl font-bold text-white mb-0.5">佐賀県</h3>
+              <p class="text-[10px] md:text-xs text-gray-300 line-clamp-1">呼子・唐津</p>
             </div>
           </a>
 
-          <a href="area.html" class="group relative h-32 md:h-64 rounded-xl md:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
-            <!-- 画像パスをローカルの /img/ ディレクトリに変更 -->
-            <img src="/img/area-miyazaki.jpg" onerror="this.src='https://images.unsplash.com/photo-1605201098356-7b814801708a?q=80&w=1000&auto=format&fit=crop'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Miyazaki Kagoshima Iso">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-            <div class="absolute bottom-0 left-0 p-3 md:p-6">
-              <h3 class="text-sm md:text-2xl font-bold text-white mb-0.5">宮崎・鹿児島</h3>
-              <p class="text-[10px] md:text-sm text-gray-300 line-clamp-1">黒潮の大物場</p>
+          <a href="area.html" class="group relative h-32 md:h-56 rounded-xl md:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
+            <img src="/img/area-nagasaki.jpg" onerror="this.src='https://images.unsplash.com/photo-1504432169224-ee9e085bb528?q=80&w=600&auto=format&fit=crop'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Nagasaki">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 p-3 md:p-5">
+              <h3 class="text-sm md:text-xl font-bold text-white mb-0.5">長崎県</h3>
+              <p class="text-[10px] md:text-xs text-gray-300 line-clamp-1">平戸・五島・男女群島</p>
             </div>
           </a>
 
-          <a href="area.html" class="group relative h-32 md:h-64 rounded-xl md:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
-            <!-- 画像パスをローカルの /img/ ディレクトリに変更 -->
-            <img src="/img/area-oita.jpg" onerror="this.src='https://images.unsplash.com/photo-1622307684294-8d6403002502?q=80&w=1000&auto=format&fit=crop'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Oita Kumamoto Iso">
-            <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-            <div class="absolute bottom-0 left-0 p-3 md:p-6">
-              <h3 class="text-sm md:text-2xl font-bold text-white mb-0.5">大分・熊本</h3>
-              <p class="text-[10px] md:text-sm text-gray-300 line-clamp-1">豊後水道のチヌ・グレ</p>
+          <a href="area.html" class="group relative h-32 md:h-56 rounded-xl md:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
+            <img src="/img/area-oita.jpg" onerror="this.src='https://images.unsplash.com/photo-1622307684294-8d6403002502?q=80&w=600&auto=format&fit=crop'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Oita">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 p-3 md:p-5">
+              <h3 class="text-sm md:text-xl font-bold text-white mb-0.5">大分県</h3>
+              <p class="text-[10px] md:text-xs text-gray-300 line-clamp-1">鶴見・米水津</p>
             </div>
           </a>
+
+          <a href="area.html" class="group relative h-32 md:h-56 rounded-xl md:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
+            <img src="/img/area-kumamoto.jpg" onerror="this.src='https://images.unsplash.com/photo-1540960579199-a937a092828e?q=80&w=600&auto=format&fit=crop'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Kumamoto">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 p-3 md:p-5">
+              <h3 class="text-sm md:text-xl font-bold text-white mb-0.5">熊本県</h3>
+              <p class="text-[10px] md:text-xs text-gray-300 line-clamp-1">天草・牛深</p>
+            </div>
+          </a>
+
+          <a href="area.html" class="group relative h-32 md:h-56 rounded-xl md:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
+            <img src="/img/area-miyazaki.jpg" onerror="this.src='https://images.unsplash.com/photo-1605201098356-7b814801708a?q=80&w=600&auto=format&fit=crop'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Miyazaki">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 p-3 md:p-5">
+              <h3 class="text-sm md:text-xl font-bold text-white mb-0.5">宮崎県</h3>
+              <p class="text-[10px] md:text-xs text-gray-300 line-clamp-1">日南・北浦</p>
+            </div>
+          </a>
+
+          <a href="area.html" class="group relative h-32 md:h-56 rounded-xl md:rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all duration-300">
+            <img src="/img/area-kagoshima.jpg" onerror="this.src='https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=600&auto=format&fit=crop'" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Kagoshima">
+            <div class="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent"></div>
+            <div class="absolute bottom-0 left-0 p-3 md:p-5">
+              <h3 class="text-sm md:text-xl font-bold text-white mb-0.5">鹿児島県</h3>
+              <p class="text-[10px] md:text-xs text-gray-300 line-clamp-1">佐多岬・甑島</p>
+            </div>
+          </a>
+
         </div>
       </div>
     </section>
 
-    <section class="py-12 md:py-20 bg-gray-50">
-      <div class="container mx-auto px-4">
-        <div class="text-center mb-10">
-          <h2 class="text-xl md:text-3xl font-bold text-gray-900">磯リンクで出来ること</h2>
-        </div>
-        
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-12">
-          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex md:block items-center gap-4 text-left md:text-center">
-            <div class="w-12 h-12 md:w-16 md:h-16 bg-brand-100 text-brand-600 rounded-xl flex items-center justify-center flex-shrink-0 md:mx-auto md:mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.276A1 1 0 0121 8.618v6.764a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z" />
-              </svg>
-            </div>
-            <div>
-              <h3 class="text-base md:text-xl font-bold mb-1 md:mb-3">現地撮影360度ビュー</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">釣り座の形状や足場を360度映像で確認。事前シミュレーションに。</p>
-            </div>
-          </div>
+    </main>
 
-          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex md:block items-center gap-4 text-left md:text-center">
-            <div class="w-12 h-12 md:w-16 md:h-16 bg-brand-100 text-brand-600 rounded-xl flex items-center justify-center flex-shrink-0 md:mx-auto md:mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-              </svg>
-            </div>
-            <div>
-              <h3 class="text-base md:text-xl font-bold mb-1 md:mb-3">正確な位置情報</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">Googleマップ連携で駐車スペースやルート案内もスムーズに。</p>
-            </div>
-          </div>
-
-          <div class="bg-white p-6 rounded-2xl shadow-sm border border-gray-100 flex md:block items-center gap-4 text-left md:text-center">
-            <div class="w-12 h-12 md:w-16 md:h-16 bg-brand-100 text-brand-600 rounded-xl flex items-center justify-center flex-shrink-0 md:mx-auto md:mb-6">
-              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 md:h-8 md:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>
-            </div>
-            <div>
-              <h3 class="text-base md:text-xl font-bold mb-1 md:mb-3">安心の船長紹介</h3>
-              <p class="text-sm text-gray-600 leading-relaxed">顔写真とコメント付きで船長を紹介。初心者でも安心して予約可能。</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-  </main>
-
-  <site-footer></site-footer>
   <bottom-nav></bottom-nav>
 
 </body>
