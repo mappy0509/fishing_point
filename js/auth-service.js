@@ -5,9 +5,10 @@ import {
   signInWithEmailAndPassword, 
   signOut,
   updateProfile,
-  sendPasswordResetEmail // 追加
+  sendPasswordResetEmail,
+  onAuthStateChanged // 追加
 } from "firebase/auth";
-import { doc, setDoc, serverTimestamp } from "firebase/firestore";
+import { doc, setDoc, getDoc, serverTimestamp } from "firebase/firestore"; // getDoc 追加
 
 /**
  * ユーザー登録処理 (Auth + Firestore)
@@ -63,13 +64,36 @@ export async function logoutUser() {
 }
 
 /**
- * パスワード再設定メール送信 (追加)
+ * パスワード再設定メール送信
  */
 export async function resetUserPassword(email) {
   try {
     await sendPasswordResetEmail(auth, email);
   } catch (error) {
     console.error("Password reset error:", error);
+    throw error;
+  }
+}
+
+/**
+ * 認証状態の監視 (追加)
+ */
+export function monitorAuthState(callback) {
+  return onAuthStateChanged(auth, callback);
+}
+
+/**
+ * ユーザーロール（権限）の取得 (追加)
+ */
+export async function getUserRole(uid) {
+  try {
+    const userDoc = await getDoc(doc(db, "users", uid));
+    if (userDoc.exists()) {
+      return userDoc.data().role;
+    }
+    return null;
+  } catch (error) {
+    console.error("Error fetching user role:", error);
     throw error;
   }
 }

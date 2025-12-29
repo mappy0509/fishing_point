@@ -1,3 +1,4 @@
+// js/signup.js
 import { registerUser } from './auth-service.js';
 
 const signupForm = document.getElementById('signup-form');
@@ -11,10 +12,10 @@ document.addEventListener('DOMContentLoaded', () => {
 async function handleSignup(e) {
   e.preventDefault();
 
-  // HTMLのIDと一致させる
+  // HTMLのIDと一致するように修正 (email-address -> email)
   const lastNameEl = document.getElementById('last-name');
   const firstNameEl = document.getElementById('first-name');
-  const emailEl = document.getElementById('email-address'); // ここがエラー原因でした
+  const emailEl = document.getElementById('email'); 
   const passwordEl = document.getElementById('password');
   const submitBtn = signupForm.querySelector('button[type="submit"]');
 
@@ -53,6 +54,8 @@ async function handleSignup(e) {
       msg = 'パスワードが弱すぎます。6文字以上の複雑なパスワードにしてください。';
     } else if (error.code === 'auth/invalid-email') {
       msg = 'メールアドレスの形式が正しくありません。';
+    } else {
+      msg = `エラーが発生しました: ${error.message}`;
     }
     
     alert(msg);

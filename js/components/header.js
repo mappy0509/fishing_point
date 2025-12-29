@@ -34,14 +34,16 @@ class SiteHeader extends HTMLElement {
       </nav>
     `;
 
+    // ユーザーアイコンのパス解決（ローカルフォールバック付き）
+    const userIconSrc = (this.user && this.user.photoURL) ? this.user.photoURL : '/img/default-user.jpg';
+
     // デスクトップ用認証エリア（右端）
     const desktopAuth = this.user
       ? `
         <div class="flex items-center gap-3 pl-3 border-l border-gray-200">
           <a href="mypage.html" class="flex items-center gap-2 text-gray-700 hover:text-brand-600 font-bold group">
             <div class="w-8 h-8 rounded-full bg-gray-100 overflow-hidden border border-transparent group-hover:border-brand-200 transition-all shadow-sm">
-               <!-- 画像パスをローカルの /img/default-user.jpg に変更 -->
-               <img src="${this.user.photoURL || '/img/default-user.jpg'}" class="w-full h-full object-cover" onerror="this.src='/img/default-user.jpg'">
+               <img src="${userIconSrc}" class="w-full h-full object-cover" onerror="this.src='/img/default-user.jpg'">
             </div>
             <span class="text-xs md:text-sm">マイページ</span>
           </a>
@@ -60,7 +62,6 @@ class SiteHeader extends HTMLElement {
       <header class="bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm w-full h-14 md:h-16">
         <div class="container mx-auto px-4 h-full flex items-center justify-center md:justify-between relative">
           
-          <!-- ロゴエリア -->
           <a href="index.html" class="flex items-center gap-2 group hover:opacity-80 transition-opacity md:mr-auto z-20">
             <div class="w-8 h-8 bg-gradient-to-br from-brand-500 to-brand-700 rounded-md flex items-center justify-center text-white shadow-md shadow-brand-500/20 group-hover:scale-105 transition-transform">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -70,13 +71,12 @@ class SiteHeader extends HTMLElement {
             <span class="text-lg md:text-xl font-bold text-gray-900 tracking-tight whitespace-nowrap" style="font-family: 'Noto Sans JP', sans-serif;">磯リンク</span>
           </a>
 
-          <!-- PC用 右側メニューエリア -->
           <div class="hidden md:flex items-center h-full">
             ${desktopNav}
             ${desktopAuth}
           </div>
 
-        </div>
+          </div>
       </header>
     `;
   }

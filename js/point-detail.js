@@ -1,330 +1,156 @@
 // js/point-detail.js
-import { db, auth } from './firebase-config.js';
-import { doc, getDoc } from "firebase/firestore";
+import { auth, db } from './firebase-config.js';
+import { getFishingPoint, toggleFavorite, checkFavoriteStatus } from './db-service.js';
 import { onAuthStateChanged } from "firebase/auth";
-import { 
-  toggleFavorite, 
-  checkFavoriteStatus, 
-  addReview, 
-  getReviews 
-} from './db-service.js';
+import { doc, getDoc } from "firebase/firestore";
 
-let currentPointId = null;
-let isFavorite = false;
-let currentUser = null;
+const urlParams = new URLSearchParams(window.location.search);
+const pointId = urlParams.get('id');
 
-// DOM要素
-const reviewFormContainer = document.getElementById('review-form-container');
-const reviewLoginMessage = document.getElementById('review-login-message');
-const reviewForm = document.getElementById('review-form');
-const reviewsList = document.getElementById('reviews-list');
-const reviewCountBadge = document.getElementById('review-count-badge');
+// DOM Elements
+const heroSlider = document.getElementById('hero-slider');
+const pointNameEl = document.getElementById('point-name');
+const pointAreaEl = document.getElementById('point-area');
+const pointDescEl = document.getElementById('point-description');
+const captainNameEl = document.getElementById('captain-name');
+const captainCommentEl = document.getElementById('captain-comment');
+const captainPhotoEl = document.getElementById('captain-photo');
+const favoriteBtn = document.getElementById('favorite-btn');
+const vrLinkBtn = document.getElementById('vr-link-btn');
 
-/**
- * URLパラメータからIDを取得する
- */
-function getPointIdFromUrl() {
-  const params = new URLSearchParams(window.location.search);
-  return params.get('id');
-}
-
-/**
- * ポイント詳細を表示する (メイン処理)
- */
-async function renderPointDetail() {
-  currentPointId = getPointIdFromUrl();
-
-  if (!currentPointId) {
-    alert('ポイントIDが指定されていません。');
+document.addEventListener('DOMContentLoaded', async () => {
+  if (!pointId) {
+    alert("ポイントIDが指定されていません");
     window.location.href = 'area.html';
     return;
   }
 
-  try {
-    const docRef = doc(db, "fishing-points", currentPointId);
-    const docSnap = await getDoc(docRef);
-
-    if (docSnap.exists()) {
-      const data = docSnap.data();
-      updatePageContent(data);
-      
-      initFavoriteButton();
-      initReviewSection();
-    } else {
-      alert('指定されたポイントが見つかりませんでした。');
-      window.location.href = 'area.html';
-    }
-  } catch (error) {
-    console.error("Error getting document:", error);
-    alert('データの読み込みに失敗しました。');
-  }
-}
-
-/**
- * ページの基本情報を更新
- */
-function updatePageContent(data) {
-  document.title = `${data.name} - 磯リンク`;
-  setText('point-title', data.name);
-  setText('point-area-label', getAreaLabel(data.area));
-  
-  // 360度画像背景
-  const heroSection = document.getElementById('hero-section-bg');
-  if (heroSection && data.images?.vr) {
-    const img = heroSection.querySelector('img');
-    if(img) img.src = data.images.vr;
-  }
-
-  // 船長情報 (リンク付きに変更)
-  if (data.captain) {
-    const captainName = data.captain.name;
-    const encodedName = encodeURIComponent(captainName);
-    
-    // 名前をリンク化
-    const captainNameEl = document.getElementById('captain-name');
-    if (captainNameEl) {
-      captainNameEl.innerHTML = `<a href="captain.html?name=${encodedName}" class="hover:text-brand-600 hover:underline transition-colors" title="${captainName}船長のページへ">${captainName}</a>`;
-    }
-
-    setText('captain-comment', `「${data.captain.comment}」`);
-    
-    // 画像もリンク化 (クリック可能に)
-    if (data.captain.photoUrl) {
-      const captainImgContainer = document.querySelector('#captain-image')?.parentElement;
-      const captainImg = document.getElementById('captain-image');
-      
-      if (captainImg) {
-        captainImg.src = data.captain.photoUrl;
-        
-        // 画像コンテナがdivなら、aタグでラップするかクリックイベントを追加
-        if (captainImgContainer) {
-          captainImgContainer.style.cursor = 'pointer';
-          captainImgContainer.onclick = () => {
-            window.location.href = `captain.html?name=${encodedName}`;
-          };
-          captainImgContainer.title = `${captainName}船長の詳細を見る`;
-        }
-      }
-    }
-  }
-
-  // Googleマップリンク
-  if (data.location) {
-    const mapLink = document.getElementById('google-map-link');
-    if (mapLink) {
-      mapLink.href = `https://www.google.com/maps/search/?api=1&query=${data.location.lat},${data.location.lng}`;
-    }
-  }
-}
-
-// --- お気に入り機能 ---
-
-function initFavoriteButton() {
-  const titleEl = document.getElementById('point-title');
-  if (!titleEl) return;
-
-  // 既にボタンがある場合は削除（二重追加防止）
-  const existingBtn = document.getElementById('favorite-btn');
-  if (existingBtn && existingBtn.parentNode) {
-    existingBtn.parentNode.remove();
-  }
-
-  const btnContainer = document.createElement('span');
-  btnContainer.className = 'ml-4 inline-flex items-center align-middle';
-  
-  const favBtn = document.createElement('button');
-  favBtn.id = 'favorite-btn';
-  favBtn.className = 'text-gray-400 hover:text-red-500 transition-colors focus:outline-none disabled:opacity-50';
-  updateFavoriteButtonState(favBtn, false);
-  
-  btnContainer.appendChild(favBtn);
-  titleEl.parentNode.insertBefore(btnContainer, titleEl.nextSibling);
-
+  // Auth Status (only for favorite button)
   onAuthStateChanged(auth, async (user) => {
-    currentUser = user;
-    
     if (user) {
-      favBtn.disabled = false;
-      isFavorite = await checkFavoriteStatus(user.uid, currentPointId);
-      updateFavoriteButtonState(favBtn, isFavorite);
-
-      favBtn.onclick = async () => {
-        favBtn.disabled = true;
-        try {
-          const newState = await toggleFavorite(user.uid, currentPointId);
-          isFavorite = newState;
-          updateFavoriteButtonState(favBtn, isFavorite);
-        } catch (err) {
-          console.error('Favorite toggle error:', err);
-        } finally {
-          favBtn.disabled = false;
-        }
-      };
-      
-      if (reviewFormContainer) reviewFormContainer.classList.remove('hidden');
-      if (reviewLoginMessage) reviewLoginMessage.classList.add('hidden');
-
-    } else {
-      favBtn.disabled = false;
-      updateFavoriteButtonState(favBtn, false);
-      favBtn.onclick = () => {
-        if(confirm('お気に入り機能を使うにはログインが必要です。ログインページへ移動しますか？')) {
-          window.location.href = `login.html`;
-        }
-      };
-
-      if (reviewFormContainer) reviewFormContainer.classList.add('hidden');
-      if (reviewLoginMessage) reviewLoginMessage.classList.remove('hidden');
+      updateFavoriteButton(user.uid);
     }
+    // Load Data regardless of auth (Premium content is now FREE)
+    loadPointData();
   });
-}
 
-function updateFavoriteButtonState(btn, active) {
-  if (active) {
-    btn.classList.remove('text-gray-400');
-    btn.classList.add('text-red-500');
-    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 animate-bounce-once" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M3.172 5.172a4 4 0 015.656 0L10 6.343l1.172-1.171a4 4 0 115.656 5.656L10 17.657l-6.828-6.829a4 4 0 010-5.656z" clip-rule="evenodd" /></svg>`;
-    btn.title = 'お気に入りから削除';
-  } else {
-    btn.classList.remove('text-red-500');
-    btn.classList.add('text-gray-400');
-    btn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" /></svg>`;
-    btn.title = 'お気に入りに追加';
-  }
-}
+  // Event Listeners
+  if (favoriteBtn) favoriteBtn.addEventListener('click', handleFavoriteToggle);
+});
 
-// --- 口コミ機能 ---
-
-async function initReviewSection() {
-  await loadAndRenderReviews();
-
-  if (reviewForm) {
-    // イベントリスナーの重複登録を防ぐため、一度クローンして置換するテクニックを使用
-    const newForm = reviewForm.cloneNode(true);
-    reviewForm.parentNode.replaceChild(newForm, reviewForm);
-    newForm.addEventListener('submit', handleReviewSubmit);
-  }
-}
-
-async function loadAndRenderReviews() {
-  if (!reviewsList) return;
-
+async function loadPointData() {
   try {
-    reviewsList.innerHTML = '<div class="text-center py-4"><svg class="animate-spin h-6 w-6 text-brand-500 mx-auto" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path></svg></div>';
-    
-    const reviews = await getReviews(currentPointId);
-    
-    if (reviewCountBadge) {
-      reviewCountBadge.textContent = `${reviews.length}件`;
-    }
-
-    reviewsList.innerHTML = '';
-    
-    if (reviews.length === 0) {
-      reviewsList.innerHTML = `<div class="text-center py-8 text-gray-400"><p>まだ投稿はありません。<br>最初の投稿者になりましょう！</p></div>`;
+    const currentPointData = await getFishingPoint(pointId);
+    if (!currentPointData) {
+      if (pointNameEl) pointNameEl.textContent = "データが見つかりません";
       return;
     }
 
-    reviews.forEach(review => {
-      reviewsList.appendChild(createReviewElement(review));
+    renderHero(currentPointData);
+    renderBasicInfo(currentPointData);
+    renderCaptainInfo(currentPointData);
+    initMap(currentPointData.location);
+
+    // Hide Premium Badges (Clean up UI without touching HTML for now)
+    hidePremiumBadges();
+
+    // VR Link Logic (Unlocked for everyone)
+    if (vrLinkBtn) {
+       vrLinkBtn.href = `vr-view.html?id=${pointId}`;
+       // Remove listener logic by simply not adding it
+    }
+
+  } catch (error) {
+    console.error("Error loading point:", error);
+  }
+}
+
+function hidePremiumBadges() {
+    // Hide standard premium badges by class
+    const badges = document.querySelectorAll('.bg-yellow-400, .bg-yellow-100');
+    badges.forEach(el => {
+        // Simple check to ensure we don't hide stars or other yellow elements
+        if (el.textContent.includes('PREMIUM')) {
+            el.style.display = 'none';
+        }
     });
-
-  } catch (error) {
-    console.error("Reviews load error:", error);
-    reviewsList.innerHTML = '<p class="text-red-500 text-center">読み込みに失敗しました。</p>';
-  }
 }
 
-function createReviewElement(review) {
-  const div = document.createElement('div');
-  div.className = 'border-b border-gray-100 pb-6 last:border-0 last:pb-0';
+function renderHero(data) {
+  if (!heroSlider) return;
+  heroSlider.innerHTML = '';
   
-  let dateStr = '';
-  if (review.createdAt && review.createdAt.toDate) {
-    dateStr = review.createdAt.toDate().toLocaleDateString('ja-JP');
+  if (data.images && data.images.thumbnails && data.images.thumbnails.length > 0) {
+    const img = document.createElement('img');
+    img.src = data.images.thumbnails[0];
+    img.className = 'w-full h-full object-cover animate-fade-in';
+    heroSlider.appendChild(img);
+  } else {
+    heroSlider.innerHTML = '<div class="w-full h-full bg-gray-800 flex items-center justify-center text-gray-500">No Image</div>';
   }
-
-  const stars = '★'.repeat(Number(review.rating)) + '☆'.repeat(5 - Number(review.rating));
-  const starColor = Number(review.rating) >= 4 ? 'text-yellow-400' : 'text-gray-300';
-
-  div.innerHTML = `
-    <div class="flex items-start gap-4">
-      <img src="${review.userIcon || 'https://via.placeholder.com/40'}" alt="User" class="w-10 h-10 rounded-full object-cover bg-gray-200">
-      <div class="flex-grow">
-        <div class="flex items-center justify-between mb-1">
-          <span class="font-bold text-gray-800 text-sm">${review.userName || '匿名ユーザー'}</span>
-          <span class="text-xs text-gray-400">${dateStr}</span>
-        </div>
-        <div class="flex items-center mb-2 ${starColor} text-sm">
-          ${stars}
-        </div>
-        <p class="text-gray-600 text-sm leading-relaxed whitespace-pre-wrap">${review.comment}</p>
-      </div>
-    </div>
-  `;
-  return div;
 }
 
-async function handleReviewSubmit(e) {
-  e.preventDefault();
-  if (!currentUser) {
-    alert('セッションが切れました。再ログインしてください。');
+function renderBasicInfo(data) {
+  if (pointNameEl) pointNameEl.textContent = data.name;
+  if (pointAreaEl) pointAreaEl.textContent = data.area || '九州';
+  if (pointDescEl) pointDescEl.textContent = data.description || '説明がありません。';
+}
+
+function renderCaptainInfo(data) {
+  const container = document.querySelector('.bg-white.rounded-xl.p-6.shadow-sm.mb-6.relative');
+  if (!container) return;
+
+  if (!data.captain) {
+    container.style.display = 'none';
     return;
   }
 
-  const form = e.target; // イベント発生元のフォームを使用
-  const ratingEl = form.querySelector('#review-rating');
-  const commentEl = form.querySelector('#review-comment');
-  const submitBtn = form.querySelector('button[type="submit"]');
+  // Force Unlock: Remove lock overlay if present
+  const lock = document.getElementById('captain-lock');
+  if (lock) lock.style.display = 'none';
 
-  const rating = ratingEl.value;
-  const comment = commentEl.value.trim();
+  // Render Data
+  if (captainNameEl) captainNameEl.textContent = data.captain.name || '船長';
+  if (captainCommentEl) {
+      captainCommentEl.textContent = data.captain.comment || 'コメントなし';
+      captainCommentEl.classList.remove('blur-sm');
+  }
+  
+  if (captainPhotoEl && data.captain.photoUrl) {
+    captainPhotoEl.src = data.captain.photoUrl;
+  }
+}
 
-  if (!comment) {
-    alert('コメントを入力してください。');
+async function handleFavoriteToggle() {
+  const user = auth.currentUser;
+  if (!user) {
+    alert("お気に入り機能を使うにはログインが必要です。");
+    window.location.href = 'login.html';
     return;
   }
 
-  const originalBtnText = submitBtn.innerText;
-  submitBtn.disabled = true;
-  submitBtn.innerText = '送信中...';
+  const isAdded = await toggleFavorite(user.uid, pointId);
+  updateFavoriteIcon(isAdded);
+}
 
-  try {
-    const reviewData = {
-      userId: currentUser.uid,
-      userName: currentUser.displayName || '匿名アングラー',
-      userIcon: currentUser.photoURL || null,
-      rating: parseInt(rating, 10),
-      comment: comment
-    };
+async function updateFavoriteButton(uid) {
+  const isFav = await checkFavoriteStatus(uid, pointId);
+  updateFavoriteIcon(isFav);
+}
 
-    await addReview(currentPointId, reviewData);
-    
-    form.reset();
-    await loadAndRenderReviews();
-    
-    alert('投稿しました！ありがとうございました。');
-
-  } catch (error) {
-    console.error("Review submit error:", error);
-    alert('投稿中にエラーが発生しました。');
-  } finally {
-    submitBtn.disabled = false;
-    submitBtn.innerText = originalBtnText;
+function updateFavoriteIcon(isFav) {
+  if (!favoriteBtn) return;
+  const svg = favoriteBtn.querySelector('svg');
+  if (isFav) {
+    svg.classList.add('text-red-500', 'fill-current');
+  } else {
+    svg.classList.remove('text-red-500', 'fill-current');
   }
 }
 
-function setText(id, text) {
-  const el = document.getElementById(id);
-  if (el) el.textContent = text;
+function initMap(location) {
+  const googleMapBtn = document.getElementById('google-map-btn');
+  if (googleMapBtn && location) {
+      googleMapBtn.href = `https://www.google.com/maps/search/?api=1&query=${location.lat},${location.lng}`;
+  }
 }
-
-function getAreaLabel(areaCode) {
-  const areaMap = {
-    'fukuoka': '福岡エリア', 'saga': '佐賀エリア', 'nagasaki': '長崎エリア',
-    'oita': '大分エリア', 'kumamoto': '熊本エリア', 'miyazaki': '宮崎エリア', 'kagoshima': '鹿児島エリア'
-  };
-  return areaMap[areaCode] || areaCode; 
-}
-
-document.addEventListener('DOMContentLoaded', renderPointDetail);

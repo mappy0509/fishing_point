@@ -5,18 +5,17 @@ import { doc, getDoc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { getUserFavorites, getFishingPoint } from './db-service.js';
 
-// DOM要素
-const profileNameEl = document.getElementById('profile-name');
-const profileEmailEl = document.getElementById('profile-email');
-const profileIconEl = document.getElementById('profile-icon');
-const logoutBtn = document.getElementById('logout-btn');
-const resetPasswordBtn = document.getElementById('reset-password-btn'); // 追加
-const favoritesContainer = document.getElementById('favorites-container');
+// DOM要素 (HTMLのIDに合わせて修正)
+const profileNameEl = document.getElementById('mypage-user-name');
+const profileEmailEl = document.getElementById('mypage-user-email');
+const profileIconEl = document.getElementById('mypage-user-icon');
+const logoutBtn = document.getElementById('mypage-logout-btn');
+const resetPasswordBtn = document.getElementById('change-password-btn'); // HTMLのID 'change-password-btn' に合わせる
+const favoritesContainer = document.getElementById('favorites-list'); // HTMLのID 'favorites-list' に合わせる
 
 // モーダル関連
 const editModal = document.getElementById('edit-modal');
-const editProfileBtn = document.getElementById('edit-profile-btn');
-const editIconBtn = document.getElementById('edit-icon-btn');
+const editProfileBtn = document.getElementById('edit-icon-btn'); // HTMLのID 'edit-icon-btn' に統一（ボタンが1つのみのため）
 const cancelEditBtn = document.getElementById('cancel-edit-btn');
 const saveProfileBtn = document.getElementById('save-profile-btn');
 const modalOverlay = document.getElementById('modal-overlay');
@@ -24,7 +23,7 @@ const modalOverlay = document.getElementById('modal-overlay');
 // フォーム要素
 const editLastNameInput = document.getElementById('edit-last-name');
 const editFirstNameInput = document.getElementById('edit-first-name');
-const iconUploadInput = document.getElementById('icon-upload');
+const iconUploadInput = document.getElementById('icon-upload'); // HTMLのlabel for="icon-upload" と input id="icon-upload"
 const modalPreviewIcon = document.getElementById('modal-preview-icon');
 
 let currentUserData = null;
@@ -43,6 +42,7 @@ function initMypage() {
       await fetchAndDisplayUserData(user);
       loadUserFavorites(user.uid);
     } else {
+      // ログインしていない場合はログインページへ
       window.location.href = 'login.html';
     }
   });
@@ -53,7 +53,10 @@ function initMypage() {
 
   // パスワード変更イベント
   if (resetPasswordBtn) {
-    resetPasswordBtn.addEventListener('click', handlePasswordReset);
+    resetPasswordBtn.addEventListener('click', (e) => {
+        e.preventDefault(); // リンク遷移を防止
+        handlePasswordReset();
+    });
   }
 }
 
@@ -65,19 +68,23 @@ async function fetchAndDisplayUserData(user) {
     if (userSnap.exists()) {
       currentUserData = userSnap.data();
       const fullName = `${currentUserData.lastName || ''} ${currentUserData.firstName || ''}`.trim();
-      profileNameEl.textContent = fullName || user.displayName || '名無しのアングラー';
-      profileEmailEl.textContent = user.email;
+      if (profileNameEl) profileNameEl.textContent = fullName || user.displayName || '名無しのアングラー';
+      if (profileEmailEl) profileEmailEl.textContent = user.email;
 
       const iconUrl = currentUserData.profileImageUrl || user.photoURL || DEFAULT_ICON_URL;
-      profileIconEl.src = iconUrl;
+      if (profileIconEl) {
+        profileIconEl.src = iconUrl;
+        // エラー時のフォールバック
+        profileIconEl.onerror = () => { profileIconEl.src = DEFAULT_ICON_URL; };
+      }
       
       if (currentUserData.role === 'admin') {
         renderAdminButton();
       }
     } else {
-      profileNameEl.textContent = user.displayName || 'ユーザー情報なし';
-      profileEmailEl.textContent = user.email;
-      profileIconEl.src = DEFAULT_ICON_URL;
+      if (profileNameEl) profileNameEl.textContent = user.displayName || 'ユーザー情報なし';
+      if (profileEmailEl) profileEmailEl.textContent = user.email;
+      if (profileIconEl) profileIconEl.src = DEFAULT_ICON_URL;
       currentUserData = { lastName: '', firstName: '' };
     }
   } catch (error) {
@@ -87,16 +94,33 @@ async function fetchAndDisplayUserData(user) {
 }
 
 function renderAdminButton() {
-  const container = document.getElementById('admin-btn-area');
-  if (!container || document.getElementById('admin-link-btn')) return;
+  // 管理者ボタンを追加する場所を探す（mypage.htmlに合わせて調整が必要）
+  // 現在のmypage.htmlには 'admin-btn-area' がないため、
+  // 'change-password-btn' の親要素（メニューリスト）の先頭に追加する処理に変更
+  const menuContainer = document.querySelector('.max-w-2xl > .bg-white'); // メニューのコンテナ
+  if (!menuContainer || document.getElementById('admin-link-btn')) return;
 
   const adminLink = document.createElement('a');
   adminLink.id = 'admin-link-btn';
   adminLink.href = 'admin.html';
-  adminLink.className = 'w-full btn bg-gray-800 text-white hover:bg-gray-700 py-2 rounded-lg text-sm font-medium transition-colors mb-3 block shadow-md flex items-center justify-center gap-2';
-  adminLink.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /></svg> 管理画面へ`;
+  adminLink.className = 'flex items-center justify-between p-4 hover:bg-gray-50 transition border-b border-gray-100';
+  adminLink.innerHTML = `
+    <div class="flex items-center gap-3">
+        <div class="bg-gray-800 p-2 rounded-lg text-white">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+        </div>
+        <span class="text-sm font-medium text-gray-700">管理者ダッシュボード</span>
+    </div>
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+    </svg>
+  `;
   
-  container.appendChild(adminLink);
+  // 先頭に挿入
+  menuContainer.insertBefore(adminLink, menuContainer.firstChild);
 }
 
 // パスワード変更処理
@@ -119,18 +143,18 @@ async function handlePasswordReset() {
 function setupModalEvents() {
   const openModalHandler = () => {
     if (!currentUserData) return;
-    editLastNameInput.value = currentUserData.lastName || '';
-    editFirstNameInput.value = currentUserData.firstName || '';
-    modalPreviewIcon.src = profileIconEl.src;
+    if (editLastNameInput) editLastNameInput.value = currentUserData.lastName || '';
+    if (editFirstNameInput) editFirstNameInput.value = currentUserData.firstName || '';
+    if (modalPreviewIcon && profileIconEl) modalPreviewIcon.src = profileIconEl.src;
     selectedImageFile = null;
-    editModal.classList.remove('hidden');
+    if (editModal) editModal.classList.remove('hidden');
   };
 
+  // 編集ボタン（アイコン上のペンマーク）
   if (editProfileBtn) editProfileBtn.addEventListener('click', openModalHandler);
-  if (editIconBtn) editIconBtn.addEventListener('click', openModalHandler);
 
   const closeModalHandler = () => {
-    editModal.classList.add('hidden');
+    if (editModal) editModal.classList.add('hidden');
   };
 
   if (cancelEditBtn) cancelEditBtn.addEventListener('click', closeModalHandler);
@@ -141,7 +165,9 @@ function setupModalEvents() {
       const file = e.target.files[0];
       if (!file) return;
       const reader = new FileReader();
-      reader.onload = (e) => { modalPreviewIcon.src = e.target.result; };
+      reader.onload = (e) => { 
+          if(modalPreviewIcon) modalPreviewIcon.src = e.target.result; 
+      };
       reader.readAsDataURL(file);
       try {
         selectedImageFile = await compressImage(file, 300, 0.8);
@@ -191,10 +217,10 @@ async function handleSaveProfile() {
     await updateProfile(user, { displayName: `${newLastName} ${newFirstName}`, photoURL: profileImageUrl });
 
     currentUserData = { ...currentUserData, ...updateData };
-    profileNameEl.textContent = `${newLastName} ${newFirstName}`;
-    profileIconEl.src = profileImageUrl || DEFAULT_ICON_URL;
+    if (profileNameEl) profileNameEl.textContent = `${newLastName} ${newFirstName}`;
+    if (profileIconEl) profileIconEl.src = profileImageUrl || DEFAULT_ICON_URL;
     alert("プロフィールを更新しました！");
-    editModal.classList.add('hidden');
+    if (editModal) editModal.classList.add('hidden');
   } catch (error) {
     console.error("Profile update error:", error);
     if (error.code === 'storage/unauthorized') {
@@ -240,8 +266,7 @@ function compressImage(file, maxWidth, quality) {
 // 共通パーツ
 async function loadUserFavorites(userId) {
   if (!favoritesContainer) return;
-  // ... (省略：以前の実装と同じですが、必要であればdb-serviceからgetUserFavoritesを利用)
-  
+
   // 表示エリアの初期化
   favoritesContainer.innerHTML = `
     <div class="col-span-full text-center py-12">
@@ -255,6 +280,10 @@ async function loadUserFavorites(userId) {
 
   try {
     const favoriteIds = await getUserFavorites(userId);
+
+    // お気に入り数のカウント更新
+    const favCountEl = document.getElementById('fav-count');
+    if (favCountEl) favCountEl.textContent = favoriteIds.length;
 
     if (favoriteIds.length === 0) {
       renderEmptyFavorites();
@@ -299,19 +328,24 @@ function createFavoriteCard(point) {
   const div = document.createElement('div');
   div.className = 'bg-white rounded-xl shadow-card overflow-hidden hover:shadow-lg transition-shadow duration-300';
   
-  const thumbUrl = (point.images && point.images.thumbnails && point.images.thumbnails[0]) 
-    ? point.images.thumbnails[0] 
-    : 'https://via.placeholder.com/400x300?text=No+Image';
+  // 外部依存(via.placeholder)を削除し、画像がない場合のUIを調整
+  let thumbUrl = '/img/logo.png'; // 適切なデフォルト画像がない場合はロゴなどを指定
+  let hasImage = false;
+
+  if (point.images && point.images.thumbnails && point.images.thumbnails[0]) {
+    thumbUrl = point.images.thumbnails[0];
+    hasImage = true;
+  }
 
   const areaLabelMap = {
     'fukuoka': '福岡エリア', 'saga': '佐賀エリア', 'nagasaki': '長崎エリア',
     'oita': '大分エリア', 'kumamoto': '熊本エリア', 'miyazaki': '宮崎エリア', 'kagoshima': '鹿児島エリア'
   };
-  const areaName = areaLabelMap[point.area] || point.area;
+  const areaName = areaLabelMap[point.area] || point.area || '九州エリア';
 
   div.innerHTML = `
-    <div class="relative h-48">
-      <img src="${thumbUrl}" alt="${point.name}" class="w-full h-full object-cover">
+    <div class="relative h-48 bg-gray-200">
+      <img src="${thumbUrl}" alt="${point.name}" class="w-full h-full object-cover ${hasImage ? '' : 'opacity-50 p-8'}" onerror="this.src='/img/default-user.jpg'">
       <div class="absolute top-2 right-2 bg-white/90 backdrop-blur px-2 py-1 rounded text-xs font-bold text-gray-700 shadow">
         ${areaName}
       </div>

@@ -38,7 +38,7 @@
         
         <div class="px-6 pb-8 relative -mt-12 text-center">
           <div class="w-32 h-32 mx-auto rounded-full border-4 border-white shadow-lg overflow-hidden bg-white mb-4">
-            <img id="captain-photo" src="https://via.placeholder.com/300" alt="Captain Photo" class="w-full h-full object-cover">
+            <img id="captain-photo" src="/img/default-user.jpg" onerror="this.src='/img/default-user.jpg'" alt="Captain Photo" class="w-full h-full object-cover">
           </div>
           
           <h2 id="captain-name" class="text-2xl font-bold text-gray-900 mb-1">読み込み中...</h2>
@@ -58,13 +58,13 @@
         </div>
 
         <div class="p-6 border-t border-gray-100 bg-gray-50 md:bg-white flex flex-col md:flex-row gap-3">
-          <a href="tel:0000000000" class="btn btn-primary w-full py-4 text-lg shadow-lg flex items-center justify-center gap-2">
+          <a href="tel:0000000000" id="call-btn" class="btn btn-primary w-full py-4 text-lg shadow-lg flex items-center justify-center gap-2">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
             </svg>
             電話予約する
           </a>
-          <a href="#" class="btn bg-white border border-gray-300 text-gray-700 w-full py-4 text-lg hover:bg-gray-100 flex items-center justify-center gap-2">
+          <a href="#" id="site-btn" target="_blank" class="btn bg-white border border-gray-300 text-gray-700 w-full py-4 text-lg hover:bg-gray-100 flex items-center justify-center gap-2">
             公式サイト
             <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
