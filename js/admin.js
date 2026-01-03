@@ -1,5 +1,5 @@
 // js/admin.js
-import { monitorAuthState, getUserRole } from './auth-service.js';
+import { monitorAuthState, getUserRole, addNewAdmin } from './auth-service.js'; // addNewAdminを追加
 import { addFishingPoint } from './db-service.js';
 
 // 認証＆権限チェック
@@ -74,7 +74,7 @@ function placeMarkerAndPanTo(latLng) {
   hideError();
 }
 
-// --- フォーム送信処理 ---
+// --- ポイント登録フォーム送信処理 ---
 const addPointForm = document.getElementById('admin-add-point-form');
 const errorContainer = document.getElementById('admin-error-message');
 const errorDetail = errorContainer ? errorContainer.querySelector('.error-detail') : null;
@@ -159,6 +159,64 @@ if (addPointForm) {
       submitBtn.disabled = false;
       submitBtn.innerHTML = originalBtnHTML;
       submitBtn.classList.remove('cursor-not-allowed', 'opacity-80');
+    }
+  });
+}
+
+// --- 管理者追加フォーム送信処理 (新規) ---
+const addUserForm = document.getElementById('admin-add-user-form');
+
+if (addUserForm) {
+  addUserForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    // 入力値取得
+    const email = document.getElementById('new-admin-email').value.trim();
+    const lastName = document.getElementById('new-admin-lastname').value.trim();
+    const firstName = document.getElementById('new-admin-firstname').value.trim();
+    const password = document.getElementById('new-admin-password').value;
+    const submitBtn = addUserForm.querySelector('button[type="submit"]');
+
+    if (!email) {
+      alert("メールアドレスは必須です。");
+      return;
+    }
+
+    // 確認ダイアログ
+    if (!confirm(`${email} を管理者に設定しますか？\n(既存ユーザーの場合は権限が付与され、未登録の場合は新規作成されます)`)) {
+      return;
+    }
+
+    const originalBtnHTML = submitBtn.innerHTML;
+    submitBtn.disabled = true;
+    submitBtn.innerHTML = `処理中...`;
+
+    try {
+      // Auth Serviceの関数を呼び出し
+      const result = await addNewAdmin(email, password, lastName, firstName);
+
+      if (result.status === 'promoted') {
+        alert(`既存ユーザー (${result.name}) に管理者権限を付与しました！`);
+      } else if (result.status === 'created') {
+        alert(`新規管理者アカウント (${email}) を作成しました！`);
+      } else if (result.status === 'already_admin') {
+        alert(`このユーザー (${email}) は既に管理者です。`);
+      }
+
+      addUserForm.reset();
+
+    } catch (error) {
+      console.error("Admin add error:", error);
+      let msg = "エラーが発生しました。";
+      if (error.code === 'auth/email-already-in-use') {
+        msg = "このメールアドレスは既にAuthで使用されていますが、Firestoreにデータが見つかりませんでした。";
+      } else if (error.message.includes("パスワード")) {
+        msg = error.message;
+      }
+      alert(msg);
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.innerHTML = originalBtnHTML;
     }
   });
 }

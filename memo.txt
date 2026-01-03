@@ -1,32 +1,90 @@
-Version: 1.8
-Date: 2025/12/29
-Status: エラー修正 / プレミアムプラン廃止 / マップ・エリア検索機能実装
+Version: 1.9
+Date: 2026/01/03
+Status: 管理者追加機能実装 / Google Maps API設定修正
+
+■ 実装済み機能 (v1.9 更新分)
+
+管理者アカウント追加機能の実装
+
+対象ファイル: admin.html, js/admin.js, js/auth-service.js
+
+管理画面からメールアドレスを指定して新たな管理者を招待・追加できる機能を実装。
+
+ロジックの高度化:
+
+既存ユーザーの場合: Firestoreの role フィールドを admin に更新して権限昇格。
+
+新規ユーザーの場合: Secondary App（2つ目のFirebaseアプリインスタンス）を一時的に初期化し、現在のログインセッションを維持したまま裏側で新規アカウントを作成・権限付与を行うロジックを実装。
+
+Google Maps API 読み込み処理の修正
+
+対象ファイル: admin.html
+
+Vite環境変数 (VITE_FIREBASE_API_KEY) の取得ロジックを修正し、未定義時に undefined となるバグを解消。
+
+スクリプト読み込みパラメータに loading=async と v=weekly を追加し、コンソール警告（非同期読み込み推奨）に対応。
+
+Firebase設定のモジュール化
+
+対象ファイル: js/firebase-config.js
+
+firebaseConfig オブジェクトを export するように変更し、auth-service.js 内でのSecondary App初期化等で設定値を再利用可能にした。
+
+■ 環境設定・運用メモ (Troubleshooting & Setup)
+
+Google Cloud / Firebase 設定必須項目
+
+Maps JavaScript API の有効化: プロジェクトでAPI自体をONにする必要がある (ApiNotActivatedMapError 対応)。
+
+APIキーのリファラー制限:
+
+下層ページでの地図表示を許可するため、URLの末尾には必ず /* を付ける必要がある。
+
+開発用: http://localhost:*/*
+
+本番用: https://[project-id].web.app/*, https://[project-id].firebaseapp.com/*
+
+Firestore Database の作成: コンソールからデータベースを作成し、ロケーション設定を行う必要がある。
 
 ■ 実装済み機能 (v1.8 更新分)
 
-1. プレミアムプラン廃止対応
-   - アプリケーション全体からプレミアムプランへの導線と機能を完全削除。
-   - マイページ (mypage.html) からプラン管理メニューを削除。
-   - ポイント詳細 (js/point-detail.js) の閲覧制限ロジックを排除し、船長コメント・VR機能を全ユーザーに開放。
-   - 決済ページ (payment.html) をトップページへのリダイレクトに変更。
-   - LPおよび登録画面の文言を「無料で始める」から「会員登録」へ変更し、有料感を払拭。
+プレミアムプラン廃止対応
 
-2. バグ修正・エラー解消
-   - DOM要素IDの不一致によるJSエラーを修正 (mypage.js, signup.js)。
-   - Google Maps APIのロードエラー (InvalidValueError, loading=async警告) を解消 (admin.html, overview-map.html)。
-   - モジュール間の関数エクスポート漏れを修正 (auth-service.js)。
+アプリケーション全体からプレミアムプランへの導線と機能を完全削除。
 
-3. 機能実装・改善
-   - エリア一覧 (area.html): URLパラメータ (?area=xxx) およびフィルタボタンによる表示切り替え機能を実装。
-   - マップ検索 (overview-map.html): エリア指定に応じた地図中心位置の自動調整とピンのフィルタリングを実装。
-   - 画像参照エラー対策: 外部サイト (placeholder) への依存を排除し、ローカル画像へのフォールバックを統一。
+マイページ (mypage.html) からプラン管理メニューを削除。
+
+ポイント詳細 (js/point-detail.js) の閲覧制限ロジックを排除し、船長コメント・VR機能を全ユーザーに開放。
+
+決済ページ (payment.html) をトップページへのリダイレクトに変更。
+
+LPおよび登録画面の文言を「無料で始める」から「会員登録」へ変更し、有料感を払拭。
+
+バグ修正・エラー解消
+
+DOM要素IDの不一致によるJSエラーを修正 (mypage.js, signup.js)。
+
+Google Maps APIのロードエラー (InvalidValueError, loading=async警告) を解消 (admin.html, overview-map.html)。
+
+モジュール間の関数エクスポート漏れを修正 (auth-service.js)。
+
+機能実装・改善
+
+エリア一覧 (area.html): URLパラメータ (?area=xxx) およびフィルタボタンによる表示切り替え機能を実装。
+
+マップ検索 (overview-map.html): エリア指定に応じた地図中心位置の自動調整とピンのフィルタリングを実装。
+
+画像参照エラー対策: 外部サイト (placeholder) への依存を排除し、ローカル画像へのフォールバックを統一。
 
 ■ 実装済み機能 (v1.7 更新分)
 
 TOPページ (index.html) のレイアウト変更
-   - ヒーローセクション改修: シンプル構成に変更、アスペクト比固定。
-   - エリア検索の細分化: 九州7県ごとの独立ボタン配置。
-   - 不要セクション削除・フッターのボトムナビ集約。
+
+ヒーローセクション改修: シンプル構成に変更、アスペクト比固定。
+
+エリア検索の細分化: 九州7県ごとの独立ボタン配置。
+
+不要セクション削除・フッターのボトムナビ集約。
 
 ■ 実装済み機能 (v1.6 更新分)
 
@@ -41,8 +99,8 @@ TOPページ (index.html) のレイアウト変更
 認証・投稿・閲覧の基本機能実装
 
 ■ 現在の課題 (Bug List / Todo)
-[Medium] 口コミ機能の最適化: 現在 js/reviews.js が全ポイント情報を一括取得しており、データ増加時にパフォーマンス低下の恐れあり。必要なデータのみ取得するよう改修推奨。
-[Medium] 船長ページの動的化: js/captain.js の実装確認。特定の船長データを動的に表示する仕組みが必要。
+[High] 口コミ機能の最適化: 現在 js/reviews.js がポイント情報を全件取得しており、データ増加時にパフォーマンス低下とRead課金増大のリスクあり。レビュー投稿時にポイント情報を非正規化して保存する改修が必要。
+[Medium] 船長データの構造化: js/captain.js が全ポイントをスキャンして船長リストを生成している。captains コレクションを作成し、マスターデータとして管理する構造への移行を推奨。
 [Low] 管理画面UX: 画像アップロード等の処理中にエラーが発生した場合のリカバリ処理強化。
 
 ■ 次回のタスク (Next Steps)
