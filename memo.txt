@@ -1,6 +1,34 @@
-Version: 1.9
-Date: 2026/01/03
-Status: 管理者追加機能実装 / Google Maps API設定修正
+Version: 2.0
+Date: 2026/01/09
+Status: API設定トラブルシューティング完了 / ログイン機能実装
+
+■ 実装済み機能 (v2.0 更新分)
+
+Google Maps API 表示エラーの完全解消
+
+対象ファイル: admin.html, overview-map.html, js/firebase-config.js
+
+問題: ApiNotActivatedMapError および認証エラーが発生。プロジェクトIDとAPIキーの不一致、GCP側のAPI有効化漏れが原因。
+
+対応:
+admin.html と overview-map.html 内のAPIキーを、GCPで正しく設定されたキー (AIzaSyA...) に統一。
+js/firebase-config.js の apiKey も同一のキーに修正し、アプリ全体で整合性を確保。
+GCPコンソールにて「Maps JavaScript API」および「Identity Toolkit API」を有効化し、APIキーの制限設定（許可リスト）にこれらを追加。
+
+ログイン機能の新規実装とエラーハンドリング強化
+
+対象ファイル: js/login.js (新規作成), login.html
+
+問題: login.js が存在せず 404 エラーが発生。また、Firebase Authの設定不備により 400 Bad Request 等が発生。
+
+対応:
+js/login.js を新規作成し、auth-service.js の loginUser 関数を利用するロジックを実装。
+Firebase Consoleにて「メール/パスワード」ログインプロバイダーを有効化。
+エラーハンドリングを強化し、以下のエラーコードに対して適切な日本語メッセージを表示するように改修。
+auth/wrong-password (パスワード間違い)
+auth/user-not-found (ユーザー不在)
+auth/configuration-not-found (Firebase設定無効)
+auth/too-many-requests (試行回数超過)
 
 ■ 実装済み機能 (v1.9 更新分)
 
@@ -36,15 +64,16 @@ Google Cloud / Firebase 設定必須項目
 
 Maps JavaScript API の有効化: プロジェクトでAPI自体をONにする必要がある (ApiNotActivatedMapError 対応)。
 
-APIキーのリファラー制限:
+Identity Toolkit API の有効化: Firebase Authenticationを使用するためにGCP側で有効化が必要 (403 Forbidden 対応)。
 
-下層ページでの地図表示を許可するため、URLの末尾には必ず /* を付ける必要がある。
+APIキーのリファラー制限とAPI制限:
 
-開発用: http://localhost:*/*
-
-本番用: https://[project-id].web.app/*, https://[project-id].firebaseapp.com/*
+Maps JavaScript API と Identity Toolkit API の両方を「APIの制限」リストで許可する必要がある。
+リファラー制限: http://localhost:/ (開発用) を許可設定に追加。
 
 Firestore Database の作成: コンソールからデータベースを作成し、ロケーション設定を行う必要がある。
+
+Authentication 設定: Firebase Console > Sign-in method で「メール/パスワード」を確実に有効化する（メールリンクと間違えないよう注意）。
 
 ■ 実装済み機能 (v1.8 更新分)
 

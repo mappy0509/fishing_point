@@ -7,7 +7,7 @@ import { getStorage } from "firebase/storage";
 // あなたのFirebase設定情報
 // 他のファイル(auth-service.js等)で再利用するためにexportを追加
 export const firebaseConfig = {
-  apiKey: "AIzaSyDajMu6vO1P52udgoE6FnK6OMLAMb3mWKo",
+  apiKey: "AIzaSyA-7Jn-v81NP1Tsu7BFGKEupVtdga4rBYk",
   authDomain: "isolink-af50c.firebaseapp.com",
   projectId: "isolink-af50c",
   storageBucket: "isolink-af50c.firebasestorage.app",

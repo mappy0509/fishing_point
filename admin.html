@@ -187,8 +187,8 @@
   <script type="module">
     // Google Maps APIのロード
     (function() {
-      // APIキーの取得ロジック修正: import.meta.envが存在してもキーが未定義の場合に対応
-      const apiKey = (import.meta.env && import.meta.env.VITE_FIREBASE_API_KEY) || 'AIzaSyDajMu6vO1P52udgoE6FnK6OMLAMb3mWKo';
+      // APIキーの取得ロジック修正
+      const apiKey = (import.meta.env && import.meta.env.VITE_FIREBASE_API_KEY) || 'AIzaSyA-7Jn-v81NP1Tsu7BFGKEupVtdga4rBYk';
       
       const script = document.createElement('script');
       // loading=async と v=weekly を追加して警告を解消
