@@ -1,6 +1,20 @@
-Version: 2.0
-Date: 2026/01/09
-Status: API設定トラブルシューティング完了 / ログイン機能実装
+Version: 2.1
+Date: 2026/01/11
+Status: ログイン不具合の修正完了 / APIキー設定の正規化
+
+■ 実装済み機能 (v2.1 更新分)
+
+ログイン機能の完全復旧 (APIキー設定修正)
+
+対象ファイル: js/firebase-config.js
+
+問題: 
+ログイン時に `auth/configuration-not-found` および `400 Bad Request` が発生。
+原因は、`firebase-config.js` に設定されていたAPIキーが「Google Maps用（Identity Toolkit権限なし）」のものであったため。
+
+対応: 
+`firebase-config.js` の `apiKey` を、Firebaseプロジェクト作成時に発行された正しい認証用キー (`AIzaSyD...`) に変更。
+これにより Identity Toolkit API へのアクセスが許可され、メール/パスワード認証が正常に動作することを確認。
 
 ■ 実装済み機能 (v2.0 更新分)
 
@@ -12,8 +26,8 @@ Google Maps API 表示エラーの完全解消
 
 対応:
 admin.html と overview-map.html 内のAPIキーを、GCPで正しく設定されたキー (AIzaSyA...) に統一。
-js/firebase-config.js の apiKey も同一のキーに修正し、アプリ全体で整合性を確保。
 GCPコンソールにて「Maps JavaScript API」および「Identity Toolkit API」を有効化し、APIキーの制限設定（許可リスト）にこれらを追加。
+※ v2.1にて、firebase-config.js のみFirebase用キーに分離する構成へ変更済み。
 
 ログイン機能の新規実装とエラーハンドリング強化
 
@@ -60,20 +74,19 @@ firebaseConfig オブジェクトを export するように変更し、auth-serv
 
 ■ 環境設定・運用メモ (Troubleshooting & Setup)
 
-Google Cloud / Firebase 設定必須項目
+Google Cloud / Firebase 設定必須項目 (2026/01/11 追記)
 
-Maps JavaScript API の有効化: プロジェクトでAPI自体をONにする必要がある (ApiNotActivatedMapError 対応)。
+APIキーの使い分け運用:
+Google Maps表示用 (HTML内): Google Maps Platformで発行したキー (`AIzaSyA...`) を使用。
+Firebase認証/DB用 (JS内): Firebaseコンソールで確認できるWeb APIキー (`AIzaSyD...`) を使用。
+※ これらを混同すると、Mapが表示されないか、ログインができないかのどちらかの不具合が発生するため注意。
 
-Identity Toolkit API の有効化: Firebase Authenticationを使用するためにGCP側で有効化が必要 (403 Forbidden 対応)。
-
-APIキーのリファラー制限とAPI制限:
-
-Maps JavaScript API と Identity Toolkit API の両方を「APIの制限」リストで許可する必要がある。
-リファラー制限: http://localhost:/ (開発用) を許可設定に追加。
+Identity Toolkit API の有効化: Firebase Authenticationを使用するためにGCP側で有効化が必要 
+(403 Forbidden 対応)。
 
 Firestore Database の作成: コンソールからデータベースを作成し、ロケーション設定を行う必要がある。
 
-Authentication 設定: Firebase Console > Sign-in method で「メール/パスワード」を確実に有効化する（メールリンクと間違えないよう注意）。
+Authentication 設定: Firebase Console > Sign-in method で「メール/パスワード」を確実に有効化する。
 
 ■ 実装済み機能 (v1.8 更新分)
 
@@ -133,5 +146,6 @@ TOPページ (index.html) のレイアウト変更
 [Low] 管理画面UX: 画像アップロード等の処理中にエラーが発生した場合のリカバリ処理強化。
 
 ■ 次回のタスク (Next Steps)
-Firebase Hosting設定: デプロイ準備。
+口コミ機能 (js/reviews.js) のパフォーマンス改修（非正規化対応）。
+Firebase Hosting設定とデプロイ準備。
 統合テスト: 修正した登録フロー〜マイページ〜投稿までの通しテスト。
