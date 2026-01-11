@@ -1,151 +1,87 @@
-Version: 2.1
-Date: 2026/01/11
-Status: ログイン不具合の修正完了 / APIキー設定の正規化
+================================================================================
+FISHING POINT (磯リンク) - 開発記録 & ロードマップ
+================================================================================
 
-■ 実装済み機能 (v2.1 更新分)
+[Project Info]
+Name: Fishing Point (磯リンク)
+Current Version: v3.0.0 (Public Release)
+Status: Released (Firebase Hosting)
+Last Updated: 2026-01-11
 
-ログイン機能の完全復旧 (APIキー設定修正)
+================================================================================
+[History]
 
-対象ファイル: js/firebase-config.js
+v3.0.0 (2026-01-11) - 本番公開 & 管理機能完成 & パフォーマンス最適化
+--------------------------------------------------------------------------------
+- [Feature] Firebase Hostingへのデプロイ完了（本番公開）
+- [Feature] 管理画面 (Admin Dashboard) の大幅強化
+    - 登録済みポイントの一覧表示機能
+    - 既存ポイントの編集・更新機能（画像の部分更新対応）
+    - ポイントの削除機能
+    - 処理中のプログレス表示（ローディングオーバーレイ）実装
+- [Feature] 360度ビューワー (VR) の実装
+    - A-Frameを使用したブラウザでのパノラマ再生 (vr-view.html)
+    - CORS設定の適用（Google Cloud StorageのHEAD/GET許可）
+- [Optimization] 口コミ機能の読み込みコスト削減
+    - データ非正規化 (Denormalization) 対応
+    - レビューデータ内にポイント名・画像を保持させ、N+1問題を解消
+    - 読み込み件数制限 (limit 20) とインデックスの適用
+- [Optimization] 画像アップロード処理の高速化
+    - 360度画像のクライアント側圧縮をスキップし、処理時間を短縮
+    - UIブロックを防ぐ非同期処理の適正化
+- [Fix] セキュリティルールの更新（Firestore Rules）
+- [Fix] APIキーのリファラー制限設定（Hosting URLの許可）
+- [UI] プレースホルダー画像サービスの廃止（ローカルフォールバックへの変更）
 
-問題: 
-ログイン時に `auth/configuration-not-found` および `400 Bad Request` が発生。
-原因は、`firebase-config.js` に設定されていたAPIキーが「Google Maps用（Identity Toolkit権限なし）」のものであったため。
+v2.1.0 (2026-01-xx) - 認証基盤の安定化
+--------------------------------------------------------------------------------
+- [Fix] APIキーの分離運用
+    - Auth/DB用 (firebase-config.js) と Maps API用 (HTML) を分離
+    - Maps APIキーの不必要なAuth制限を解除し、地図表示エラーを解消
+- [Refactor] ログインページ等のAPIキー参照ロジックを修正
 
-対応: 
-`firebase-config.js` の `apiKey` を、Firebaseプロジェクト作成時に発行された正しい認証用キー (`AIzaSyD...`) に変更。
-これにより Identity Toolkit API へのアクセスが許可され、メール/パスワード認証が正常に動作することを確認。
+v2.0.0 (2025-xx-xx) - UIリニューアル & 機能統合
+--------------------------------------------------------------------------------
+- サイト全体のデザイン刷新 (Tailwind CSS導入)
+- コンポーネント化 (Header, Footer, BottomNav)
+- 360度画像の管理ロジック追加
 
-■ 実装済み機能 (v2.0 更新分)
+(以下、v1.x系のログは省略)
 
-Google Maps API 表示エラーの完全解消
+================================================================================
+[Current Architecture]
 
-対象ファイル: admin.html, overview-map.html, js/firebase-config.js
+Frontend:
+- Vanilla JS (ES Modules)
+- Tailwind CSS (CDN/Build)
+- A-Frame (VR View)
+- Google Maps JS API (Async Loading)
 
-問題: ApiNotActivatedMapError および認証エラーが発生。プロジェクトIDとAPIキーの不一致、GCP側のAPI有効化漏れが原因。
+Backend (Firebase):
+- Authentication (Email/Pass)
+- Firestore (Database)
+    - Collections: users, fishing-points
+    - Sub-collections: reviews (Note: Collection Group Queries enabled)
+- Storage (Images)
+    - Buckets: point_photos, vr_images, captain_images
+- Hosting (Web Server)
 
-対応:
-admin.html と overview-map.html 内のAPIキーを、GCPで正しく設定されたキー (AIzaSyA...) に統一。
-GCPコンソールにて「Maps JavaScript API」および「Identity Toolkit API」を有効化し、APIキーの制限設定（許可リスト）にこれらを追加。
-※ v2.1にて、firebase-config.js のみFirebase用キーに分離する構成へ変更済み。
+================================================================================
+[Current Issues & TODO]
 
-ログイン機能の新規実装とエラーハンドリング強化
+[Low]
+- バリデーション強化: ユーザー入力値（特に文字数や形式）の厳格なチェック
+- 画像最適化: Cloud Functionsによるアップロード画像のサーバーサイドリサイズ（現状はクライアント側で対応済みだが、画質安定化のため）
+- オフライン対応: PWA化の検討（釣り場での電波対策）
 
-対象ファイル: js/login.js (新規作成), login.html
+[Resolved / Completed]
+- [Done] 口コミ一覧のReadコスト削減（非正規化対応済み）
+- [Done] 360度画像のアップロード待ち時間短縮（圧縮スキップ対応済み）
+- [Done] 管理画面での編集・削除機能（実装済み）
+- [Done] Google Maps APIの警告対応（Marker廃止警告は現状維持、loading=async対応済み）
+- [Done] 本番環境でのCORSエラー（gsutil設定済み）
 
-問題: login.js が存在せず 404 エラーが発生。また、Firebase Authの設定不備により 400 Bad Request 等が発生。
-
-対応:
-js/login.js を新規作成し、auth-service.js の loginUser 関数を利用するロジックを実装。
-Firebase Consoleにて「メール/パスワード」ログインプロバイダーを有効化。
-エラーハンドリングを強化し、以下のエラーコードに対して適切な日本語メッセージを表示するように改修。
-auth/wrong-password (パスワード間違い)
-auth/user-not-found (ユーザー不在)
-auth/configuration-not-found (Firebase設定無効)
-auth/too-many-requests (試行回数超過)
-
-■ 実装済み機能 (v1.9 更新分)
-
-管理者アカウント追加機能の実装
-
-対象ファイル: admin.html, js/admin.js, js/auth-service.js
-
-管理画面からメールアドレスを指定して新たな管理者を招待・追加できる機能を実装。
-
-ロジックの高度化:
-
-既存ユーザーの場合: Firestoreの role フィールドを admin に更新して権限昇格。
-
-新規ユーザーの場合: Secondary App（2つ目のFirebaseアプリインスタンス）を一時的に初期化し、現在のログインセッションを維持したまま裏側で新規アカウントを作成・権限付与を行うロジックを実装。
-
-Google Maps API 読み込み処理の修正
-
-対象ファイル: admin.html
-
-Vite環境変数 (VITE_FIREBASE_API_KEY) の取得ロジックを修正し、未定義時に undefined となるバグを解消。
-
-スクリプト読み込みパラメータに loading=async と v=weekly を追加し、コンソール警告（非同期読み込み推奨）に対応。
-
-Firebase設定のモジュール化
-
-対象ファイル: js/firebase-config.js
-
-firebaseConfig オブジェクトを export するように変更し、auth-service.js 内でのSecondary App初期化等で設定値を再利用可能にした。
-
-■ 環境設定・運用メモ (Troubleshooting & Setup)
-
-Google Cloud / Firebase 設定必須項目 (2026/01/11 追記)
-
-APIキーの使い分け運用:
-Google Maps表示用 (HTML内): Google Maps Platformで発行したキー (`AIzaSyA...`) を使用。
-Firebase認証/DB用 (JS内): Firebaseコンソールで確認できるWeb APIキー (`AIzaSyD...`) を使用。
-※ これらを混同すると、Mapが表示されないか、ログインができないかのどちらかの不具合が発生するため注意。
-
-Identity Toolkit API の有効化: Firebase Authenticationを使用するためにGCP側で有効化が必要 
-(403 Forbidden 対応)。
-
-Firestore Database の作成: コンソールからデータベースを作成し、ロケーション設定を行う必要がある。
-
-Authentication 設定: Firebase Console > Sign-in method で「メール/パスワード」を確実に有効化する。
-
-■ 実装済み機能 (v1.8 更新分)
-
-プレミアムプラン廃止対応
-
-アプリケーション全体からプレミアムプランへの導線と機能を完全削除。
-
-マイページ (mypage.html) からプラン管理メニューを削除。
-
-ポイント詳細 (js/point-detail.js) の閲覧制限ロジックを排除し、船長コメント・VR機能を全ユーザーに開放。
-
-決済ページ (payment.html) をトップページへのリダイレクトに変更。
-
-LPおよび登録画面の文言を「無料で始める」から「会員登録」へ変更し、有料感を払拭。
-
-バグ修正・エラー解消
-
-DOM要素IDの不一致によるJSエラーを修正 (mypage.js, signup.js)。
-
-Google Maps APIのロードエラー (InvalidValueError, loading=async警告) を解消 (admin.html, overview-map.html)。
-
-モジュール間の関数エクスポート漏れを修正 (auth-service.js)。
-
-機能実装・改善
-
-エリア一覧 (area.html): URLパラメータ (?area=xxx) およびフィルタボタンによる表示切り替え機能を実装。
-
-マップ検索 (overview-map.html): エリア指定に応じた地図中心位置の自動調整とピンのフィルタリングを実装。
-
-画像参照エラー対策: 外部サイト (placeholder) への依存を排除し、ローカル画像へのフォールバックを統一。
-
-■ 実装済み機能 (v1.7 更新分)
-
-TOPページ (index.html) のレイアウト変更
-
-ヒーローセクション改修: シンプル構成に変更、アスペクト比固定。
-
-エリア検索の細分化: 九州7県ごとの独立ボタン配置。
-
-不要セクション削除・フッターのボトムナビ集約。
-
-■ 実装済み機能 (v1.6 更新分)
-
-ヘッダーデザインの修正 (js/components/header.js)
-画像アセットのローカル化対応
-
-■ 実装済み機能 (v1.5 以前の主要分)
-
-ヘッダーの完全アプリ化
-ナビゲーション動線の再設計
-ボトムナビゲーション導入
-認証・投稿・閲覧の基本機能実装
-
-■ 現在の課題 (Bug List / Todo)
-[High] 口コミ機能の最適化: 現在 js/reviews.js がポイント情報を全件取得しており、データ増加時にパフォーマンス低下とRead課金増大のリスクあり。レビュー投稿時にポイント情報を非正規化して保存する改修が必要。
-[Medium] 船長データの構造化: js/captain.js が全ポイントをスキャンして船長リストを生成している。captains コレクションを作成し、マスターデータとして管理する構造への移行を推奨。
-[Low] 管理画面UX: 画像アップロード等の処理中にエラーが発生した場合のリカバリ処理強化。
-
-■ 次回のタスク (Next Steps)
-口コミ機能 (js/reviews.js) のパフォーマンス改修（非正規化対応）。
-Firebase Hosting設定とデプロイ準備。
-統合テスト: 修正した登録フロー〜マイページ〜投稿までの通しテスト。
+================================================================================
+[Admin Credentials]
+- 管理者権限の付与は `admin.html` の「管理者追加フォーム」から実行可能。
+- 既存ユーザーの場合は `role: 'admin'` フィールドが付与される。

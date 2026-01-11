@@ -1,6 +1,9 @@
 // js/db-service.js
 import { db, storage } from './firebase-config.js';
-import { collection, addDoc, serverTimestamp, doc, setDoc, deleteDoc, getDoc, getDocs, query, orderBy, limit, where } from "firebase/firestore";
+import { 
+  collection, addDoc, serverTimestamp, doc, setDoc, deleteDoc, getDoc, getDocs, 
+  query, orderBy, limit, where, updateDoc 
+} from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL } from "firebase/storage";
 
 // --- 画像圧縮・アップロード関連 ---
@@ -58,11 +61,16 @@ async function uploadImage(file, path) {
 
 // --- ポイント管理関連 ---
 
-export async function addFishingPoint(pointData, vrFile, photoFiles, captainPhotoFile) {
+// 新規登録
+export async function addFishingPoint(pointData, vrFile, photoFiles, captainPhotoFile, onProgress) {
   try {
-    console.log("Starting compression and upload process...");
+    console.log("Starting upload process...");
+    
+    if (onProgress) onProgress("画像の準備をしています...");
 
-    const vrCompressedPromise = vrFile ? compressImage(vrFile, 4096, 0.85) : Promise.resolve(null);
+    // 360度画像は圧縮しない（高速化 & 画質維持）
+    const vrBlobPromise = Promise.resolve(vrFile); 
+
     const captainCompressedPromise = captainPhotoFile ? compressImage(captainPhotoFile, 800, 0.7) : Promise.resolve(null);
     const photoCompressedPromises = [];
     if (photoFiles && photoFiles.length > 0) {
@@ -72,10 +80,12 @@ export async function addFishingPoint(pointData, vrFile, photoFiles, captainPhot
     }
 
     const [vrBlob, captainBlob, ...photoBlobs] = await Promise.all([
-      vrCompressedPromise,
+      vrBlobPromise,
       captainCompressedPromise,
       ...photoCompressedPromises
     ]);
+
+    if (onProgress) onProgress("画像をクラウドへアップロードしています... (通信中)");
 
     const vrUploadPromise = uploadImage(vrBlob, 'vr_images');
     const captainUploadPromise = uploadImage(captainBlob, 'captain_images');
@@ -86,6 +96,8 @@ export async function addFishingPoint(pointData, vrFile, photoFiles, captainPhot
       captainUploadPromise,
       ...photoUploadPromises
     ]);
+
+    if (onProgress) onProgress("データベースに情報を登録しています...");
 
     const docData = {
       name: pointData.name,
@@ -117,6 +129,7 @@ export async function addFishingPoint(pointData, vrFile, photoFiles, captainPhot
   }
 }
 
+// 取得
 export async function getFishingPoint(pointId) {
   if (!pointId) return null;
   try {
@@ -132,7 +145,97 @@ export async function getFishingPoint(pointId) {
   }
 }
 
-// --- お気に入り機能関連 ---
+// 全件取得 (管理画面用)
+export async function getAllFishingPoints() {
+  try {
+    const q = query(collection(db, "fishing-points"), orderBy("createdAt", "desc"));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+  } catch (error) {
+    console.error("Error fetching all points:", error);
+    return [];
+  }
+}
+
+// 削除
+export async function deleteFishingPoint(pointId) {
+  if (!pointId) return;
+  try {
+    await deleteDoc(doc(db, "fishing-points", pointId));
+  } catch (error) {
+    console.error("Error deleting point:", error);
+    throw error;
+  }
+}
+
+// 更新
+export async function updateFishingPoint(pointId, pointData, vrFile, photoFiles, captainPhotoFile, onProgress) {
+  if (!pointId) throw new Error("Point ID is required");
+
+  try {
+    console.log("Starting update process...");
+    if (onProgress) onProgress("更新データの準備中...");
+
+    let newVrUrl = null;
+    if (vrFile) {
+      if (onProgress) onProgress("新しい360度画像をアップロード中...");
+      newVrUrl = await uploadImage(vrFile, 'vr_images');
+    }
+
+    let newCaptainUrl = null;
+    if (captainPhotoFile) {
+      const compressed = await compressImage(captainPhotoFile, 800, 0.7);
+      newCaptainUrl = await uploadImage(compressed, 'captain_images');
+    }
+
+    let newPhotoUrls = [];
+    if (photoFiles && photoFiles.length > 0) {
+      if (onProgress) onProgress("新しい写真を処理中...");
+      for (let i = 0; i < photoFiles.length; i++) {
+        const compressed = await compressImage(photoFiles[i], 1920, 0.7);
+        const url = await uploadImage(compressed, 'point_photos');
+        newPhotoUrls.push(url);
+      }
+    }
+
+    if (onProgress) onProgress("データベースを更新しています...");
+    
+    const currentDoc = await getDoc(doc(db, "fishing-points", pointId));
+    const currentData = currentDoc.data();
+
+    const updateData = {
+      name: pointData.name,
+      area: pointData.area,
+      location: {
+        lat: parseFloat(pointData.lat),
+        lng: parseFloat(pointData.lng)
+      },
+      description: pointData.description || "",
+      updatedAt: serverTimestamp(),
+      captain: {
+        name: pointData.captainName,
+        comment: pointData.captainComment,
+        photoUrl: newCaptainUrl || currentData.captain?.photoUrl || null
+      }
+    };
+
+    const finalVrUrl = newVrUrl || currentData.images?.vr;
+    const finalThumbnails = (newPhotoUrls.length > 0) ? newPhotoUrls : (currentData.images?.thumbnails || []);
+
+    updateData.images = {
+      vr: finalVrUrl,
+      thumbnails: finalThumbnails
+    };
+
+    await updateDoc(doc(db, "fishing-points", pointId), updateData);
+
+  } catch (e) {
+    console.error("Error updating document: ", e);
+    throw e;
+  }
+}
+
+// --- お気に入り・レビュー・検索関連 (変更なし) ---
 
 export async function toggleFavorite(userId, pointId) {
   if (!userId || !pointId) return false;
@@ -165,13 +268,30 @@ export async function getUserFavorites(userId) {
   return querySnapshot.docs.map(doc => doc.id);
 }
 
-// --- 口コミ・釣果機能関連 ---
-
 export async function addReview(pointId, reviewData) {
   if (!pointId) throw new Error("Point ID is required");
+
+  let denormalizedData = {};
+  try {
+    const pointRef = doc(db, "fishing-points", pointId);
+    const pointSnap = await getDoc(pointRef);
+    
+    if (pointSnap.exists()) {
+      const p = pointSnap.data();
+      denormalizedData = {
+        pointName: p.name,
+        pointArea: p.area,
+        pointThumbnail: p.images?.thumbnails?.[0] || null
+      };
+    }
+  } catch (error) {
+    console.warn("Failed to fetch point info for review denormalization:", error);
+  }
+
   const reviewsRef = collection(db, "fishing-points", pointId, "reviews");
   await addDoc(reviewsRef, {
     ...reviewData,
+    ...denormalizedData, 
     createdAt: serverTimestamp()
   });
 }
@@ -187,21 +307,11 @@ export async function getReviews(pointId) {
   }));
 }
 
-// --- 船長・検索関連 ---
-
-/**
- * 船長名でポイントを検索して取得する
- * @param {string} captainName 
- * @returns {Promise<Array>}
- */
 export async function getPointsByCaptainName(captainName) {
   if (!captainName) return [];
-  
   try {
     const pointsRef = collection(db, "fishing-points");
-    // captain.name フィールドが一致するものを検索
     const q = query(pointsRef, where("captain.name", "==", captainName));
-    
     const querySnapshot = await getDocs(q);
     return querySnapshot.docs.map(doc => ({
       id: doc.id,

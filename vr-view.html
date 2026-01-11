@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>360度ビュー - 磯リンク</title>
+  <script src="https://aframe.io/releases/1.4.0/aframe.min.js"></script>
+  <link href="css/style.css" rel="stylesheet">
+  <style>
+    /* 戻るボタンのスタイル */
+    .back-btn {
+      position: absolute;
+      top: 20px;
+      left: 20px;
+      z-index: 9999;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      padding: 10px 20px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: bold;
+      backdrop-filter: blur(4px);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .back-btn:hover {
+      background: rgba(0, 0, 0, 0.8);
+    }
+    /* ローディング表示 */
+    #loader {
+      position: fixed;
+      inset: 0;
+      background: #000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      color: white;
+      z-index: 10000;
+      transition: opacity 0.5s;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="loader">
+    <div class="text-center">
+      <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-white mx-auto mb-4"></div>
+      <p>360度画像を読み込んでいます...</p>
+    </div>
+  </div>
+
+  <a href="#" id="back-link" class="back-btn">
+    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+    </svg>
+    戻る
+  </a>
+
+  <a-scene loading-screen="dotsColor: white; backgroundColor: black">
+    <a-sky id="vr-image" src="" rotation="0 -130 0"></a-sky>
+    
+    <a-camera position="0 1.6 0">
+      <a-cursor color="white" scale="0.5 0.5 0.5"></a-cursor>
+    </a-camera>
+  </a-scene>
+
+  <script type="module">
+    import { getFishingPoint } from './js/db-service.js';
+
+    // URLパラメータからIDを取得
+    const urlParams = new URLSearchParams(window.location.search);
+    const pointId = urlParams.get('id');
+
+    // 戻るボタンの設定
+    const backLink = document.getElementById('back-link');
+    backLink.href = pointId ? `point-detail.html?id=${pointId}` : 'index.html';
+
+    async function initVR() {
+      const loader = document.getElementById('loader');
+      
+      if (!pointId) {
+        alert('ポイントIDが指定されていません');
+        window.location.href = 'index.html';
+        return;
+      }
+
+      try {
+        const data = await getFishingPoint(pointId);
+        
+        if (data && data.images && data.images.vr) {
+          const sky = document.getElementById('vr-image');
+          
+          // 画像ロード完了イベント
+          sky.addEventListener('materialtextureloaded', () => {
+            loader.style.opacity = '0';
+            setTimeout(() => loader.remove(), 500);
+          });
+
+          // 画像URLをセット
+          sky.setAttribute('src', data.images.vr);
+          
+        } else {
+          alert('このポイントには360度画像が登録されていません');
+          window.location.href = `point-detail.html?id=${pointId}`;
+        }
+      } catch (error) {
+        console.error(error);
+        alert('画像の読み込みに失敗しました');
+        window.location.href = `point-detail.html?id=${pointId}`;
+      }
+    }
+
+    // 初期化
+    initVR();
+  </script>
+</body>
+</html>
